@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Extensions;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	public class ColorGradient2DRendererGrid : MonoBehaviour

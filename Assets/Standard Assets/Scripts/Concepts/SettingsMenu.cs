@@ -3,7 +3,7 @@ using Extensions;
 using TMPro;
 using UnityEngine.UI;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	public class SettingsMenu : MonoBehaviour, ISaveableAndLoadable

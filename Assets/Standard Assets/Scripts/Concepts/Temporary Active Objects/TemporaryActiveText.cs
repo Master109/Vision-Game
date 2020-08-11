@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	[Serializable]
 	public class TemporaryActiveText : TemporaryActiveGameObject

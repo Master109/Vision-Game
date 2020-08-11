@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Extensions;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	[RequireComponent(typeof(SpriteRenderer))]

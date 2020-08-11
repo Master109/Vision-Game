@@ -7,7 +7,7 @@ using UnityEditor;
 #endif
 using System;
 using DialogAndStory;
-using BeatKiller;
+using VisionGame;
 
 //[ExecuteInEditMode]
 public class AnimationManager : MonoBehaviour, IUpdatable

@@ -4,7 +4,7 @@ using UnityEngine;
 using Extensions;
 using System;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	[RequireComponent(typeof(AudioSource))]
 	public class SoundEffect : Spawnable

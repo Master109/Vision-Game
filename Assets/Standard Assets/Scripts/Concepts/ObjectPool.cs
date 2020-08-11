@@ -5,7 +5,7 @@ using System;
 using Extensions;
 using Object = UnityEngine.Object;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	public class ObjectPool : MonoBehaviour
 	{

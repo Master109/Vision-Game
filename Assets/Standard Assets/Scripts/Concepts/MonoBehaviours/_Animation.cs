@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using BeatKiller;
+using VisionGame;
 using DialogAndStory;
 using Extensions;
 

@@ -6,7 +6,7 @@ using Unity.XR.Oculus.Input;
 using UnityEngine.InputSystem;
 using Extensions;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	public class InputManager : MonoBehaviour
 	{
@@ -104,6 +104,21 @@ namespace BeatKiller
 				return ReplaceInput;
 			}
 		}
+		public static bool TurnInput
+		{
+			get
+			{
+				return leftTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin || rightTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin;
+			}
+		}
+		public bool _TurnInput
+		{
+			get
+			{
+				return TurnInput;
+			}
+		}
+
 		public static Vector2 UIMovementInput
 		{
 			get

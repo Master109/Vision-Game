@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	[CreateAssetMenu]
 	public class InstantiateObjectTile : Tile

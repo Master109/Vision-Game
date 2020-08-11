@@ -10,7 +10,7 @@ using System;
 using Extensions;
 using UnityEngine.UI;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	public class ConfigurationManager : SingletonMonoBehaviour<ConfigurationManager>

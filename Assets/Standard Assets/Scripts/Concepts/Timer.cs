@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using BeatKiller;
+using VisionGame;
 using Extensions;
 
 [Serializable]

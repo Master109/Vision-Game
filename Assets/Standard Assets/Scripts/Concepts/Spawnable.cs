@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	public class Spawnable : MonoBehaviour, ISpawnable
 	{

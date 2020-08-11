@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	[ExecuteInEditMode]
 	public class SampledColorGradient2DRenderer : MonoBehaviour

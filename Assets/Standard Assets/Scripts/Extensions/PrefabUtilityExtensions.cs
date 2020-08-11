@@ -5,7 +5,7 @@ using UnityEngine;
 using Extensions;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using BeatKiller;
+using VisionGame;
 
 namespace Extensions
 {

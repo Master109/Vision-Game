@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 using System;
-using SaveEntry = BeatKiller.SaveAndLoadManager.SaveEntry;
+using SaveEntry = VisionGame.SaveAndLoadManager.SaveEntry;
 using Extensions;
 
 public class SaveAndLoadObject : MonoBehaviour

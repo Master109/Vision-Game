@@ -6,7 +6,7 @@ using System;
 using Extensions;
 using UnityEngine.Serialization;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	public class EventTrigger : MonoBehaviour, IUpdatable

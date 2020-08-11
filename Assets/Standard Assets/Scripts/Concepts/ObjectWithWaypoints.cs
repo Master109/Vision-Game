@@ -7,7 +7,7 @@ using Extensions;
 using UnityEditor;
 #endif
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable

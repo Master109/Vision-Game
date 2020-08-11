@@ -13,7 +13,7 @@ using InputTracking = UnityEngine.VR.InputTracking;
 using Node = UnityEngine.VR.VRNode;
 #endif
 
-namespace BeatKiller
+namespace VisionGame
 {
 	public class Player : MonoBehaviour, IUpdatable
 	{
@@ -34,11 +34,12 @@ namespace BeatKiller
 		public float jumpSpeed;
 		public float jumpDuration;
 		public float gravity;
-		public float multiplyRigidMoveSpeed;
 		[HideInInspector]
 		public Vector3 move;
-		public Rigidbody rigid;
 		public float moveSpeed;
+		public LayerMask opaqueWallsLayermask;
+		public LayerMask transparentWallsLayermask;
+		public Rigidbody rigid;
 		bool replaceInput;
 		bool previousReplaceInput;
 		Quaternion previousRotation;
@@ -46,6 +47,8 @@ namespace BeatKiller
 		Vector3 previousPosition;
 		bool canJump;
 		float timeLastGrounded;
+		bool turnInput;
+		bool previousTurnInput;
 
 		void OnEnable ()
 		{
@@ -61,6 +64,7 @@ namespace BeatKiller
 			rightHandTrs.position = InputManager.rightTouchController.devicePosition.ReadValue();
 			rightHandTrs.rotation = InputManager.rightTouchController.deviceRotation.ReadValue();
 			replaceInput = InputManager.ReplaceInput;
+			turnInput = InputManager.TurnInput;
 			if (replaceInput && !previousReplaceInput)
 				ReplaceObjects ();
 			move = Vector3.zero;
@@ -75,6 +79,7 @@ namespace BeatKiller
 			HandleJump ();
 			controller.Move(move * Time.deltaTime);
 			previousReplaceInput = replaceInput;
+			previousTurnInput = turnInput;
 		}
 		
 		void ReplaceObjects ()
@@ -88,8 +93,19 @@ namespace BeatKiller
 				for (float y = 0; y <= 1; y += 1f / checks.y)
 				{
 					RaycastHit hit;
-					if (Physics.Raycast(GameManager.GetSingleton<GameCamera>().camera.ViewportPointToRay(new Vector2(x, y)), out hit) && !hitColliders.Contains(hit.collider))
+					float distance = Mathf.Infinity;
+					Ray ray = GameManager.GetSingleton<GameCamera>().camera.ViewportPointToRay(new Vector2(x, y));
+					if (Physics.Raycast(ray, out hit, Mathf.Infinity, opaqueWallsLayermask) && !hitColliders.Contains(hit.collider))
+					{
 						hitColliders.Add(hit.collider);
+						distance = hit.distance;
+					}
+					RaycastHit[] hits = Physics.RaycastAll(ray, distance, transparentWallsLayermask);
+					foreach (RaycastHit hit2 in hits)
+					{
+						if (!hitColliders.Contains(hit2.collider))
+							hitColliders.Add(hit2.collider);
+					}
 				}
 			}
 			foreach (Collider hitCollider in hitColliders)
@@ -111,12 +127,13 @@ namespace BeatKiller
 
 		void HandleFacing ()
 		{
-			trs.forward = GameManager.GetSingleton<GameCamera>().trs.forward.SetY(0);
+			if (turnInput && !previousTurnInput)
+				trs.forward = GameManager.GetSingleton<GameCamera>().trs.forward.SetY(0);
 		}
 		
 		void HandleGravity ()
 		{
-			if (controller.enabled && !controller.isGrounded)
+			if (!controller.isGrounded)
 			{
 				yVel -= gravity * Time.deltaTime;
 				move += Vector3.up * yVel;
@@ -140,11 +157,8 @@ namespace BeatKiller
 		
 		void Move ()
 		{
-			move += GetMoveInput();
-			if (controller.enabled)
-				move *= moveSpeed;
-			else
-				rigid.velocity = (move * moveSpeed * multiplyRigidMoveSpeed).SetY(rigid.velocity.y);
+			if (controller.enabled && controller.isGrounded)
+				move += GetMoveInput() * moveSpeed;
 		}
 		
 		void HandleJump ()
@@ -167,11 +181,15 @@ namespace BeatKiller
 		
 		void Jump ()
 		{
-			if (controller.enabled)
-			{
-				yVel += jumpSpeed * Time.deltaTime;
-				move += Vector3.up * yVel;
-			}
+			yVel += jumpSpeed * Time.deltaTime;
+			move += Vector3.up * yVel;
+		}
+
+		void OnCollisionStay (Collision coll)
+		{
+			bool onSteepSlope = Vector3.Angle(coll.GetContact(0).normal, Vector3.up) > controller.slopeLimit;
+			controller.enabled = !onSteepSlope;
+			rigid.useGravity = onSteepSlope;
 		}
 	}
 }

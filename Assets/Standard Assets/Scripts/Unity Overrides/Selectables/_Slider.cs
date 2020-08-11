@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Extensions;
-using BeatKiller;
+using VisionGame;
 
 [RequireComponent(typeof(Slider))]
 public class _Slider : _Selectable

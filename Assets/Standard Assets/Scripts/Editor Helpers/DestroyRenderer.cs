@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	public class DestroyRenderer : MonoBehaviour
 	{

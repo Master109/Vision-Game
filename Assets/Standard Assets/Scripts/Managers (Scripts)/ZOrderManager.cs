@@ -6,7 +6,7 @@ using System;
 using UnityEditor;
 #endif
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	public class ZOrderManager : MonoBehaviour

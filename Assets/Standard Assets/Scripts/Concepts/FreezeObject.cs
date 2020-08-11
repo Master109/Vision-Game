@@ -2,7 +2,7 @@
 using System.Collections;
 using Extensions;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	public class FreezeObject : MonoBehaviour, IUpdatable
 	{

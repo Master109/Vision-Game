@@ -111,7 +111,7 @@ public class OVRProjectConfig : ScriptableObject
 			projectConfig.enableNSCConfig = true;
 			projectConfig.skipUnneededShaders = false;
 			projectConfig.focusAware = true;
-			AssetDatabase.CreateAsset(projectConfig, oculusProjectConfigAssetPath);
+			// AssetDatabase.CreateAsset(projectConfig, oculusProjectConfigAssetPath);
 		}
 		return projectConfig;
 	}

@@ -13,7 +13,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.InputSystem.XR;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveableAndLoadable

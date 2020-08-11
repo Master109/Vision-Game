@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Extensions;
-using BeatKiller;
+using VisionGame;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

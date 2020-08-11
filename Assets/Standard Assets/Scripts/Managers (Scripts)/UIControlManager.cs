@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Extensions;
-using BeatKiller;
+using VisionGame;
 using UnityEngine.InputSystem;
 
 public class UIControlManager : MonoBehaviour, IUpdatable

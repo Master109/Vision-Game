@@ -7,7 +7,7 @@ using Extensions;
 using UnityEditor;
 #endif
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	public class EventManager : SingletonMonoBehaviour<EventManager>, IUpdatable

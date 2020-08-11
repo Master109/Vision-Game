@@ -8,7 +8,7 @@ using System.IO;
 using UnityEngine.UI;
 #endif
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	public class BuildManager : MonoBehaviour

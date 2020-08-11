@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using Extensions;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	[ExecuteInEditMode]
 	public class DraggableWindow : MonoBehaviour, IUpdatable

@@ -7,7 +7,7 @@ using System;
 using Random = UnityEngine.Random;
 using System.IO;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	public class SaveAndLoadManager : SingletonMonoBehaviour<SaveAndLoadManager>

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using BeatKiller;
+using VisionGame;
 using Extensions;
 
 public class ComplexTimer : MonoBehaviour, IUpdatable

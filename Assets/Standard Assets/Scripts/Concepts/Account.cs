@@ -2,7 +2,7 @@ using System;
 using Extensions;
 using UnityEngine;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	[Serializable]
 	public class Account : IDefaultable<Account>, ISaveableAndLoadable

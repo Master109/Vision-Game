@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using Extensions;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	[Serializable]
 	public class TemporaryActiveObject<T>

@@ -1,14 +1,14 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using BeatKiller;
+using VisionGame;
 
 public class ReplaceWithPrefabs : EditorScript
 {
 	public Transform[] replace;
 	public Transform prefab;
 	
-	public virtual void Do ()
+	public void Do ()
 	{
 		foreach (Transform trs in replace)
 		{

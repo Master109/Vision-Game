@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using BeatKiller;
+using VisionGame;
 
 [RequireComponent(typeof(Canvas))]
 public class _Canvas : MonoBehaviour

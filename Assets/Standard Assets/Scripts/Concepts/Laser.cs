@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Extensions;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	[RequireComponent(typeof(LineRenderer))]
 	public class Laser : Hazard, ISpawnable, IUpdatable

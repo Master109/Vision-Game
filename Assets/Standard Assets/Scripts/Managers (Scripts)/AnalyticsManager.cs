@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using Extensions;
 using System.IO;
 
-namespace BeatKiller.Analytics
+namespace VisionGame.Analytics
 {
 	public class AnalyticsManager : SingletonMonoBehaviour<AnalyticsManager>
 	{

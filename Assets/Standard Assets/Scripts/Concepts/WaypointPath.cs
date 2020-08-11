@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	public class WaypointPath : MonoBehaviour
 	{

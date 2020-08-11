@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	[RequireComponent(typeof(Spawnable))]
 	public class SpawnableHazard : Hazard//, ISpawnable

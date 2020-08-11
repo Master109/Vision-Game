@@ -6,7 +6,7 @@ using System.Reflection;
 // using TMPro;
 using Extensions;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	//[ExecuteInEditMode]
 	public class VirtualKeyboard : MonoBehaviour

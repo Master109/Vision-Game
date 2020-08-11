@@ -9,7 +9,7 @@ using System.Net.Sockets;
 using Random = UnityEngine.Random;
 using Extensions;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
 	{

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	[RequireComponent(typeof(TMP_Text))]
 	[DisallowMultipleComponent]

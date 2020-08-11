@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using Extensions;
-using BeatKiller;
+using VisionGame;
 
 [Serializable]
 public class Circle2D

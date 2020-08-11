@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Extensions;
 
-namespace BeatKiller
+namespace VisionGame
 {
 	[Serializable]
 	public class TemporaryActiveGameObject : TemporaryActiveObject<GameObject>

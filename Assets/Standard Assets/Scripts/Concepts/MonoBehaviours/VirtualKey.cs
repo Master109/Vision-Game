@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using Extensions;
-using BeatKiller;
+using VisionGame;
 
 //[ExecuteInEditMode]
 public class VirtualKey : MonoBehaviour, IUpdatable

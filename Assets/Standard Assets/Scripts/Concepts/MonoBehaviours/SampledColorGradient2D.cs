@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Extensions;
-using BeatKiller;
+using VisionGame;
 using Random = UnityEngine.Random;
 
 [Serializable]

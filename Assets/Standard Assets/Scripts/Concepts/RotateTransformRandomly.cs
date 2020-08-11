@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Extensions;
-using BeatKiller;
+using VisionGame;
 
 public class RotateTransformRandomly : MonoBehaviour
 {
