@@ -1,22 +1,18 @@
 using UnityEngine;
-using System.Collections;
 using System;
 #if UNITY_EDITOR
-using System.Collections.Generic;
-using VisionGame;
 using UnityEditor;
 #endif
 
-[RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshRenderer))]
 [ExecuteInEditMode]
 public class CombineMeshes : MonoBehaviour
 {
-	public MeshFilter meshFilter;
 	public CombineEntry[] combineEntries = new CombineEntry[0];
 
 	public void OnEnable ()
 	{
+		if (combineEntries.Length == 0)
+			return;
 		CombineInstance[] combineInstances = new CombineInstance[combineEntries.Length];
 		for (int i = 0; i < combineEntries.Length; i ++)
 		{
@@ -26,24 +22,33 @@ public class CombineMeshes : MonoBehaviour
 			combineInstance.transform = combineEntry.trs.localToWorldMatrix;
 			combineInstances[i] = combineInstance;
 		}
+		GameObject go = new GameObject();
+		MeshFilter meshFilter = go.AddComponent<MeshFilter>();
+		go.AddComponent<MeshRenderer>();
 		meshFilter.mesh = new Mesh();
 		meshFilter.mesh.CombineMeshes(combineInstances);
+		combineEntries = new CombineEntry[0];
 	}
 
 #if UNITY_EDITOR
 	[MenuItem("Tools/Combine Meshes")]
 	public static void _CombineMeshes ()
 	{
-		List<CombineEntry> combineEntries = new List<CombineEntry>();
-		foreach (Transform trs in Selection.transforms)
-			combineEntries.Add(new CombineEntry(trs.GetComponent<MeshFilter>(), trs));
-		GameManager.GetSingleton<CombineMeshes>().combineEntries = combineEntries.ToArray();
-		GameManager.GetSingleton<CombineMeshes>().OnEnable ();
+		CombineEntry[] combineEntries = new CombineEntry[Selection.transforms.Length];
+        for (int i = 0; i < Selection.transforms.Length; i ++)
+		{
+            Transform trs = Selection.transforms[i];
+            combineEntries[i] = new CombineEntry(trs.GetComponent<MeshFilter>(), trs);
+		}
+		CombineMeshes combineMeshes = new GameObject().AddComponent<CombineMeshes>();
+		combineMeshes.combineEntries = combineEntries;
+		combineMeshes.OnEnable ();
+		DestroyImmediate(combineMeshes);
 	}
 #endif
 
 	[Serializable]
-	public class CombineEntry
+	public struct CombineEntry
 	{
 		public MeshFilter meshFilter;
 		public Transform trs;
@@ -53,5 +58,11 @@ public class CombineMeshes : MonoBehaviour
 			this.meshFilter = meshFilter;
 			this.trs = trs;
 		}
+	}
+	
+	public enum CombineMode
+	{
+		Default,
+		DestroySharedVertices
 	}
 }
