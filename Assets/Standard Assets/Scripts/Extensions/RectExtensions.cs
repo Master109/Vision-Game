@@ -183,5 +183,12 @@ namespace Extensions
 			rect.max = rect.max.SetToMaxComponents(point);
 			return rect;
 		}
+
+		// public static Rect ClosestPointOnPerimeter (this Rect rect, Vector2 point)
+		// {
+		// 	if (point.x < rect.xMin)
+		// 		point.x = rect.xMin;
+		// 	else if (point.x)
+		// }
 	}
 }

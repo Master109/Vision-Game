@@ -9,7 +9,7 @@ public class LineSegment2D
 {
 	public Vector2 start;
 	public Vector2 end;
-	public static LineSegment2D NULL = new LineSegment2D(VectorExtensions.NULL, VectorExtensions.NULL);
+	public static LineSegment2D NULL = new LineSegment2D(VectorExtensions.NULL2, VectorExtensions.NULL2);
 
 	public LineSegment2D ()
 	{

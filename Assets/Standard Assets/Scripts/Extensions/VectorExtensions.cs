@@ -8,7 +8,8 @@ namespace Extensions
 {
 	public static class VectorExtensions
 	{
-		public static Vector3 NULL = new Vector3(MathfExtensions.NULL_FLOAT, MathfExtensions.NULL_FLOAT, MathfExtensions.NULL_FLOAT);
+		public static Vector3 NULL2 = new Vector2(MathfExtensions.NULL_FLOAT, MathfExtensions.NULL_FLOAT);
+		public static Vector3 NULL3 = new Vector3(MathfExtensions.NULL_FLOAT, MathfExtensions.NULL_FLOAT, MathfExtensions.NULL_FLOAT);
 		public static Vector3 INFINITE = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
 		
 		public static Vector3 Snap (this Vector3 v, Vector3 snap)

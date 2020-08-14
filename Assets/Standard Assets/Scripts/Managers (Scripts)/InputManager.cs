@@ -63,7 +63,7 @@ namespace VisionGame
 				if (UsingMouse)
 					return Mouse.current.position.ToVec2();
 				else
-					return VectorExtensions.NULL;
+					return VectorExtensions.NULL3;
 			}
 		}
 		public Vector2 _MousePosition

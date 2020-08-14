@@ -27,7 +27,9 @@ namespace VisionGame
 		public Transform trs;
 		public Transform leftHandTrs;
 		public Transform rightHandTrs;
-		public Vector2Int checks;
+		public float checksPerUnit;
+		public RectTransform checkerTrs;
+		public Canvas checkerCanvas;
 		public Transform capturedObjectsParent;
 		public Transform oldCapturedObjectsParent;
 		public CharacterController controller;
@@ -88,23 +90,47 @@ namespace VisionGame
 			for (int i = 0; i < storedObjectsCount; i ++)
 				capturedObjectsParent.GetChild(0).SetParent(oldCapturedObjectsParent, true);
 			List<Collider> hitColliders = new List<Collider>();
-			for (float x = 0; x <= 1; x += 1f / checks.x)
+			for (float distance = 0; distance <= GameManager.GetSingleton<GameCamera>().camera.farClipPlane; distance += 1f / checksPerUnit)
 			{
-				for (float y = 0; y <= 1; y += 1f / checks.y)
+				checkerCanvas.planeDistance = distance;
+				checkerCanvas.enabled = false;
+				checkerCanvas.enabled = true;
+				Collider[] _hitColliders = Physics.OverlapBox(checkerTrs.position, (checkerTrs.sizeDelta * checkerTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerTrs.rotation, opaqueWallsLayermask);
+				foreach (Collider hitCollider in _hitColliders)
 				{
-					RaycastHit hit;
-					float distance = Mathf.Infinity;
-					Ray ray = GameManager.GetSingleton<GameCamera>().camera.ViewportPointToRay(new Vector2(x, y));
-					if (Physics.Raycast(ray, out hit, Mathf.Infinity, opaqueWallsLayermask) && !hitColliders.Contains(hit.collider))
+					if (!hitColliders.Contains(hitCollider))
 					{
-						hitColliders.Add(hit.collider);
-						distance = hit.distance;
+						RaycastHit hit;
+						Vector3 toHitPosition = hitCollider.ClosestPoint(GameManager.GetSingleton<GameCamera>().trs.position) - GameManager.GetSingleton<GameCamera>().trs.position;
+						if (Physics.Raycast(GameManager.GetSingleton<GameCamera>().trs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueWallsLayermask))
+						{
+							toHitPosition = hit.point - GameManager.GetSingleton<GameCamera>().trs.position;
+							if (!hitColliders.Contains(hit.collider))
+								hitColliders.Add(hit.collider);
+						}
+						RaycastHit[] hits = Physics.RaycastAll(GameManager.GetSingleton<GameCamera>().trs.position, toHitPosition, toHitPosition.magnitude, transparentWallsLayermask);
+						foreach (RaycastHit hit2 in hits)
+						{
+							if (!hitColliders.Contains(hit2.collider))
+								hitColliders.Add(hit2.collider);
+						}
 					}
-					RaycastHit[] hits = Physics.RaycastAll(ray, distance, transparentWallsLayermask);
-					foreach (RaycastHit hit2 in hits)
+				}
+				_hitColliders = Physics.OverlapBox(checkerTrs.position, (checkerTrs.sizeDelta * checkerTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerTrs.rotation, transparentWallsLayermask);
+				foreach (Collider hitCollider in _hitColliders)
+				{
+					if (!hitColliders.Contains(hitCollider))
 					{
-						if (!hitColliders.Contains(hit2.collider))
-							hitColliders.Add(hit2.collider);
+						RaycastHit hit;
+						Vector3 toHitPosition = hitCollider.ClosestPoint(GameManager.GetSingleton<GameCamera>().trs.position) - GameManager.GetSingleton<GameCamera>().trs.position;
+						if (Physics.Raycast(GameManager.GetSingleton<GameCamera>().trs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueWallsLayermask))
+						{
+							toHitPosition = hit.point - GameManager.GetSingleton<GameCamera>().trs.position;
+							if (!hitColliders.Contains(hit.collider))
+								hitColliders.Add(hit.collider);
+						}
+						else
+							hitColliders.Add(hitCollider);
 					}
 				}
 			}
