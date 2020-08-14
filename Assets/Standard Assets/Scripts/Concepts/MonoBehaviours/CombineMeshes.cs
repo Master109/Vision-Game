@@ -72,8 +72,9 @@ public class CombineMeshes : MonoBehaviour
             Transform trs = Selection.transforms[i];
             combineEntries[i] = new CombineEntry(trs.GetComponent<MeshFilter>(), trs);
 		}
+		CombineMode combineMode = GameManager.GetSingleton<CombineMeshes>().combineMode;
 		CombineMeshes combineMeshes = new GameObject().AddComponent<CombineMeshes>();
-		combineMeshes.combineMode = GameManager.GetSingleton<CombineMeshes>().combineMode;
+		combineMeshes.combineMode = combineMode;
 		combineMeshes.combineEntries = combineEntries;
 		combineMeshes.OnEnable ();
 		DestroyImmediate(combineMeshes.gameObject);
