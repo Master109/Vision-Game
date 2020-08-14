@@ -11,12 +11,12 @@ namespace VisionGame
 
 		void OnEnable ()
 		{
-			rigid.velocity = trs.TransformPoint(velocity);
+			rigid.velocity = trs.TransformVector(velocity);
 		}
 
 		void OnDisable ()
 		{
-			velocity = trs.InverseTransformPoint(rigid.velocity);
+			velocity = trs.InverseTransformVector(rigid.velocity);
 		}
 	}
 }
