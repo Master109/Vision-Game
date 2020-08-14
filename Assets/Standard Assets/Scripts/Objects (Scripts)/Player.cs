@@ -213,7 +213,17 @@ namespace VisionGame
 
 		void OnCollisionStay (Collision coll)
 		{
-			bool onSteepSlope = Vector3.Angle(coll.GetContact(0).normal, Vector3.up) > controller.slopeLimit;
+			bool onSteepSlope = true;
+			for (int i = 0; i < coll.contactCount; i ++)
+			{
+				ContactPoint contactPoint = coll.GetContact(i);
+				float slopeAngle = Vector3.Angle(contactPoint.normal, Vector3.up);
+				if (slopeAngle <= controller.slopeLimit || slopeAngle >= 90)
+				{
+					onSteepSlope = false;
+					break;
+				}
+			}
 			controller.enabled = !onSteepSlope;
 			rigid.useGravity = onSteepSlope;
 		}

@@ -380,14 +380,9 @@ MonoBehaviour:
   trs: {fileID: 4780438776161039506}
   leftHandTrs: {fileID: 4780438776161088836}
   rightHandTrs: {fileID: 4780438776161075520}
-  rayChecks: {x: 100, y: 50}
-  capsuleChecks: []
   checksPerUnit: 4
   checkerTrs: {fileID: 2130457198167548341}
   checkerCanvas: {fileID: 1201243958986977862}
-  autoSetCapsuleChecksRadius: 0
-  distanceToCheckClosestPoint: 100
-  autoSetCapsuleChecksPoints: 1
   capturedObjectsParent: {fileID: 1196903665}
   oldCapturedObjectsParent: {fileID: 1622410485}
   controller: {fileID: 777132718866571283}
@@ -509,7 +504,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1001 &4780438776851788142
 PrefabInstance:
   m_ObjectHideFlags: 0
