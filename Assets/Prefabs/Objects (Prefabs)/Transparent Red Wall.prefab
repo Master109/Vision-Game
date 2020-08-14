@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1920878879409527262}
   - component: {fileID: 1920878879409527263}
   - component: {fileID: 1920878879409527260}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Transparent Red Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
