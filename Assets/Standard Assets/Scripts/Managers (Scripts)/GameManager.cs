@@ -525,7 +525,8 @@ namespace VisionGame
 				return GetSingleton<T>(FindObjectsOfType<Object>());
 			else
 			{
-				if (singletons[typeof(T)] == null || singletons[typeof(T)].Equals(default(T)))
+				object instance = singletons[typeof(T)];
+				if (instance == null || instance.Equals(default(T)))
 				{
 					T singleton = GetSingleton<T>(FindObjectsOfType<Object>());
 					singletons[typeof(T)] = singleton;
@@ -550,10 +551,11 @@ namespace VisionGame
 					}
 				}
 			}
-			if (singletons.ContainsKey(typeof(T)))
-				return (T) singletons[typeof(T)];
-			else
-				return default(T);
+			object instance = default(T);
+			if (singletons.TryGetValue(typeof(T), out instance))
+			{
+			}
+			return (T) instance;
 		}
 
 		// public static T GetSingletonIncludeAssets<T> ()

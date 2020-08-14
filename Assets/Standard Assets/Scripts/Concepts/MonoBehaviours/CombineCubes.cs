@@ -44,7 +44,7 @@ public class CombineCubes : MonoBehaviour
 		combineCubes.outputTrsPrefab = outputTrsPrefab;
 		combineCubes.combineEntries = combineEntries;
 		combineCubes.OnEnable ();
-		DestroyImmediate(combineCubes);
+		DestroyImmediate(combineCubes.gameObject);
 	}
 #endif
 

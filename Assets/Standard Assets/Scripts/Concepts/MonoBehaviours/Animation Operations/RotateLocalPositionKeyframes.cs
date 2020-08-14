@@ -7,6 +7,6 @@ public class RotateLocalPositionKeyframes : AnimationOperation
     public override void Do ()
     {
         for (int i = 0; i < anim.FrameCount; i ++)
-            anim.keyFrames[i].localPosition = Quaternion.EulerAngles(rotate) * anim.keyFrames[i].localPosition;
+            anim.keyFrames[i].localPosition = Quaternion.Euler(rotate) * anim.keyFrames[i].localPosition;
     }
 }
