@@ -344,16 +344,14 @@ namespace Extensions
 			return new Vector2(v.x, v.z);
 		}
 
-		public static Vector2 GetClosestPoint (this Vector3 v, params Vector3[] points)
+		public static Vector3 GetClosestPoint (this Vector3 v, params Vector3[] points)
 		{
-			Vector3 currentPoint = points[0];
-			Vector3 closestPoint = currentPoint;
-			float distanceToCurrentPointSqr = (v - closestPoint).sqrMagnitude;
-			float distanceToClosestPointSqr = distanceToCurrentPointSqr;
+			Vector3 closestPoint = points[0];
+			float distanceToClosestPointSqr = (v - closestPoint).sqrMagnitude;
 			for (int i = 1; i < points.Length; i ++)
 			{
-				currentPoint = points[i];
-				distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
+				Vector3 currentPoint = points[i];
+				float distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
 				if (distanceToCurrentPointSqr < distanceToClosestPointSqr)
 				{
 					distanceToClosestPointSqr = distanceToCurrentPointSqr;
@@ -366,13 +364,11 @@ namespace Extensions
 		public static int GetIndexOfClosestPoint (this Vector3 v, params Vector3[] points)
 		{
 			int output = 0;
-			Vector3 currentPoint = points[0];
-			float distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
-			float distanceToClosestPointSqr = distanceToCurrentPointSqr;
+			float distanceToClosestPointSqr = (v - points[0]).sqrMagnitude;
 			for (int i = 1; i < points.Length; i ++)
 			{
-				currentPoint = points[i];
-				distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
+				Vector3 currentPoint = points[i];
+				float distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
 				if (distanceToCurrentPointSqr < distanceToClosestPointSqr)
 				{
 					distanceToClosestPointSqr = distanceToCurrentPointSqr;
@@ -384,13 +380,11 @@ namespace Extensions
 
 		public static float GetDistanceSqrToClosestPoint (this Vector3 v, params Vector3[] points)
 		{
-			Vector3 currentPoint = points[0];
-			float distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
-			float distanceToClosestPointSqr = distanceToCurrentPointSqr;
+			float distanceToClosestPointSqr = (v - points[0]).sqrMagnitude;
 			for (int i = 1; i < points.Length; i ++)
 			{
-				currentPoint = points[i];
-				distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
+				Vector3 currentPoint = points[i];
+				float distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
 				if (distanceToCurrentPointSqr < distanceToClosestPointSqr)
 					distanceToClosestPointSqr = distanceToCurrentPointSqr;
 			}
@@ -399,14 +393,12 @@ namespace Extensions
 
 		public static Vector2 GetClosestPoint (this Vector2 v, params Vector2[] points)
 		{
-			Vector2 currentPoint = points[0];
-			Vector2 closestPoint = currentPoint;
-			float distanceToCurrentPointSqr = (v - closestPoint).sqrMagnitude;
-			float distanceToClosestPointSqr = distanceToCurrentPointSqr;
+			Vector2 closestPoint = points[0];
+			float distanceToClosestPointSqr = (v - closestPoint).sqrMagnitude;
 			for (int i = 1; i < points.Length; i ++)
 			{
-				currentPoint = points[i];
-				distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
+				Vector2 currentPoint = points[i];
+				float distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
 				if (distanceToCurrentPointSqr < distanceToClosestPointSqr)
 				{
 					distanceToClosestPointSqr = distanceToCurrentPointSqr;
@@ -419,13 +411,11 @@ namespace Extensions
 		public static int GetIndexOfClosestPoint (this Vector2 v, params Vector2[] points)
 		{
 			int output = 0;
-			Vector2 currentPoint = points[0];
-			float distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
-			float distanceToClosestPointSqr = distanceToCurrentPointSqr;
+			float distanceToClosestPointSqr = (v - points[0]).sqrMagnitude;
 			for (int i = 1; i < points.Length; i ++)
 			{
-				currentPoint = points[i];
-				distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
+				Vector2 currentPoint = points[i];
+				float distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
 				if (distanceToCurrentPointSqr < distanceToClosestPointSqr)
 				{
 					distanceToClosestPointSqr = distanceToCurrentPointSqr;
@@ -437,13 +427,11 @@ namespace Extensions
 
 		public static float GetDistanceSqrToClosestPoint (this Vector2 v, params Vector2[] points)
 		{
-			Vector2 currentPoint = points[0];
-			float distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
-			float distanceToClosestPointSqr = distanceToCurrentPointSqr;
+			float distanceToClosestPointSqr = (v - points[0]).sqrMagnitude;
 			for (int i = 1; i < points.Length; i ++)
 			{
-				currentPoint = points[i];
-				distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
+				Vector2 currentPoint = points[i];
+				float distanceToCurrentPointSqr = (v - currentPoint).sqrMagnitude;
 				if (distanceToCurrentPointSqr < distanceToClosestPointSqr)
 					distanceToClosestPointSqr = distanceToCurrentPointSqr;
 			}
