@@ -106,7 +106,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1920878879409527261}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1677f588f1ccfc0438bb9197c3a0474b, type: 3}
+  m_Script: {fileID: 11500000, guid: ab73ed5919906d344a3a03e56e36fb52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   trs: {fileID: 1920878879409527257}
@@ -124,7 +124,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
