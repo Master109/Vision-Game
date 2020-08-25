@@ -27,59 +27,63 @@ namespace VisionGame
 			int storedObjectsCount = capturedObjectsParent.childCount;
 			for (int i = 0; i < storedObjectsCount; i ++)
 				capturedObjectsParent.GetChild(0).SetParent(oldCapturedObjectsParent, true);
-			List<Collider> hitColliders = new List<Collider>();
+			List<GameObject> hitGos = new List<GameObject>();
 			for (float distance = 0; distance <= camera.farClipPlane; distance += 1f / checksPerUnit)
 			{
 				checkerCanvas.planeDistance = distance;
 				checkerCanvas.enabled = false;
 				checkerCanvas.enabled = true;
 				Collider[] _hitColliders = Physics.OverlapBox(checkerRectTrs.position, (checkerRectTrs.sizeDelta * checkerRectTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerRectTrs.rotation, opaqueWallsLayermask);
-				foreach (Collider hitCollider in _hitColliders)
+                for (int i = 0; i < _hitColliders.Length; i ++)
 				{
-					if (!hitColliders.Contains(hitCollider))
+                    Collider hitCollider = _hitColliders[i];
+                    if (hitGos.Contains(hitCollider.gameObject))
 					{
 						RaycastHit hit;
 						Vector3 toHitPosition = hitCollider.ClosestPoint(cameraTrs.position) - cameraTrs.position;
 						if (Physics.Raycast(cameraTrs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueWallsLayermask))
 						{
 							toHitPosition = hit.point - cameraTrs.position;
-							if (!hitColliders.Contains(hit.collider))
-								hitColliders.Add(hit.collider);
+							if (!hitGos.Contains(hit.collider.gameObject))
+								hitGos.Add(hit.collider.gameObject);
 						}
 						RaycastHit[] hits = Physics.RaycastAll(cameraTrs.position, toHitPosition, toHitPosition.magnitude, transparentWallsLayermask);
-						foreach (RaycastHit hit2 in hits)
+                        for (int i2 = 0; i2 < hits.Length; i2 ++)
 						{
-							if (!hitColliders.Contains(hit2.collider))
-								hitColliders.Add(hit2.collider);
+                            RaycastHit hit2 = hits[i2];
+                            if (!hitGos.Contains(hit2.collider.gameObject))
+								hitGos.Add(hit2.collider.gameObject);
 						}
 					}
 				}
 				_hitColliders = Physics.OverlapBox(checkerRectTrs.position, (checkerRectTrs.sizeDelta * checkerRectTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerRectTrs.rotation, transparentWallsLayermask);
-				foreach (Collider hitCollider in _hitColliders)
+                for (int i = 0; i < _hitColliders.Length; i ++)
 				{
-					if (!hitColliders.Contains(hitCollider))
+                    Collider hitCollider = _hitColliders[i];
+                    if (!hitGos.Contains(hitCollider.gameObject))
 					{
 						RaycastHit hit;
 						Vector3 toHitPosition = hitCollider.ClosestPoint(cameraTrs.position) - cameraTrs.position;
 						if (Physics.Raycast(cameraTrs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueWallsLayermask))
 						{
 							toHitPosition = hit.point - cameraTrs.position;
-							if (!hitColliders.Contains(hit.collider))
-								hitColliders.Add(hit.collider);
+							if (!hitGos.Contains(hit.collider.gameObject))
+								hitGos.Add(hit.collider.gameObject);
 						}
 						else
-							hitColliders.Add(hitCollider);
+							hitGos.Add(hitCollider.gameObject);
 					}
 				}
 			}
-			foreach (Collider hitCollider in hitColliders)
+            for (int i = 0; i < hitGos.Count; i ++)
 			{
-				IStorable storable = hitCollider.GetComponent<IStorable>();
+                GameObject hitGo = hitGos[i];
+                IStorable storable = hitGo.GetComponent<IStorable>();
 				if (storable != null)
 					Instantiate(storable.Trs, storable.Trs.position, storable.Trs.rotation, capturedObjectsParent);
-				IDestroyable destroyable = hitCollider.GetComponent<IDestroyable>();
+				IDestroyable destroyable = hitGo.GetComponent<IDestroyable>();
 				if (destroyable != null)
-					Destroy(destroyable.Go);
+					Destroy(hitGo);
 			}
 			oldCapturedObjectsParent.DetachChildren();
 		}

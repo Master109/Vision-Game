@@ -136,7 +136,7 @@ namespace VisionGame
 		{
 			get
 			{
-				return leftTouchController.primaryButton.isPressed || rightTouchController.primaryButton.isPressed;
+				return rightTouchController.primaryButton.isPressed;
 			}
 		}
 		public bool _TurnInput
@@ -144,6 +144,37 @@ namespace VisionGame
 			get
 			{
 				return TurnInput;
+			}
+		}
+		public static bool OrbViewInput
+		{
+			get
+			{
+				return rightTouchController.secondaryButton.isPressed;
+			}
+		}
+		public bool _OrbViewInput
+		{
+			get
+			{
+				return OrbViewInput;
+			}
+		}
+		public static bool JumpInput
+		{
+			get
+			{
+				if (GameManager.GetSingleton<InputManager>().inputDevice == InputManager.InputDevice.KeyboardAndMouse)
+					return Keyboard.current.leftShiftKey.isPressed;
+				else// if (GameManager.GetSingleton<InputManager>().inputDevice == InputManager.InputDevice.OculusRift)
+					return leftTouchController.thumbstickClicked.isPressed || rightTouchController.thumbstickClicked.isPressed;
+			}
+		}
+		public bool _JumpInput
+		{
+			get
+			{
+				return JumpInput;
 			}
 		}
 		public static Vector2 UIMovementInput

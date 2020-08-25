@@ -133,6 +133,14 @@ namespace VisionGame
 				rightGrabbedRigid = null;
 			}
 		}
+
+		void HandleOrbViewing ()
+		{
+			if (InputManager.OrbViewInput)
+				GameManager.GetSingleton<Orb>().camera.depth = 1;
+			else
+				GameManager.GetSingleton<Orb>().camera.depth = -1;
+		}
 		
 		void HandleGravity ()
 		{
@@ -166,9 +174,7 @@ namespace VisionGame
 		
 		void HandleJump ()
 		{
-			bool hasJumpInput = GameManager.GetSingleton<InputManager>().inputDevice == InputManager.InputDevice.KeyboardAndMouse && Keyboard.current.leftShiftKey.isPressed;
-			hasJumpInput |= GameManager.GetSingleton<InputManager>().inputDevice == InputManager.InputDevice.OculusRift && (InputManager.leftTouchController.primaryButton.isPressed || InputManager.leftTouchController.secondaryButton.isPressed || InputManager.rightTouchController.primaryButton.isPressed || InputManager.rightTouchController.secondaryButton.isPressed);
-			if (canJump && hasJumpInput && Time.time - timeLastGrounded < jumpDuration)
+			if (canJump && InputManager.JumpInput && Time.time - timeLastGrounded < jumpDuration)
 			{
 				if (controller.isGrounded)
 					yVel = 0;
