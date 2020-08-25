@@ -35,6 +35,13 @@ namespace VisionGame
 		public Vector3 move;
 		public float moveSpeed;
 		public Rigidbody rigid;
+		public float grabRangeSqr;
+		Vector3 previousLeftHandPosition;
+		Vector3 previousRightHandPosition;
+		Vector3 previousLeftHandEulerAngles;
+		Vector3 previousRightHandEulerAngles;
+		Rigidbody leftGrabbedRigid;
+		Rigidbody rightGrabbedRigid;
 		bool replaceInput;
 		bool previousReplaceInput;
 		Quaternion previousRotation;
@@ -69,12 +76,17 @@ namespace VisionGame
 				canJump = true;
 			}
 			HandleFacing ();
+			HandleGrabbing ();
 			Move ();
 			HandleGravity ();
 			HandleJump ();
 			controller.Move(move * Time.deltaTime);
 			previousReplaceInput = replaceInput;
 			previousTurnInput = turnInput;
+			previousLeftHandPosition = leftHandTrs.position;
+			previousRightHandPosition = rightHandTrs.position;
+			previousLeftHandEulerAngles = leftHandTrs.eulerAngles;
+			previousRightHandEulerAngles = rightHandTrs.eulerAngles;
 		}
 
 		void OnDisable ()
@@ -86,6 +98,40 @@ namespace VisionGame
 		{
 			if (turnInput && !previousTurnInput)
 				trs.forward = GameManager.GetSingleton<GameCamera>().trs.forward.SetY(0);
+		}
+
+		void HandleGrabbing ()
+		{
+			if (InputManager.LeftGrabInput && leftGrabbedRigid == null)
+			{
+				if ((GameManager.GetSingleton<Orb>().trs.position - leftHandTrs.position).sqrMagnitude <= grabRangeSqr)
+				{
+					GameManager.GetSingleton<Orb>().trs.SetParent(leftHandTrs);
+					GameManager.GetSingleton<Orb>().trs.localPosition = Vector3.zero;
+					leftGrabbedRigid = GameManager.GetSingleton<Orb>().rigid;
+				}
+			}
+			else if (leftGrabbedRigid != null)
+			{
+				leftGrabbedRigid.velocity = (leftHandTrs.position - previousLeftHandPosition) * Time.deltaTime;
+				leftGrabbedRigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousLeftHandEulerAngles), leftHandTrs.rotation);
+				leftGrabbedRigid = null;
+			}
+			if (InputManager.RightGrabInput && rightGrabbedRigid == null)
+			{
+				if ((GameManager.GetSingleton<Orb>().trs.position - rightHandTrs.position).sqrMagnitude <= grabRangeSqr)
+				{
+					GameManager.GetSingleton<Orb>().trs.SetParent(rightHandTrs);
+					GameManager.GetSingleton<Orb>().trs.localPosition = Vector3.zero;
+					rightGrabbedRigid = GameManager.GetSingleton<Orb>().rigid;
+				}
+			}
+			else if (rightGrabbedRigid != null)
+			{
+				rightGrabbedRigid.velocity = (rightHandTrs.position - previousLeftHandPosition) * Time.deltaTime;
+				rightGrabbedRigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousRightHandEulerAngles), rightHandTrs.rotation);
+				rightGrabbedRigid = null;
+			}
 		}
 		
 		void HandleGravity ()

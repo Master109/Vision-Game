@@ -387,6 +387,7 @@ MonoBehaviour:
   move: {x: 0, y: 0, z: 0}
   moveSpeed: 10
   rigid: {fileID: 2497963680048229902}
+  grabRangeSqr: 1
 --- !u!114 &4780438776155413846
 MonoBehaviour:
   m_ObjectHideFlags: 0

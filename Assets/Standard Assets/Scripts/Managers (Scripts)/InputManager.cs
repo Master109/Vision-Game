@@ -104,11 +104,39 @@ namespace VisionGame
 				return ReplaceInput;
 			}
 		}
+		public static bool LeftGrabInput
+		{
+			get
+			{
+				return leftTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin;
+			}
+		}
+		public bool _LeftGrabInput
+		{
+			get
+			{
+				return LeftGrabInput;
+			}
+		}
+		public static bool RightGrabInput
+		{
+			get
+			{
+				return rightTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin;
+			}
+		}
+		public bool _RightGrabInput
+		{
+			get
+			{
+				return RightGrabInput;
+			}
+		}
 		public static bool TurnInput
 		{
 			get
 			{
-				return leftTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin || rightTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin;
+				return leftTouchController.primaryButton.isPressed || rightTouchController.primaryButton.isPressed;
 			}
 		}
 		public bool _TurnInput
@@ -118,7 +146,6 @@ namespace VisionGame
 				return TurnInput;
 			}
 		}
-
 		public static Vector2 UIMovementInput
 		{
 			get
