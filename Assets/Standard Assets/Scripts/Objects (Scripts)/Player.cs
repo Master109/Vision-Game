@@ -36,6 +36,7 @@ namespace VisionGame
 		public float moveSpeed;
 		public Rigidbody rigid;
 		public float grabRangeSqr;
+		Vector3 previousMoveInput;
 		Vector3 previousLeftHandPosition;
 		Vector3 previousRightHandPosition;
 		Vector3 previousLeftHandEulerAngles;
@@ -87,6 +88,7 @@ namespace VisionGame
 			previousRightHandPosition = rightHandTrs.position;
 			previousLeftHandEulerAngles = leftHandTrs.eulerAngles;
 			previousRightHandEulerAngles = rightHandTrs.eulerAngles;
+			previousMoveInput = move;
 		}
 
 		void OnDisable ()
@@ -170,6 +172,8 @@ namespace VisionGame
 		{
 			if (controller.enabled && controller.isGrounded)
 				move += GetMoveInput() * moveSpeed;
+			else
+				move = previousMoveInput.SetY(0);
 		}
 		
 		void HandleJump ()
