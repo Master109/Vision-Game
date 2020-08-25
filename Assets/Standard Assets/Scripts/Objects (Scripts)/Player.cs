@@ -61,11 +61,11 @@ namespace VisionGame
 		public void DoUpdate ()
 		{
 			InputManager.leftTouchController = (OculusTouchController) OculusTouchController.leftHand;
-			leftHandTrs.position = InputManager.leftTouchController.devicePosition.ReadValue();
-			leftHandTrs.rotation = InputManager.leftTouchController.deviceRotation.ReadValue();
+			leftHandTrs.localPosition = InputManager.leftTouchController.devicePosition.ReadValue();
+			leftHandTrs.localRotation = InputManager.leftTouchController.deviceRotation.ReadValue();
 			InputManager.rightTouchController = (OculusTouchController) OculusTouchController.rightHand;
-			rightHandTrs.position = InputManager.rightTouchController.devicePosition.ReadValue();
-			rightHandTrs.rotation = InputManager.rightTouchController.deviceRotation.ReadValue();
+			rightHandTrs.localPosition = InputManager.rightTouchController.devicePosition.ReadValue();
+			rightHandTrs.localRotation = InputManager.rightTouchController.deviceRotation.ReadValue();
 			replaceInput = InputManager.ReplaceInput;
 			turnInput = InputManager.TurnInput;
 			if (replaceInput && !previousReplaceInput)
