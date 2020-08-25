@@ -8,7 +8,7 @@ public class SnapPosition : EditorScript
 {
 	public Transform trs;
 	public bool useLocalPosition;
-	public Vector3 snap = new Vector3(1, 1, 0);
+	public Vector3 snap = new Vector3(1, 1, 1);
 	public Vector3 offset = new Vector3(0, 0, 0);
 
 	public virtual void Start ()

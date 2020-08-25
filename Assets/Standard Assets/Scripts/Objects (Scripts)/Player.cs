@@ -27,11 +27,6 @@ namespace VisionGame
 		public Transform trs;
 		public Transform leftHandTrs;
 		public Transform rightHandTrs;
-		public float checksPerUnit;
-		public RectTransform checkerTrs;
-		public Canvas checkerCanvas;
-		public Transform capturedObjectsParent;
-		public Transform oldCapturedObjectsParent;
 		public CharacterController controller;
 		public float jumpSpeed;
 		public float jumpDuration;
@@ -39,8 +34,6 @@ namespace VisionGame
 		[HideInInspector]
 		public Vector3 move;
 		public float moveSpeed;
-		public LayerMask opaqueWallsLayermask;
-		public LayerMask transparentWallsLayermask;
 		public Rigidbody rigid;
 		bool replaceInput;
 		bool previousReplaceInput;
@@ -68,7 +61,7 @@ namespace VisionGame
 			replaceInput = InputManager.ReplaceInput;
 			turnInput = InputManager.TurnInput;
 			if (replaceInput && !previousReplaceInput)
-				ReplaceObjects ();
+				GameManager.GetSingleton<Orb>().ReplaceObjects ();
 			move = Vector3.zero;
 			if (controller.isGrounded)
 			{
@@ -82,68 +75,6 @@ namespace VisionGame
 			controller.Move(move * Time.deltaTime);
 			previousReplaceInput = replaceInput;
 			previousTurnInput = turnInput;
-		}
-		
-		void ReplaceObjects ()
-		{
-			int storedObjectsCount = capturedObjectsParent.childCount;
-			for (int i = 0; i < storedObjectsCount; i ++)
-				capturedObjectsParent.GetChild(0).SetParent(oldCapturedObjectsParent, true);
-			List<Collider> hitColliders = new List<Collider>();
-			for (float distance = 0; distance <= GameManager.GetSingleton<GameCamera>().camera.farClipPlane; distance += 1f / checksPerUnit)
-			{
-				checkerCanvas.planeDistance = distance;
-				checkerCanvas.enabled = false;
-				checkerCanvas.enabled = true;
-				Collider[] _hitColliders = Physics.OverlapBox(checkerTrs.position, (checkerTrs.sizeDelta * checkerTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerTrs.rotation, opaqueWallsLayermask);
-				foreach (Collider hitCollider in _hitColliders)
-				{
-					if (!hitColliders.Contains(hitCollider))
-					{
-						RaycastHit hit;
-						Vector3 toHitPosition = hitCollider.ClosestPoint(GameManager.GetSingleton<GameCamera>().trs.position) - GameManager.GetSingleton<GameCamera>().trs.position;
-						if (Physics.Raycast(GameManager.GetSingleton<GameCamera>().trs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueWallsLayermask))
-						{
-							toHitPosition = hit.point - GameManager.GetSingleton<GameCamera>().trs.position;
-							if (!hitColliders.Contains(hit.collider))
-								hitColliders.Add(hit.collider);
-						}
-						RaycastHit[] hits = Physics.RaycastAll(GameManager.GetSingleton<GameCamera>().trs.position, toHitPosition, toHitPosition.magnitude, transparentWallsLayermask);
-						foreach (RaycastHit hit2 in hits)
-						{
-							if (!hitColliders.Contains(hit2.collider))
-								hitColliders.Add(hit2.collider);
-						}
-					}
-				}
-				_hitColliders = Physics.OverlapBox(checkerTrs.position, (checkerTrs.sizeDelta * checkerTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerTrs.rotation, transparentWallsLayermask);
-				foreach (Collider hitCollider in _hitColliders)
-				{
-					if (!hitColliders.Contains(hitCollider))
-					{
-						RaycastHit hit;
-						Vector3 toHitPosition = hitCollider.ClosestPoint(GameManager.GetSingleton<GameCamera>().trs.position) - GameManager.GetSingleton<GameCamera>().trs.position;
-						if (Physics.Raycast(GameManager.GetSingleton<GameCamera>().trs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueWallsLayermask))
-						{
-							toHitPosition = hit.point - GameManager.GetSingleton<GameCamera>().trs.position;
-							if (!hitColliders.Contains(hit.collider))
-								hitColliders.Add(hit.collider);
-						}
-						else
-							hitColliders.Add(hitCollider);
-					}
-				}
-			}
-			foreach (Collider hitCollider in hitColliders)
-			{
-				IStorable storable = hitCollider.GetComponent<IStorable>();
-				if (storable != null)
-					Instantiate(storable.Trs, storable.Trs.position, storable.Trs.rotation, capturedObjectsParent);
-				IDestroyable destroyable = hitCollider.GetComponent<IDestroyable>();
-				if (destroyable != null)
-					Destroy(destroyable.Go);
-			}
-			oldCapturedObjectsParent.DetachChildren();
 		}
 
 		void OnDisable ()

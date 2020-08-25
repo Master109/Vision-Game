@@ -4,15 +4,8 @@ using Extensions;
 namespace VisionGame
 {
 	[ExecuteInEditMode]
-	public class PhysicsObject : MonoBehaviour, IUpdatable
+	public class PhysicsObject : MonoBehaviour
 	{
-		public bool PauseWhileUnfocused
-		{
-			get
-			{
-				return false;
-			}
-		}
 		public Transform trs;
 		public Rigidbody rigid;
 		[HideInInspector]
@@ -27,22 +20,20 @@ namespace VisionGame
 					trs = GetComponent<Transform>();
 				if (rigid == null)
 					rigid = GetComponent<Rigidbody>();
+				velocity = Vector3.zero;
 				return;
 			}
 #endif
 			rigid.velocity = trs.TransformDirection(velocity);
-			GameManager.updatables = GameManager.updatables.Add(this);
-		}
-
-		public void DoUpdate ()
-		{
-			rigid.velocity += Physics.gravity * Time.deltaTime;
 		}
 
 		void OnDisable ()
 		{
+#if UNITY_EDITOR
+			if (!Application.isPlaying)
+				return;
+#endif
 			velocity = trs.InverseTransformDirection(rigid.velocity);
-			GameManager.updatables = GameManager.updatables.Remove(this);
 		}
 	}
 }
