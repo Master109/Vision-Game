@@ -104,7 +104,7 @@ namespace VisionGame
 		{
 			if (InputManager.LeftGrabInput && leftGrabbedRigid == null)
 			{
-				if ((GameManager.GetSingleton<Orb>().trs.position - leftHandTrs.position).sqrMagnitude <= grabRangeSqr)
+				if (rightGrabbedRigid != GameManager.GetSingleton<Orb>().rigid && (GameManager.GetSingleton<Orb>().trs.position - leftHandTrs.position).sqrMagnitude <= grabRangeSqr)
 				{
 					GameManager.GetSingleton<Orb>().trs.SetParent(leftHandTrs);
 					GameManager.GetSingleton<Orb>().trs.localPosition = Vector3.zero;
@@ -119,7 +119,7 @@ namespace VisionGame
 			}
 			if (InputManager.RightGrabInput && rightGrabbedRigid == null)
 			{
-				if ((GameManager.GetSingleton<Orb>().trs.position - rightHandTrs.position).sqrMagnitude <= grabRangeSqr)
+				if (leftGrabbedRigid != GameManager.GetSingleton<Orb>().rigid && (GameManager.GetSingleton<Orb>().trs.position - rightHandTrs.position).sqrMagnitude <= grabRangeSqr)
 				{
 					GameManager.GetSingleton<Orb>().trs.SetParent(rightHandTrs);
 					GameManager.GetSingleton<Orb>().trs.localPosition = Vector3.zero;
