@@ -99,7 +99,7 @@ namespace VisionGame
 		public static Dictionary<string, GameModifier> gameModifierDict = new Dictionary<string, GameModifier>();
 		public Timer hideCursorTimer;
 		public GameScene[] gameScenes;
-		public Canvas[] canvases = new Canvas[0];
+		// public Canvas[] canvases = new Canvas[0];
 		Vector2 moveInput;
 		public static Vector2 previousMousePosition;
 		public delegate void OnGameScenesLoaded();
@@ -193,9 +193,9 @@ namespace VisionGame
 				// GetSingleton<AccountSelectMenu>().gameObject.SetActive(false);
 				PauseGame (false);
 			}
-			canvases = FindObjectsOfType<Canvas>();
-			foreach (Canvas canvas in canvases)
-				canvas.worldCamera = GetSingleton<GameCamera>().camera;
+			// canvases = FindObjectsOfType<Canvas>();
+			// foreach (Canvas canvas in canvases)
+			// 	canvas.worldCamera = GetSingleton<GameCamera>().camera;
 			if (onGameScenesLoaded != null)
 			{
 				onGameScenesLoaded ();
