@@ -128,7 +128,7 @@ namespace VisionGame
 			}
 			else if (rightGrabbedRigid != null)
 			{
-				rightGrabbedRigid.velocity = (rightHandTrs.position - previousLeftHandPosition) * Time.deltaTime;
+				rightGrabbedRigid.velocity = (rightHandTrs.position - previousRightHandPosition) * Time.deltaTime;
 				rightGrabbedRigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousRightHandEulerAngles), rightHandTrs.rotation);
 				rightGrabbedRigid = null;
 			}
