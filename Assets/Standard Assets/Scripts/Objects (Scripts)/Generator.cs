@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace VisionGame
 {
-	public class WirelessReceiver : MonoBehaviour
+	public class Generator : MonoBehaviour
 	{
 		public int id;
 		public MonoBehaviour[] triggerables = new MonoBehaviour[0];
