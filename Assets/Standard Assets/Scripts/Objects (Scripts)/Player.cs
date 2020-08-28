@@ -243,16 +243,16 @@ namespace VisionGame
 				{
 					ContactPoint contactPoint = coll.GetContact(i);
 					float slopeAngle = Vector3.Angle(contactPoint.normal, Vector3.up);
-					if (slopeAngle <= controller.slopeLimit || slopeAngle >= 90)
+					if (slopeAngle <= controller.slopeLimit)
 					{
 						controller.enabled = true;
 						rigid.useGravity = false;
 						return;
 					}
 				}
-				controller.enabled = false;
-				rigid.useGravity = true;
 			}
+			controller.enabled = false;
+			rigid.useGravity = true;
 		}
 		
 		void Jump ()
