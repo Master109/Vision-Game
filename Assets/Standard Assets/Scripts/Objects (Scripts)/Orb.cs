@@ -8,9 +8,8 @@ using UnityEngine.InputSystem;
 
 namespace VisionGame
 {
-	public class Orb : MonoBehaviour
+	public class Orb : PhysicsObject
 	{
-		public Transform trs;
 		public Transform cameraTrs;
 		public new Camera camera;
 		public float checksPerUnit;
@@ -18,9 +17,8 @@ namespace VisionGame
 		public Canvas checkerCanvas;
 		public Transform capturedObjectsParent;
 		public Transform oldCapturedObjectsParent;
-		public LayerMask opaqueWallsLayermask;
-		public LayerMask transparentWallsLayermask;
-		public Rigidbody rigid;
+		public LayerMask opaqueLayermask;
+		public LayerMask transparentLayermask;
 		
 		public void ReplaceObjects ()
 		{
@@ -33,7 +31,7 @@ namespace VisionGame
 				checkerCanvas.planeDistance = distance;
 				checkerCanvas.enabled = false;
 				checkerCanvas.enabled = true;
-				Collider[] _hitColliders = Physics.OverlapBox(checkerRectTrs.position, (checkerRectTrs.sizeDelta * checkerRectTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerRectTrs.rotation, opaqueWallsLayermask);
+				Collider[] _hitColliders = Physics.OverlapBox(checkerRectTrs.position, (checkerRectTrs.sizeDelta * checkerRectTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerRectTrs.rotation, opaqueLayermask);
                 for (int i = 0; i < _hitColliders.Length; i ++)
 				{
                     Collider hitCollider = _hitColliders[i];
@@ -41,13 +39,13 @@ namespace VisionGame
 					{
 						RaycastHit hit;
 						Vector3 toHitPosition = hitCollider.ClosestPoint(cameraTrs.position) - cameraTrs.position;
-						if (Physics.Raycast(cameraTrs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueWallsLayermask))
+						if (Physics.Raycast(cameraTrs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueLayermask))
 						{
 							toHitPosition = hit.point - cameraTrs.position;
 							if (!hitGos.Contains(hit.collider.gameObject))
 								hitGos.Add(hit.collider.gameObject);
 						}
-						RaycastHit[] hits = Physics.RaycastAll(cameraTrs.position, toHitPosition, toHitPosition.magnitude, transparentWallsLayermask);
+						RaycastHit[] hits = Physics.RaycastAll(cameraTrs.position, toHitPosition, toHitPosition.magnitude, transparentLayermask);
                         for (int i2 = 0; i2 < hits.Length; i2 ++)
 						{
                             RaycastHit hit2 = hits[i2];
@@ -56,7 +54,7 @@ namespace VisionGame
 						}
 					}
 				}
-				_hitColliders = Physics.OverlapBox(checkerRectTrs.position, (checkerRectTrs.sizeDelta * checkerRectTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerRectTrs.rotation, transparentWallsLayermask);
+				_hitColliders = Physics.OverlapBox(checkerRectTrs.position, (checkerRectTrs.sizeDelta * checkerRectTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerRectTrs.rotation, transparentLayermask);
                 for (int i = 0; i < _hitColliders.Length; i ++)
 				{
                     Collider hitCollider = _hitColliders[i];
@@ -64,7 +62,7 @@ namespace VisionGame
 					{
 						RaycastHit hit;
 						Vector3 toHitPosition = hitCollider.ClosestPoint(cameraTrs.position) - cameraTrs.position;
-						if (Physics.Raycast(cameraTrs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueWallsLayermask))
+						if (Physics.Raycast(cameraTrs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueLayermask))
 						{
 							toHitPosition = hit.point - cameraTrs.position;
 							if (!hitGos.Contains(hit.collider.gameObject))

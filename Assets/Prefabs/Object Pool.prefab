@@ -45,4 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   preloadOnAwake: 1
   trs: {fileID: 5537936399488042830}
-  spawnEntries: []
+  spawnEntries:
+  - prefab: {fileID: 8818453291387126705, guid: 99343b054b58b5a48884b69b4773e7e7,
+      type: 3}
+    trs: {fileID: 8818453291387126707, guid: 99343b054b58b5a48884b69b4773e7e7, type: 3}
+    prefabIndex: 0
+    preload: 0
