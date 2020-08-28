@@ -54,6 +54,7 @@ namespace VisionGame
 		float timeLastGrounded;
 		bool turnInput;
 		bool previousTurnInput;
+		Dictionary<GameObject, Collision> goCollisions = new Dictionary<GameObject, Collision>();
 
 		void OnEnable ()
 		{
@@ -233,6 +234,26 @@ namespace VisionGame
 				canJump = false;
 			}
 		}
+
+		void HandleCollisions ()
+		{
+			foreach (Collision coll in goCollisions.Values)
+			{
+				for (int i = 0; i < coll.contactCount; i ++)
+				{
+					ContactPoint contactPoint = coll.GetContact(i);
+					float slopeAngle = Vector3.Angle(contactPoint.normal, Vector3.up);
+					if (slopeAngle <= controller.slopeLimit || slopeAngle >= 90)
+					{
+						controller.enabled = true;
+						rigid.useGravity = false;
+						return;
+					}
+				}
+				controller.enabled = false;
+				rigid.useGravity = true;
+			}
+		}
 		
 		void Jump ()
 		{
@@ -240,21 +261,21 @@ namespace VisionGame
 			move += Vector3.up * yVel;
 		}
 
+		void OnCollisionEnter (Collision coll)
+		{
+			goCollisions.Add(coll.gameObject, coll);
+			HandleCollisions ();
+		}
+
 		void OnCollisionStay (Collision coll)
 		{
-			bool onSteepSlope = true;
-			for (int i = 0; i < coll.contactCount; i ++)
-			{
-				ContactPoint contactPoint = coll.GetContact(i);
-				float slopeAngle = Vector3.Angle(contactPoint.normal, Vector3.up);
-				if (slopeAngle <= controller.slopeLimit || slopeAngle >= 90)
-				{
-					onSteepSlope = false;
-					break;
-				}
-			}
-			controller.enabled = !onSteepSlope;
-			rigid.useGravity = onSteepSlope;
+			goCollisions[coll.gameObject] = coll;
+			HandleCollisions ();
+		}
+
+		void OnCollisionExit (Collision coll)
+		{
+			goCollisions.Remove(coll.gameObject);
 		}
 	}
 }
