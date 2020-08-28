@@ -16,7 +16,7 @@ namespace VisionGame
 		void OnCollisionStay (Collision coll)
 		{
 			Vector3 momentum = coll.rigidbody.velocity * coll.rigidbody.mass;
-			Vector3 impactMomentum = Vector3.Project(-trs.up * momentum.magnitude, momentum);
+			Vector3 impactMomentum = momentum * Mathf.Clamp01(Vector3.Dot(-trs.up, momentum));
 			bool enoughImpactMomentumToPress = impactMomentum.sqrMagnitude > minImpactMomentumToPressSqr;
 			foreach (Generator generator in generators)
 			{

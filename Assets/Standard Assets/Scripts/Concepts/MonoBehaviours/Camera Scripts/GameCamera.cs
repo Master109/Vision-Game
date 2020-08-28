@@ -9,14 +9,19 @@ namespace VisionGame
 	{
 		public override void Awake ()
 		{
-			// trs.SetParent(null);
 		}
 
 		public override void HandlePosition ()
 		{
+			if (!enabled)
+				return;
 			InputManager.hmd = InputSystem.GetDevice<OculusHMD>();
 			trs.localPosition = InputManager.hmd.devicePosition.ReadValue();
 			trs.localRotation = InputManager.hmd.deviceRotation.ReadValue();
+		}
+
+		void OnDisable ()
+		{
 		}
 	}
 }
