@@ -18,6 +18,14 @@ namespace VisionGame
 				return GameManager.GetSingleton<InputManager>().settings;
 			}
 		}
+		public InputDevice inputDevice;
+		public static InputDevice _InputDevice
+		{
+			get
+			{
+				return GameManager.GetSingleton<InputManager>().inputDevice;
+			}
+		}
 		public static bool UsingGamepad
 		{
 			get
@@ -43,10 +51,10 @@ namespace VisionGame
 		{
 			get
 			{
-				if (UsingGamepad)
-					return false;
-				else
+				if (UsingMouse)
 					return Mouse.current.leftButton.isPressed;
+				else
+					return false;
 			}
 		}
 		public bool _LeftClickInput
@@ -79,8 +87,10 @@ namespace VisionGame
 			{
 				if (UsingGamepad)
 					return Gamepad.current.aButton.isPressed;
-				else
+				else if (UsingKeyboard)
 					return Keyboard.current.enterKey.isPressed;// || Mouse.current.leftButton.isPressed;
+				else
+					return false;
 			}
 		}
 		public bool _SubmitInput
@@ -94,7 +104,7 @@ namespace VisionGame
 		{
 			get
 			{
-				if (leftTouchController != null && leftTouchController.trigger.ReadValue() > Settings.defaultDeadzoneMin)
+				if (_InputDevice == InputDevice.OculusRift && leftTouchController != null && leftTouchController.trigger.ReadValue() > Settings.defaultDeadzoneMin)
 					return true;
 				else if (Mouse.current.leftButton.isPressed)
 					return true;
@@ -132,7 +142,12 @@ namespace VisionGame
 		{
 			get
 			{
-				return leftTouchController != null && leftTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin;
+				if (_InputDevice == InputDevice.OculusRift && leftTouchController != null && leftTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin)
+					return true;
+				else if (Keyboard.current.qKey.isPressed)
+					return true;
+				else
+					return false;
 			}
 		}
 		public bool _LeftGrabInput
@@ -146,7 +161,12 @@ namespace VisionGame
 		{
 			get
 			{
-				return rightTouchController != null && rightTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin;
+				if (_InputDevice == InputDevice.OculusRift && rightTouchController != null && rightTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin)
+					return true;
+				else if (Keyboard.current.eKey.isPressed)
+					return true;
+				else
+					return false;
 			}
 		}
 		public bool _RightGrabInput
@@ -202,7 +222,7 @@ namespace VisionGame
 		{
 			get
 			{
-				if ((leftTouchController != null && leftTouchController.thumbstickClicked.isPressed) || (rightTouchController != null && rightTouchController.thumbstickClicked.isPressed))
+				if (_InputDevice == InputDevice.OculusRift && ((leftTouchController != null && leftTouchController.thumbstickClicked.isPressed) || (rightTouchController != null && rightTouchController.thumbstickClicked.isPressed)))
 					return true;
 				else if (Keyboard.current.leftShiftKey.isPressed)
 					return true;
@@ -249,7 +269,6 @@ namespace VisionGame
 		public static OculusHMD hmd;
 		public static OculusTouchController leftTouchController;
 		public static OculusTouchController rightTouchController;
-		public InputDevice inputDevice;
 		
 		// IEnumerator Start ()
 		// {
@@ -287,7 +306,6 @@ namespace VisionGame
 		
 		public enum InputDevice
 		{
-			OculusGo,
 			OculusRift,
 			KeyboardAndMouse
 		}

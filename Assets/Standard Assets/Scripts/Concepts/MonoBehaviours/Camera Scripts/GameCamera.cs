@@ -18,11 +18,10 @@ namespace VisionGame
 
 		public override void HandlePosition ()
 		{
-			Vector2 mousePosition = InputManager.MousePosition;
 			InputManager.hmd = InputSystem.GetDevice<OculusHMD>();
-			if (InputManager.hmd == null)
+			if (InputManager.hmd == null || InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
 			{
-				Vector2 mousePositionDelta = mousePosition - previousMousePosition;
+				Vector2 mousePositionDelta = Mouse.current.delta.ToVec2();
 				float rotationX = trs.localEulerAngles.y + mousePositionDelta.x * sensitivity.x;
 				rotationY += mousePositionDelta.y * sensitivity.y;
 				rotationY = Mathf.Clamp(rotationY, yRange.min, yRange.max);
@@ -33,7 +32,6 @@ namespace VisionGame
 				trs.localPosition = InputManager.hmd.devicePosition.ReadValue();
 				trs.localRotation = InputManager.hmd.deviceRotation.ReadValue();
 			}
-			previousMousePosition = mousePosition;
 		}
 	}
 }

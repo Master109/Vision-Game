@@ -13,7 +13,7 @@ namespace VisionGame
 		[HideInInspector]
 		public Vector3 angularVelocity;
 		public float overlapAmountToGetStuck;
-		public static List<KeyValuePair<Collider, Collider>> ignoreCollisions = new List<KeyValuePair<Collider, Collider>>();
+		public static List<Rigidbody> stuckRigidbodies = new List<Rigidbody>();
 		bool isStuck;
 
 		void OnEnable ()
@@ -36,9 +36,11 @@ namespace VisionGame
 			}
 			else
 			{
-				// rigid.isKinematic = false;
-				if (rigid == null)
-					rigid = gameObject.AddComponent<Rigidbody>();
+				rigid.isKinematic = false;
+				isStuck = false;
+				stuckRigidbodies.Remove(rigid);
+				// if (rigid == null)
+				// 	rigid = gameObject.AddComponent<Rigidbody>();
 			}
 			rigid.velocity = trs.TransformDirection(velocity);
 			rigid.angularVelocity = trs.TransformDirection(angularVelocity);
@@ -62,13 +64,21 @@ namespace VisionGame
 				if (contactPoint.separation <= -overlapAmountToGetStuck)
 				{
 					isStuck = true;
-					if (!ignoreCollisions.Contains(new KeyValuePair<Collider, Collider>(contactPoint.otherCollider, contactPoint.thisCollider)))
+					if (coll.rigidbody == null)
 					{
-						ignoreCollisions.Add(new KeyValuePair<Collider, Collider>(contactPoint.thisCollider, contactPoint.otherCollider));
-						// rigid.isKinematic = true;
-						// coll.rigidbody.isKinematic = true;
-						Destroy(rigid);
-						Destroy(coll.rigidbody);
+						stuckRigidbodies.Add(rigid);
+						rigid.isKinematic = true;
+						// Destroy(rigid);
+						trs.SetParent(coll.transform);
+					}
+					else if (!stuckRigidbodies.Contains(coll.rigidbody))
+					{
+						stuckRigidbodies.Add(coll.rigidbody);
+						stuckRigidbodies.Add(rigid);
+						rigid.isKinematic = true;
+						coll.rigidbody.isKinematic = true;
+						// Destroy(rigid);
+						// Destroy(coll.rigidbody);
 						PhysicsObject physicsObject = GameManager.GetSingleton<ObjectPool>().SpawnComponent<PhysicsObject> (prefabIndex, default(Vector3), default(Quaternion), trs.parent);
 						trs.SetParent(physicsObject.trs);
 					}

@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!65 &6649981102269924842
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7657393021846157927}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &166443160050761907
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -62,24 +75,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trs: {fileID: 7657393021846157925}
-  prefabIndex: -1
+  prefabIndex: 0
   rigid: {fileID: 7657393021846157924}
   velocity: {x: 0, y: 0, z: 0}
   angularVelocity: {x: 0, y: 0, z: 0}
   overlapAmountToGetStuck: 0.25
---- !u!65 &6649981102269924842
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7657393021846157927}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1163607564184779222
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,6 +87,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8818453291387126704, guid: 99343b054b58b5a48884b69b4773e7e7,
+        type: 3}
+      propertyPath: prefabIndex
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 8818453291387126705, guid: 99343b054b58b5a48884b69b4773e7e7,
         type: 3}
       propertyPath: m_Name
@@ -152,7 +157,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8818453291387126704, guid: 99343b054b58b5a48884b69b4773e7e7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 99343b054b58b5a48884b69b4773e7e7, type: 3}
 --- !u!1 &7657393021846157927 stripped
 GameObject:
