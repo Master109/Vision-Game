@@ -88,6 +88,7 @@ namespace VisionGame
 			Move ();
 			HandleGravity ();
 			HandleJump ();
+			HandleReplacement ();
 			controller.Move(move * Time.deltaTime);
 			previousLeftReplaceInput = leftReplaceInput;
 			previousRightReplaceInput = rightReplaceInput;
