@@ -43,8 +43,10 @@ namespace VisionGame
 		Vector3 previousRightHandEulerAngles;
 		Rigidbody leftGrabbedRigid;
 		Rigidbody rightGrabbedRigid;
-		bool replaceInput;
-		bool previousReplaceInput;
+		bool leftReplaceInput;
+		bool previousLeftReplaceInput;
+		bool rightReplaceInput;
+		bool previousRightReplaceInput;
 		Quaternion previousRotation;
 		float yVel;
 		Vector3 previousPosition;
@@ -61,15 +63,20 @@ namespace VisionGame
 		public void DoUpdate ()
 		{
 			InputManager.leftTouchController = (OculusTouchController) OculusTouchController.leftHand;
-			leftHandTrs.localPosition = InputManager.leftTouchController.devicePosition.ReadValue();
-			leftHandTrs.localRotation = InputManager.leftTouchController.deviceRotation.ReadValue();
+			if (InputManager.leftTouchController != null)
+			{
+				leftHandTrs.localPosition = InputManager.leftTouchController.devicePosition.ReadValue();
+				leftHandTrs.localRotation = InputManager.leftTouchController.deviceRotation.ReadValue();
+			}
 			InputManager.rightTouchController = (OculusTouchController) OculusTouchController.rightHand;
-			rightHandTrs.localPosition = InputManager.rightTouchController.devicePosition.ReadValue();
-			rightHandTrs.localRotation = InputManager.rightTouchController.deviceRotation.ReadValue();
-			replaceInput = InputManager.ReplaceInput;
+			if (InputManager.rightTouchController != null)
+			{
+				rightHandTrs.localPosition = InputManager.rightTouchController.devicePosition.ReadValue();
+				rightHandTrs.localRotation = InputManager.rightTouchController.deviceRotation.ReadValue();
+			}
+			leftReplaceInput = InputManager.LeftReplaceInput;
+			rightReplaceInput = InputManager.RightReplaceInput;
 			turnInput = InputManager.TurnInput;
-			if (replaceInput && !previousReplaceInput)
-				GameManager.GetSingleton<Orb>().ReplaceObjects ();
 			move = Vector3.zero;
 			if (controller.isGrounded)
 			{
@@ -82,7 +89,8 @@ namespace VisionGame
 			HandleGravity ();
 			HandleJump ();
 			controller.Move(move * Time.deltaTime);
-			previousReplaceInput = replaceInput;
+			previousLeftReplaceInput = leftReplaceInput;
+			previousRightReplaceInput = rightReplaceInput;
 			previousTurnInput = turnInput;
 			previousLeftHandPosition = leftHandTrs.position;
 			previousRightHandPosition = rightHandTrs.position;
@@ -96,6 +104,14 @@ namespace VisionGame
 			GameManager.updatables = GameManager.updatables.Remove(this);
 		}
 
+		void HandleReplacement ()
+		{
+			if (leftReplaceInput && !previousLeftReplaceInput)
+				GameManager.GetSingleton<Level>().leftOrb.ReplaceObjects ();
+			if (rightReplaceInput && !previousRightReplaceInput)
+				GameManager.GetSingleton<Level>().rightOrb.ReplaceObjects ();
+		}
+
 		void HandleFacing ()
 		{
 			if (turnInput && !previousTurnInput)
@@ -106,11 +122,20 @@ namespace VisionGame
 		{
 			if (InputManager.LeftGrabInput && leftGrabbedRigid == null)
 			{
-				if (rightGrabbedRigid != GameManager.GetSingleton<Orb>().rigid && (GameManager.GetSingleton<Orb>().trs.position - leftHandTrs.position).sqrMagnitude <= grabRangeSqr)
+                for (int i = 0; i < GameManager.GetSingleton<Level>().orbs.Length; i ++)
 				{
-					GameManager.GetSingleton<Orb>().trs.SetParent(leftHandTrs);
-					GameManager.GetSingleton<Orb>().trs.localPosition = Vector3.zero;
-					leftGrabbedRigid = GameManager.GetSingleton<Orb>().rigid;
+                    Orb orb = GameManager.GetSingleton<Level>().orbs[i];
+                    if (rightGrabbedRigid != orb.rigid && (orb.trs.position - leftHandTrs.position).sqrMagnitude <= grabRangeSqr)
+					{
+						orb.trs.SetParent(leftHandTrs);
+						orb.trs.localPosition = Vector3.zero;
+						leftGrabbedRigid = orb.rigid;
+						if (GameManager.GetSingleton<Level>().orbs.Length == 2)
+						{
+							GameManager.GetSingleton<Level>().leftOrb = orb;
+							GameManager.GetSingleton<Level>().rightOrb = GameManager.GetSingleton<Level>().orbs[1 - i];
+						}
+					}
 				}
 			}
 			else if (leftGrabbedRigid != null)
@@ -121,11 +146,20 @@ namespace VisionGame
 			}
 			if (InputManager.RightGrabInput && rightGrabbedRigid == null)
 			{
-				if (leftGrabbedRigid != GameManager.GetSingleton<Orb>().rigid && (GameManager.GetSingleton<Orb>().trs.position - rightHandTrs.position).sqrMagnitude <= grabRangeSqr)
+				for (int i = 0; i < GameManager.GetSingleton<Level>().orbs.Length; i ++)
 				{
-					GameManager.GetSingleton<Orb>().trs.SetParent(rightHandTrs);
-					GameManager.GetSingleton<Orb>().trs.localPosition = Vector3.zero;
-					rightGrabbedRigid = GameManager.GetSingleton<Orb>().rigid;
+                    Orb orb = GameManager.GetSingleton<Level>().orbs[i];
+					if (leftGrabbedRigid != orb.rigid && (orb.trs.position - rightHandTrs.position).sqrMagnitude <= grabRangeSqr)
+					{
+						orb.trs.SetParent(rightHandTrs);
+						orb.trs.localPosition = Vector3.zero;
+						rightGrabbedRigid = orb.rigid;
+						if (GameManager.GetSingleton<Level>().orbs.Length == 2)
+						{
+							GameManager.GetSingleton<Level>().leftOrb = GameManager.GetSingleton<Level>().orbs[1 - i];
+							GameManager.GetSingleton<Level>().rightOrb = orb;
+						}
+					}
 				}
 			}
 			else if (rightGrabbedRigid != null)
@@ -138,10 +172,17 @@ namespace VisionGame
 
 		void HandleOrbViewing ()
 		{
-			if (InputManager.OrbViewInput)
-				GameManager.GetSingleton<Orb>().camera.depth = 1;
+			if (InputManager.LeftOrbViewInput)
+			{
+				GameManager.GetSingleton<Level>().leftOrb.camera.depth = 1;
+				return;
+			}
 			else
-				GameManager.GetSingleton<Orb>().camera.depth = -1;
+				GameManager.GetSingleton<Level>().leftOrb.camera.depth = -1;
+			if (InputManager.RightOrbViewInput)
+				GameManager.GetSingleton<Level>().rightOrb.camera.depth = 1;
+			else
+				GameManager.GetSingleton<Level>().rightOrb.camera.depth = -1;
 		}
 		
 		void HandleGravity ()
@@ -156,10 +197,10 @@ namespace VisionGame
 		Vector3 GetMoveInput ()
 		{
 			Vector3 moveInput = new Vector3();
-			if (GameManager.GetSingleton<InputManager>().inputDevice == InputManager.InputDevice.KeyboardAndMouse)
-				moveInput = InputManager.GetAxis2D(Keyboard.current.dKey, Keyboard.current.aKey, Keyboard.current.wKey, Keyboard.current.sKey);
-			else if (GameManager.GetSingleton<InputManager>().inputDevice == InputManager.InputDevice.OculusRift)
+			if (InputManager.leftTouchController != null && InputManager.rightTouchController != null)
 				moveInput = InputManager.leftTouchController.thumbstick.ToVec2() + InputManager.rightTouchController.thumbstick.ToVec2();
+			else
+				moveInput = InputManager.GetAxis2D(Keyboard.current.dKey, Keyboard.current.aKey, Keyboard.current.wKey, Keyboard.current.sKey);
 			if (moveInput != Vector3.zero)
 				moveInput = moveInput.XYToXZ();
 			moveInput = Vector3.ClampMagnitude(moveInput, 1);

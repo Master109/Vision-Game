@@ -137,3 +137,7 @@ MonoBehaviour:
     y: 0
     width: 0
     height: 0
+  sensitivity: {x: 0.5, y: 0.5}
+  yRange:
+    min: -90
+    max: 90

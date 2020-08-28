@@ -90,25 +90,49 @@ namespace VisionGame
 				return SubmitInput;
 			}
 		}
-		public static bool ReplaceInput
+		public static bool LeftReplaceInput
 		{
 			get
 			{
-				return leftTouchController.trigger.ReadValue() > Settings.defaultDeadzoneMin || rightTouchController.trigger.ReadValue() > Settings.defaultDeadzoneMin;
+				if (leftTouchController != null && leftTouchController.trigger.ReadValue() > Settings.defaultDeadzoneMin)
+					return true;
+				else if (Mouse.current.leftButton.isPressed)
+					return true;
+				else
+					return false;
 			}
 		}
-		public bool _ReplaceInput
+		public bool _LeftReplaceInput
 		{
 			get
 			{
-				return ReplaceInput;
+				return LeftReplaceInput;
+			}
+		}
+		public static bool RightReplaceInput
+		{
+			get
+			{
+				if (rightTouchController != null && rightTouchController.trigger.ReadValue() > Settings.defaultDeadzoneMin)
+					return true;
+				else if (Mouse.current.rightButton.isPressed)
+					return true;
+				else
+					return false;
+			}
+		}
+		public bool _RightReplaceInput
+		{
+			get
+			{
+				return RightReplaceInput;
 			}
 		}
 		public static bool LeftGrabInput
 		{
 			get
 			{
-				return leftTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin;
+				return leftTouchController != null && leftTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin;
 			}
 		}
 		public bool _LeftGrabInput
@@ -122,7 +146,7 @@ namespace VisionGame
 		{
 			get
 			{
-				return rightTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin;
+				return rightTouchController != null && rightTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin;
 			}
 		}
 		public bool _RightGrabInput
@@ -136,7 +160,7 @@ namespace VisionGame
 		{
 			get
 			{
-				return rightTouchController.primaryButton.isPressed;
+				return rightTouchController != null && rightTouchController.primaryButton.isPressed;
 			}
 		}
 		public bool _TurnInput
@@ -146,28 +170,44 @@ namespace VisionGame
 				return TurnInput;
 			}
 		}
-		public static bool OrbViewInput
+		public static bool LeftOrbViewInput
 		{
 			get
 			{
-				return rightTouchController.secondaryButton.isPressed;
+				return leftTouchController != null && leftTouchController.secondaryButton.isPressed;
 			}
 		}
-		public bool _OrbViewInput
+		public bool _LeftOrbViewInput
 		{
 			get
 			{
-				return OrbViewInput;
+				return LeftOrbViewInput;
+			}
+		}
+		public static bool RightOrbViewInput
+		{
+			get
+			{
+				return rightTouchController != null && rightTouchController.secondaryButton.isPressed;
+			}
+		}
+		public bool _RightOrbViewInput
+		{
+			get
+			{
+				return RightOrbViewInput;
 			}
 		}
 		public static bool JumpInput
 		{
 			get
 			{
-				if (GameManager.GetSingleton<InputManager>().inputDevice == InputManager.InputDevice.KeyboardAndMouse)
-					return Keyboard.current.leftShiftKey.isPressed;
-				else// if (GameManager.GetSingleton<InputManager>().inputDevice == InputManager.InputDevice.OculusRift)
-					return leftTouchController.thumbstickClicked.isPressed || rightTouchController.thumbstickClicked.isPressed;
+				if ((leftTouchController != null && leftTouchController.thumbstickClicked.isPressed) || (rightTouchController != null && rightTouchController.thumbstickClicked.isPressed))
+					return true;
+				else if (Keyboard.current.leftShiftKey.isPressed)
+					return true;
+				else
+					return false;
 			}
 		}
 		public bool _JumpInput

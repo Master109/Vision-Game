@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using VisionGame;
-using Extensions;
 
 /// MouseLook rotates the transform based on the mouse delta.
 /// Minimum and Maximum values can be used to constrain the possible rotation
@@ -17,60 +15,49 @@ using Extensions;
 /// - Add a MouseLook script to the camera.
 ///   -> Set the mouse look to use LookY. (You want the camera to tilt up and down like a head. The character already turns.)
 [AddComponentMenu("Camera-Control/Mouse Look")]
-public class MouseLook : MonoBehaviour, IUpdatable
-{
-	public bool PauseWhileUnfocused
-	{
-		get
-		{
-			return true;
-		}
-	}
-	public Transform trs;
+public class MouseLook : MonoBehaviour {
+
+	public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
 	public RotationAxes axes = RotationAxes.MouseXAndY;
-	public Vector2 sensitivity;
-	public FloatRange yRange;
-	float rotationY;
-	Vector2 previousMousePosition;
+	public float sensitivityX = 15F;
+	public float sensitivityY = 15F;
 
-	void OnEnable ()
-	{
-		GameManager.updatables = GameManager.updatables.Add(this);
-	}
+	public float minimumX = -360F;
+	public float maximumX = 360F;
 
-	void OnDisable ()
-	{
-		GameManager.updatables = GameManager.updatables.Remove(this);
-	}
+	public float minimumY = -60F;
+	public float maximumY = 60F;
 
-	public void DoUpdate ()
+	float rotationY = 0F;
+
+	void Update ()
 	{
-		Vector2 mousePosition = InputManager.MousePosition;
-		Vector2 mousePositionDelta = mousePosition - previousMousePosition;
 		if (axes == RotationAxes.MouseXAndY)
 		{
-			float rotationX = trs.localEulerAngles.y + mousePositionDelta.x * sensitivity.x;
-			rotationY += mousePositionDelta.y * sensitivity.y;
-			rotationY = Mathf.Clamp(rotationY, yRange.min, yRange.max);
-			trs.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
+			
+			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
+			
+			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
 		}
 		else if (axes == RotationAxes.MouseX)
 		{
-			trs.Rotate(0, mousePositionDelta.x * sensitivity.x, 0);
+			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
 		}
 		else
 		{
-			rotationY += mousePositionDelta.y * sensitivity.y;
-			rotationY = Mathf.Clamp(rotationY, yRange.min, yRange.max);
-			trs.localEulerAngles = new Vector3(-rotationY, trs.localEulerAngles.y, 0);
+			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
+			
+			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
 		}
-		previousMousePosition = mousePosition;
 	}
-
-	public enum RotationAxes
+	
+	void Start ()
 	{
-		MouseXAndY,
-		MouseX,
-		MouseY
+		// Make the rigid body not change rotation
+		if (GetComponent<Rigidbody>())
+			GetComponent<Rigidbody>().freezeRotation = true;
 	}
 }

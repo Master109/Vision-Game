@@ -7,21 +7,33 @@ namespace VisionGame
 {
 	public class GameCamera : CameraScript
 	{
+		public Vector2 sensitivity;
+		public FloatRange yRange;
+		float rotationY;
+		Vector2 previousMousePosition;
+
 		public override void Awake ()
 		{
 		}
 
 		public override void HandlePosition ()
 		{
-			if (!enabled)
-				return;
+			Vector2 mousePosition = InputManager.MousePosition;
 			InputManager.hmd = InputSystem.GetDevice<OculusHMD>();
-			trs.localPosition = InputManager.hmd.devicePosition.ReadValue();
-			trs.localRotation = InputManager.hmd.deviceRotation.ReadValue();
-		}
-
-		void OnDisable ()
-		{
+			if (InputManager.hmd == null)
+			{
+				Vector2 mousePositionDelta = mousePosition - previousMousePosition;
+				float rotationX = trs.localEulerAngles.y + mousePositionDelta.x * sensitivity.x;
+				rotationY += mousePositionDelta.y * sensitivity.y;
+				rotationY = Mathf.Clamp(rotationY, yRange.min, yRange.max);
+				trs.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+			}
+			else
+			{
+				trs.localPosition = InputManager.hmd.devicePosition.ReadValue();
+				trs.localRotation = InputManager.hmd.deviceRotation.ReadValue();
+			}
+			previousMousePosition = mousePosition;
 		}
 	}
 }
