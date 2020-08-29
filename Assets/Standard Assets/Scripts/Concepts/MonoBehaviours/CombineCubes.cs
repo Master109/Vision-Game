@@ -12,6 +12,7 @@ public class CombineCubes : MonoBehaviour
 {
 	public GameObject outputGo;
 	public bool autoAddRigidbody;
+	public bool autoAddColliders;
 	public CombineEntry[] combineEntries = new CombineEntry[0];
 
 	public void OnEnable ()
@@ -156,6 +157,23 @@ public class CombineCubes : MonoBehaviour
 				rigid = outputGo.AddComponent<Rigidbody>();
 			rigid.mass = combineEntries.Length;
 		}
+		if (autoAddColliders)
+		{
+			Collider[] colliders = outputGo.GetComponents<Collider>();
+			for (int i2 = 0; i2 < colliders.Length; i2 ++)
+			{
+				Collider collider = colliders[i2];
+				DestroyImmediate(collider);
+			}
+			for (int i = 0; i < combineEntries.Length; i ++)
+			{
+				CombineEntry combineEntry = combineEntries[i];
+				BoxCollider boxCollider = outputGo.AddComponent<BoxCollider>();
+				Transform outputTrs = outputGo.GetComponent<Transform>();
+                boxCollider.center = outputTrs.InverseTransformPoint(combineEntry.trs.position);
+				boxCollider.size = outputTrs.InverseTransformPoint(combineEntry.trs.lossyScale);
+			}
+		}
 		meshFilter.mesh = new Mesh();
 		meshFilter.mesh.CombineMeshes(combineInstances);
 		// for (int i = 0; i < combineEntries.Length; i ++)
@@ -175,9 +193,13 @@ public class CombineCubes : MonoBehaviour
             combineEntries[i] = new CombineEntry(trs.GetComponent<MeshFilter>(), trs);
 		}
 		GameObject outputGo = GameManager.GetSingleton<CombineCubes>().outputGo;
+		bool autoAddRigidbody = GameManager.GetSingleton<CombineCubes>().autoAddRigidbody;
+		bool autoAddColliders = GameManager.GetSingleton<CombineCubes>().autoAddColliders;
 		CombineCubes combineCubes = new GameObject().AddComponent<CombineCubes>();
 		combineCubes.outputGo = outputGo;
 		combineCubes.combineEntries = combineEntries;
+		combineCubes.autoAddRigidbody = autoAddRigidbody;
+		combineCubes.autoAddColliders = autoAddColliders;
 		combineCubes.OnEnable ();
 		DestroyImmediate(combineCubes.gameObject);
 	}

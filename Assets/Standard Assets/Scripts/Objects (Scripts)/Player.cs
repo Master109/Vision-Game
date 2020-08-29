@@ -162,7 +162,7 @@ namespace VisionGame
 							orb.trs.SetParent(leftHandTrs);
 							orb.trs.localPosition = Vector3.zero;
 							grabbedPhysicsObject = orb;
-							grabbedPhysicsObject.isGrabbed = true;
+							grabbedPhysicsObject.rigid.useGravity = false;
 							if (GameManager.GetSingleton<Level>().orbs.Length == 2)
 							{
 								GameManager.GetSingleton<Level>().leftOrb = orb;
@@ -173,7 +173,7 @@ namespace VisionGame
 				}
 				else
 				{
-					grabbedPhysicsObject.isGrabbed = true;
+					grabbedPhysicsObject.rigid.useGravity = false;
 					grabbedPhysicsObject.velocity = Vector3.zero;
 					grabbedPhysicsObject.angularVelocity = Vector3.zero;
 				}
@@ -181,7 +181,7 @@ namespace VisionGame
 			else if (grabbedPhysicsObject != null)
 			{
 				grabbedPhysicsObject.trs.SetParent(null);
-				grabbedPhysicsObject.isGrabbed = false;
+				grabbedPhysicsObject.rigid.useGravity = true;
 				grabbedPhysicsObject.rigid.velocity = (leftHandTrs.position - previousLeftHandPosition) * Time.deltaTime;
 				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousLeftHandEulerAngles), leftHandTrs.rotation);
 				grabbedPhysicsObject = null;
