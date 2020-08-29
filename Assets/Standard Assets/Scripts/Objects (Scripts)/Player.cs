@@ -144,22 +144,30 @@ namespace VisionGame
 
 		void HandleGrabbing ()
 		{
-			if (InputManager.LeftGrabInput && leftGrabbedPhysicsObject == null)
+			if (InputManager.LeftGrabInput)
 			{
-                for (int i = 0; i < GameManager.GetSingleton<Level>().orbs.Length; i ++)
+				if (leftGrabbedPhysicsObject == null)
 				{
-                    Orb orb = GameManager.GetSingleton<Level>().orbs[i];
-                    if (rightGrabbedPhysicsObject != orb && (orb.trs.position - leftHandTrs.position).sqrMagnitude <= grabRangeSqr)
+					for (int i = 0; i < GameManager.GetSingleton<Level>().orbs.Length; i ++)
 					{
-						orb.trs.SetParent(leftHandTrs);
-						orb.trs.localPosition = Vector3.zero;
-						leftGrabbedPhysicsObject = orb;
-						if (GameManager.GetSingleton<Level>().orbs.Length == 2)
+						Orb orb = GameManager.GetSingleton<Level>().orbs[i];
+						if (rightGrabbedPhysicsObject != orb && (orb.trs.position - leftHandTrs.position).sqrMagnitude <= grabRangeSqr)
 						{
-							GameManager.GetSingleton<Level>().leftOrb = orb;
-							GameManager.GetSingleton<Level>().rightOrb = GameManager.GetSingleton<Level>().orbs[1 - i];
+							orb.trs.SetParent(leftHandTrs);
+							orb.trs.localPosition = Vector3.zero;
+							leftGrabbedPhysicsObject = orb;
+							if (GameManager.GetSingleton<Level>().orbs.Length == 2)
+							{
+								GameManager.GetSingleton<Level>().leftOrb = orb;
+								GameManager.GetSingleton<Level>().rightOrb = GameManager.GetSingleton<Level>().orbs[1 - i];
+							}
 						}
 					}
+				}
+				else
+				{
+					leftGrabbedPhysicsObject.velocity = Vector3.zero;
+					leftGrabbedPhysicsObject.angularVelocity = Vector3.zero;
 				}
 			}
 			else if (leftGrabbedPhysicsObject != null)
@@ -169,22 +177,30 @@ namespace VisionGame
 				leftGrabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousLeftHandEulerAngles), leftHandTrs.rotation);
 				leftGrabbedPhysicsObject = null;
 			}
-			if (InputManager.RightGrabInput && rightGrabbedPhysicsObject == null)
+			if (InputManager.RightGrabInput)
 			{
-				for (int i = 0; i < GameManager.GetSingleton<Level>().orbs.Length; i ++)
+				if (rightGrabbedPhysicsObject == null)
 				{
-                    Orb orb = GameManager.GetSingleton<Level>().orbs[i];
-					if (leftGrabbedPhysicsObject != orb && (orb.trs.position - rightHandTrs.position).sqrMagnitude <= grabRangeSqr)
+					for (int i = 0; i < GameManager.GetSingleton<Level>().orbs.Length; i ++)
 					{
-						orb.trs.SetParent(rightHandTrs);
-						orb.trs.localPosition = Vector3.zero;
-						rightGrabbedPhysicsObject = orb;
-						if (GameManager.GetSingleton<Level>().orbs.Length == 2)
+						Orb orb = GameManager.GetSingleton<Level>().orbs[i];
+						if (leftGrabbedPhysicsObject != orb && (orb.trs.position - rightHandTrs.position).sqrMagnitude <= grabRangeSqr)
 						{
-							GameManager.GetSingleton<Level>().leftOrb = GameManager.GetSingleton<Level>().orbs[1 - i];
-							GameManager.GetSingleton<Level>().rightOrb = orb;
+							orb.trs.SetParent(rightHandTrs);
+							orb.trs.localPosition = Vector3.zero;
+							rightGrabbedPhysicsObject = orb;
+							if (GameManager.GetSingleton<Level>().orbs.Length == 2)
+							{
+								GameManager.GetSingleton<Level>().leftOrb = GameManager.GetSingleton<Level>().orbs[1 - i];
+								GameManager.GetSingleton<Level>().rightOrb = orb;
+							}
 						}
 					}
+				}
+				else
+				{
+					rightGrabbedPhysicsObject.velocity = Vector3.zero;
+					rightGrabbedPhysicsObject.angularVelocity = Vector3.zero;
 				}
 			}
 			else if (rightGrabbedPhysicsObject != null)
