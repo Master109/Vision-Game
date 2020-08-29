@@ -40,7 +40,7 @@ namespace VisionGame
 		Vector3 previousLeftHandPosition;
 		Vector3 previousRightHandPosition;
 		Vector3 previousLeftHandEulerAngles;
-		Vector3 previousRightHandEulerAngles;
+		Vector3 previousRightHandEulerAngles;			
 		PhysicsObject leftGrabbedPhysicsObject;
 		PhysicsObject rightGrabbedPhysicsObject;
 		bool leftReplaceInput;
@@ -144,18 +144,25 @@ namespace VisionGame
 
 		void HandleGrabbing ()
 		{
-			if (InputManager.LeftGrabInput)
+			HandleGrabbingOrbs (InputManager.LeftGrabInput, leftHandTrs, leftGrabbedPhysicsObject);
+			HandleGrabbingOrbs (InputManager.RightGrabInput, rightHandTrs, rightGrabbedPhysicsObject);
+		}
+
+		void HandleGrabbingOrbs (bool grabInput, Transform grabbingHand, PhysicsObject grabbedPhysicsObject)
+		{
+			if (grabInput)
 			{
-				if (leftGrabbedPhysicsObject == null)
+				if (grabbedPhysicsObject == null)
 				{
 					for (int i = 0; i < GameManager.GetSingleton<Level>().orbs.Length; i ++)
 					{
 						Orb orb = GameManager.GetSingleton<Level>().orbs[i];
-						if (rightGrabbedPhysicsObject != orb && (orb.trs.position - leftHandTrs.position).sqrMagnitude <= grabRangeSqr)
+						if (!orb.Equals(grabbedPhysicsObject) && (orb.trs.position - leftHandTrs.position).sqrMagnitude <= grabRangeSqr)
 						{
 							orb.trs.SetParent(leftHandTrs);
 							orb.trs.localPosition = Vector3.zero;
-							leftGrabbedPhysicsObject = orb;
+							grabbedPhysicsObject = orb;
+							grabbedPhysicsObject.isGrabbed = true;
 							if (GameManager.GetSingleton<Level>().orbs.Length == 2)
 							{
 								GameManager.GetSingleton<Level>().leftOrb = orb;
@@ -166,49 +173,18 @@ namespace VisionGame
 				}
 				else
 				{
-					leftGrabbedPhysicsObject.velocity = Vector3.zero;
-					leftGrabbedPhysicsObject.angularVelocity = Vector3.zero;
+					grabbedPhysicsObject.isGrabbed = true;
+					grabbedPhysicsObject.velocity = Vector3.zero;
+					grabbedPhysicsObject.angularVelocity = Vector3.zero;
 				}
 			}
-			else if (leftGrabbedPhysicsObject != null)
+			else if (grabbedPhysicsObject != null)
 			{
-				leftGrabbedPhysicsObject.trs.SetParent(null);
-				leftGrabbedPhysicsObject.rigid.velocity = (leftHandTrs.position - previousLeftHandPosition) * Time.deltaTime;
-				leftGrabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousLeftHandEulerAngles), leftHandTrs.rotation);
-				leftGrabbedPhysicsObject = null;
-			}
-			if (InputManager.RightGrabInput)
-			{
-				if (rightGrabbedPhysicsObject == null)
-				{
-					for (int i = 0; i < GameManager.GetSingleton<Level>().orbs.Length; i ++)
-					{
-						Orb orb = GameManager.GetSingleton<Level>().orbs[i];
-						if (leftGrabbedPhysicsObject != orb && (orb.trs.position - rightHandTrs.position).sqrMagnitude <= grabRangeSqr)
-						{
-							orb.trs.SetParent(rightHandTrs);
-							orb.trs.localPosition = Vector3.zero;
-							rightGrabbedPhysicsObject = orb;
-							if (GameManager.GetSingleton<Level>().orbs.Length == 2)
-							{
-								GameManager.GetSingleton<Level>().leftOrb = GameManager.GetSingleton<Level>().orbs[1 - i];
-								GameManager.GetSingleton<Level>().rightOrb = orb;
-							}
-						}
-					}
-				}
-				else
-				{
-					rightGrabbedPhysicsObject.velocity = Vector3.zero;
-					rightGrabbedPhysicsObject.angularVelocity = Vector3.zero;
-				}
-			}
-			else if (rightGrabbedPhysicsObject != null)
-			{
-				rightGrabbedPhysicsObject.trs.SetParent(null);
-				rightGrabbedPhysicsObject.rigid.velocity = (rightHandTrs.position - previousRightHandPosition) * Time.deltaTime;
-				rightGrabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousRightHandEulerAngles), rightHandTrs.rotation);
-				rightGrabbedPhysicsObject = null;
+				grabbedPhysicsObject.trs.SetParent(null);
+				grabbedPhysicsObject.isGrabbed = false;
+				grabbedPhysicsObject.rigid.velocity = (leftHandTrs.position - previousLeftHandPosition) * Time.deltaTime;
+				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousLeftHandEulerAngles), leftHandTrs.rotation);
+				grabbedPhysicsObject = null;
 			}
 		}
 
@@ -303,6 +279,7 @@ namespace VisionGame
 
 		void OnCollisionEnter (Collision coll)
 		{
+			goCollisions.Remove(coll.gameObject);
 			goCollisions.Add(coll.gameObject, coll);
 			HandleCollisions ();
 		}

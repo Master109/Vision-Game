@@ -11,6 +11,7 @@ using VisionGame;
 public class CombineCubes : MonoBehaviour
 {
 	public GameObject outputGo;
+	public bool autoAddRigidbody;
 	public CombineEntry[] combineEntries = new CombineEntry[0];
 
 	public void OnEnable ()
@@ -134,28 +135,32 @@ public class CombineCubes : MonoBehaviour
 			}
 		}
 		MeshFilter meshFilter;
-		Rigidbody rigid;
+		Rigidbody rigid = null;
 		if (outputGo == null)
 		{
 			outputGo = new GameObject();
 			meshFilter = outputGo.AddComponent<MeshFilter>();
 			outputGo.AddComponent<MeshRenderer>();
-			rigid = outputGo.AddComponent<Rigidbody>();
 		}
 		else
 		{
 			meshFilter = outputGo.GetComponent<MeshFilter>();
 			if (meshFilter == null)
 				meshFilter = outputGo.AddComponent<MeshFilter>();
-			rigid = outputGo.GetComponent<Rigidbody>();
+			if (autoAddRigidbody)
+				rigid = outputGo.GetComponent<Rigidbody>();
+		}
+		if (autoAddRigidbody)
+		{
 			if (rigid == null)
 				rigid = outputGo.AddComponent<Rigidbody>();
+			rigid.mass = combineEntries.Length;
 		}
-		rigid.mass = combineEntries.Length;
 		meshFilter.mesh = new Mesh();
 		meshFilter.mesh.CombineMeshes(combineInstances);
 		// for (int i = 0; i < combineEntries.Length; i ++)
 		// 	DestroyImmediate(combineEntries[i].trs.gameObject);
+		outputGo = null;
 		combineEntries = new CombineEntry[0];
 	}
 

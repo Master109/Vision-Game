@@ -14,6 +14,7 @@ namespace VisionGame
 		public Vector3 angularVelocity;
 		public float overlapAmountToGetStuck;
 		public static List<Rigidbody> stuckRigidbodies = new List<Rigidbody>();
+		public bool isGrabbed;
 		bool isStuck;
 		int frameIWasEnabled;
 
@@ -44,6 +45,8 @@ namespace VisionGame
 				// if (rigid == null)
 				// 	rigid = gameObject.AddComponent<Rigidbody>();
 			}
+			if (isGrabbed)
+				return;
 			rigid.velocity = trs.TransformDirection(velocity);
 			rigid.angularVelocity = trs.TransformDirection(angularVelocity);
 		}
