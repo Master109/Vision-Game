@@ -123,7 +123,7 @@ namespace VisionGame
 		{
 			get
 			{
-				if (rightTouchController != null && rightTouchController.trigger.ReadValue() > Settings.defaultDeadzoneMin)
+				if (_InputDevice == InputDevice.OculusRift && rightTouchController != null && rightTouchController.trigger.ReadValue() > Settings.defaultDeadzoneMin)
 					return true;
 				else if (Mouse.current.rightButton.isPressed)
 					return true;
@@ -180,7 +180,7 @@ namespace VisionGame
 		{
 			get
 			{
-				return rightTouchController != null && rightTouchController.primaryButton.isPressed;
+				return _InputDevice == InputDevice.OculusRift && rightTouchController != null && rightTouchController.primaryButton.isPressed;
 			}
 		}
 		public bool _TurnInput
@@ -194,7 +194,7 @@ namespace VisionGame
 		{
 			get
 			{
-				return leftTouchController != null && leftTouchController.secondaryButton.isPressed;
+				return _InputDevice == InputDevice.OculusRift && leftTouchController != null && leftTouchController.secondaryButton.isPressed;
 			}
 		}
 		public bool _LeftOrbViewInput
@@ -208,7 +208,7 @@ namespace VisionGame
 		{
 			get
 			{
-				return rightTouchController != null && rightTouchController.secondaryButton.isPressed;
+				return _InputDevice == InputDevice.OculusRift && rightTouchController != null && rightTouchController.secondaryButton.isPressed;
 			}
 		}
 		public bool _RightOrbViewInput

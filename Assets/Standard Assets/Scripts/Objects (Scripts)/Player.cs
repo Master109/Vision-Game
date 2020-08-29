@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace VisionGame
 {
+	[ExecuteInEditMode]
 	public class Player : MonoBehaviour, IUpdatable
 	{
 		public bool PauseWhileUnfocused
@@ -29,7 +30,12 @@ namespace VisionGame
 		public float moveSpeed;
 		public Rigidbody rigid;
 		public float grabRangeSqr;
-		public CapsuleCollider capsuleCollider;
+		[SerializeField]
+		[HideInInspector]
+		Vector3 initLeftHandLocalPosition;
+		[SerializeField]
+		[HideInInspector]
+		Vector3 initRightHandLocalPosition;
 		Vector3 previousMoveInput;
 		Vector3 previousLeftHandPosition;
 		Vector3 previousRightHandPosition;
@@ -52,6 +58,14 @@ namespace VisionGame
 
 		void OnEnable ()
 		{
+#if UNITY_EDITOR
+			if (!Application.isPlaying)
+			{
+				initLeftHandLocalPosition = leftHandTrs.localPosition;
+				initRightHandLocalPosition = rightHandTrs.localPosition;
+				return;
+			}
+#endif
 			GameManager.updatables = GameManager.updatables.Add(this);
 		}
 
@@ -60,14 +74,28 @@ namespace VisionGame
 			InputManager.leftTouchController = (OculusTouchController) OculusTouchController.leftHand;
 			if (InputManager.leftTouchController != null)
 			{
+				leftHandTrs.SetParent(trs);
 				leftHandTrs.localPosition = InputManager.leftTouchController.devicePosition.ReadValue();
 				leftHandTrs.localRotation = InputManager.leftTouchController.deviceRotation.ReadValue();
+			}
+			else
+			{
+				leftHandTrs.SetParent(GameManager.GetSingleton<GameCamera>().trs);
+				leftHandTrs.localPosition = initLeftHandLocalPosition;
+				leftHandTrs.localRotation = Quaternion.identity;
 			}
 			InputManager.rightTouchController = (OculusTouchController) OculusTouchController.rightHand;
 			if (InputManager.rightTouchController != null)
 			{
+				rightHandTrs.SetParent(trs);
 				rightHandTrs.localPosition = InputManager.rightTouchController.devicePosition.ReadValue();
 				rightHandTrs.localRotation = InputManager.rightTouchController.deviceRotation.ReadValue();
+			}
+			else
+			{
+				rightHandTrs.SetParent(GameManager.GetSingleton<GameCamera>().trs);
+				rightHandTrs.localPosition = initRightHandLocalPosition;
+				rightHandTrs.localRotation = Quaternion.identity;
 			}
 			leftReplaceInput = InputManager.LeftReplaceInput;
 			rightReplaceInput = InputManager.RightReplaceInput;
