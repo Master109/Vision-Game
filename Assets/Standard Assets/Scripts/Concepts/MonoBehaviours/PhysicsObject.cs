@@ -15,6 +15,7 @@ namespace VisionGame
 		public float overlapAmountToGetStuck;
 		public static List<Rigidbody> stuckRigidbodies = new List<Rigidbody>();
 		bool isStuck;
+		int frameIWasEnabled;
 
 		void OnEnable ()
 		{
@@ -29,6 +30,7 @@ namespace VisionGame
 				return;
 			}
 #endif
+			frameIWasEnabled = GameManager.framesSinceLoadedScene;
 			Physics.Simulate(0);
 			if (isStuck)
 			{
@@ -58,6 +60,8 @@ namespace VisionGame
 
 		void OnCollisionEnter (Collision coll)
 		{
+			if (GameManager.framesSinceLoadedScene > frameIWasEnabled)
+				return;
 			for (int i = 0; i < coll.contactCount; i ++)
 			{
 				ContactPoint contactPoint = coll.GetContact(i);

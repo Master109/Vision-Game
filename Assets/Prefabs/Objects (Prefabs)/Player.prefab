@@ -272,6 +272,7 @@ MonoBehaviour:
   moveSpeed: 10
   rigid: {fileID: 2497963680048229902}
   grabRangeSqr: 1
+  capsuleCollider: {fileID: 1947843263013433115}
 --- !u!114 &4780438776155413846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,8 +360,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.52
-  m_Height: 2.02
+  m_Radius: 0.5
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2497963680048229902

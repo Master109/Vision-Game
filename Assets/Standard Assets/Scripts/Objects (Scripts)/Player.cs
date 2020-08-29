@@ -5,13 +5,6 @@ using System.Collections.Generic;
 using Extensions;
 using Unity.XR.Oculus.Input;
 using UnityEngine.InputSystem;
-#if UNITY_2017_2_OR_NEWER
-using InputTracking = UnityEngine.XR.InputTracking;
-using Node = UnityEngine.XR.XRNode;
-#else
-using InputTracking = UnityEngine.VR.InputTracking;
-using Node = UnityEngine.VR.VRNode;
-#endif
 
 namespace VisionGame
 {
@@ -36,6 +29,7 @@ namespace VisionGame
 		public float moveSpeed;
 		public Rigidbody rigid;
 		public float grabRangeSqr;
+		public CapsuleCollider capsuleCollider;
 		Vector3 previousMoveInput;
 		Vector3 previousLeftHandPosition;
 		Vector3 previousRightHandPosition;
@@ -249,10 +243,10 @@ namespace VisionGame
 						rigid.useGravity = false;
 						return;
 					}
+					else if (Mathf.Approximately(slopeAngle, 90))
+						return;
 				}
 			}
-			controller.enabled = false;
-			rigid.useGravity = true;
 		}
 		
 		void Jump ()
