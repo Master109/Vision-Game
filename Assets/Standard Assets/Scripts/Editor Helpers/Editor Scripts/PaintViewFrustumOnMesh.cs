@@ -26,7 +26,7 @@ public class PaintViewFrustumOnMesh : EditorScript
 	{
 		Mesh mesh = meshFilter.sharedMesh;
 		BoundingFrustum boundingFrustum = new BoundingFrustum();
-		boundingFrustum.Update (camera);
+		boundingFrustum.Update (camera, camera.GetComponent<Transform>());
 		Color[] meshColors = mesh.colors;
 		for (int i = 0; i < mesh.vertexCount; i ++)
 		{

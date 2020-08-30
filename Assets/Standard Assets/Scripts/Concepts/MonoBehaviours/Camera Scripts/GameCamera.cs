@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Extensions;
 using UnityEngine.InputSystem;
 using Unity.XR.Oculus.Input;
 
@@ -21,9 +20,9 @@ namespace VisionGame
 			InputManager.hmd = InputSystem.GetDevice<OculusHMD>();
 			if (InputManager.hmd == null || InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
 			{
-				Vector2 mousePositionDelta = Mouse.current.delta.ToVec2();
-				float rotationX = trs.localEulerAngles.y + mousePositionDelta.x * sensitivity.x;
-				rotationY += mousePositionDelta.y * sensitivity.y;
+				Vector2 mouseMovement = InputManager.MouseMovement;
+				float rotationX = trs.localEulerAngles.y + mouseMovement.x * sensitivity.x;
+				rotationY += mouseMovement.y * sensitivity.y;
 				rotationY = Mathf.Clamp(rotationY, yRange.min, yRange.max);
 				trs.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
 			}

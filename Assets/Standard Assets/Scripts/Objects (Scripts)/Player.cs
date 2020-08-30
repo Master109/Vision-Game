@@ -30,6 +30,8 @@ namespace VisionGame
 		public float moveSpeed;
 		public Rigidbody rigid;
 		public float grabRangeSqr;
+		public float rotateRate;
+		public float rollRate;
 		[SerializeField]
 		[HideInInspector]
 		Vector3 initLeftHandLocalPosition;
@@ -107,7 +109,10 @@ namespace VisionGame
 				canJump = true;
 			}
 			HandleFacing ();
-			HandleGrabbing ();
+			HandleOrbGrabbing (InputManager.LeftGrabInput, leftHandTrs, ref leftGrabbedPhysicsObject, rightGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
+			HandleOrbGrabbing (InputManager.RightGrabInput, rightHandTrs, ref rightGrabbedPhysicsObject, leftGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
+			HandleOrbRotating (InputManager.LeftRotateInput, leftGrabbedPhysicsObject);
+			HandleOrbRotating (InputManager.RightRotateInput, rightGrabbedPhysicsObject);
 			Move ();
 			HandleGravity ();
 			HandleJump ();
@@ -142,13 +147,7 @@ namespace VisionGame
 				trs.forward = GameManager.GetSingleton<GameCamera>().trs.forward.SetY(0);
 		}
 
-		void HandleGrabbing ()
-		{
-			HandleGrabbingOrbs (InputManager.LeftGrabInput, leftHandTrs, ref leftGrabbedPhysicsObject, rightGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
-			HandleGrabbingOrbs (InputManager.RightGrabInput, rightHandTrs, ref rightGrabbedPhysicsObject, leftGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
-		}
-
-		void HandleGrabbingOrbs (bool grabInput, Transform grabbingHand, ref PhysicsObject grabbedPhysicsObject, PhysicsObject otherPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
+		void HandleOrbGrabbing (bool grabInput, Transform grabbingHand, ref PhysicsObject grabbedPhysicsObject, PhysicsObject otherPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
 		{
 			if (grabInput)
 			{
@@ -193,6 +192,16 @@ namespace VisionGame
 				grabbedPhysicsObject.rigid.velocity = (grabbingHand.position - previousHandPosition) * Time.deltaTime;
 				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), grabbingHand.rotation);
 				grabbedPhysicsObject = null;
+			}
+		}
+
+		void HandleOrbRotating (bool rotateInput, PhysicsObject grabbedPhysicsObject)
+		{
+			if (rotateInput)
+			{
+				Vector2 mouseMovement = InputManager.MouseMovement;
+				grabbedPhysicsObject.trs.localEulerAngles += new Vector3(mouseMovement.y, mouseMovement.x, 0) * rotateRate;
+				grabbedPhysicsObject.trs.RotateAround(grabbedPhysicsObject.trs.position, grabbedPhysicsObject.trs.forward, Mouse.current.scroll.y.ReadValue() * rollRate);
 			}
 		}
 

@@ -83,6 +83,11 @@ public class BoundingFrustum
 
 		Array.Copy( _planes, outPlanes, PlaneCount );
 	}
+	
+	public void Update (Camera camera, Transform trs)
+	{
+		Update (camera, camera.farClipPlane);
+	}
 
 	/// <summary>
 	/// Update the bounding frustum from the current camera settings
@@ -108,6 +113,51 @@ public class BoundingFrustum
 		{
 			calculateFrustumCornersOrthographic( camera );
 		}
+		else
+		{
+			calculateFrustumCornersPerspective(
+				ref position,
+				ref orientation,
+				camera.fieldOfView,
+				camera.nearClipPlane,
+				camera.farClipPlane,
+				camera.aspect
+			);
+		}
+
+		// CORNERS:
+		// [0] = Far Bottom Left,  [1] = Far Top Left,  [2] = Far Top Right,  [3] = Far Bottom Right, 
+		// [4] = Near Bottom Left, [5] = Near Top Left, [6] = Near Top Right, [7] = Near Bottom Right
+
+		// PLANES:
+		// Ordering: [0] = Left, [1] = Right, [2] = Down, [3] = Up, [4] = Near, [5] = Far
+
+		_planes[ 0 ] = new Plane( _corners[ 4 ], _corners[ 1 ], _corners[ 0 ] );
+		_planes[ 1 ] = new Plane( _corners[ 6 ], _corners[ 3 ], _corners[ 2 ] );
+		_planes[ 2 ] = new Plane( _corners[ 7 ], _corners[ 0 ], _corners[ 3 ] );
+		_planes[ 3 ] = new Plane( _corners[ 5 ], _corners[ 2 ], _corners[ 1 ] );
+		_planes[ 4 ] = new Plane( forward, position + forward * camera.nearClipPlane );
+		_planes[ 5 ] = new Plane( -forward, position + forward * farClipPlane );
+
+		for( int i = 0; i < PlaneCount; i++ )
+		{
+			var plane = _planes[ i ];
+			var normal = plane.normal;
+
+			_absNormals[ i ] = new Vector3( Math.Abs( normal.x ), Math.Abs( normal.y ), Math.Abs( normal.z ) );
+			_planeNormal[ i ] = normal;
+			_planeDistance[ i ] = plane.distance;
+		}
+	}
+
+	public void Update (Camera camera, Transform trs, float farClipPlane)
+	{
+		Vector3 position = trs.position;
+		Quaternion orientation = trs.rotation;
+		Position = position;
+		Vector3 forward = orientation * Vector3.forward;
+		if (camera.orthographic)
+			CalculateFrustumCornersOrthographic (camera, trs);
 		else
 		{
 			calculateFrustumCornersPerspective(
@@ -451,6 +501,32 @@ public class BoundingFrustum
 		_corners[ 6 ] = position + forward * nearClipPlane + up + right;
 		_corners[ 7 ] = position + forward * nearClipPlane - up + right;
 	}
+
+	private void CalculateFrustumCornersOrthographic (Camera camera, Transform trs)
+	{
+		var position = trs.position;
+		var orientation = trs.rotation;
+		var farClipPlane = camera.farClipPlane;
+		var nearClipPlane = camera.nearClipPlane;
+
+		var forward = orientation * Vector3.forward;
+		var right = orientation * Vector3.right * camera.orthographicSize * camera.aspect;
+		var up = orientation * Vector3.up * camera.orthographicSize;
+
+		// CORNERS:
+		// [0] = Far Bottom Left,  [1] = Far Top Left,  [2] = Far Top Right,  [3] = Far Bottom Right, 
+		// [4] = Near Bottom Left, [5] = Near Top Left, [6] = Near Top Right, [7] = Near Bottom Right
+
+		_corners[ 0 ] = position + forward * farClipPlane - up - right;
+		_corners[ 1 ] = position + forward * farClipPlane + up - right;
+		_corners[ 2 ] = position + forward * farClipPlane + up + right;
+		_corners[ 3 ] = position + forward * farClipPlane - up + right;
+		_corners[ 4 ] = position + forward * nearClipPlane - up - right;
+		_corners[ 5 ] = position + forward * nearClipPlane + up - right;
+		_corners[ 6 ] = position + forward * nearClipPlane + up + right;
+		_corners[ 7 ] = position + forward * nearClipPlane - up + right;
+	}
+
 
 	private void calculateFrustumCornersPerspective( ref Vector3 position, ref Quaternion orientation, float fov, float nearClipPlane, float farClipPlane, float aspect )
 	{

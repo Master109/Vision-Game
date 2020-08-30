@@ -81,6 +81,23 @@ namespace VisionGame
 				return MousePosition;
 			}
 		}
+		public static Vector2 MouseMovement
+		{
+			get
+			{
+				if (UsingMouse)
+					return Mouse.current.delta.ToVec2();
+				else
+					return Vector2.zero;
+			}
+		}
+		public Vector2 _MouseMovement
+		{
+			get
+			{
+				return MouseMovement;
+			}
+		}
 		public static bool SubmitInput
 		{
 			get
@@ -174,6 +191,40 @@ namespace VisionGame
 			get
 			{
 				return RightGrabInput;
+			}
+		}
+		public static bool LeftRotateInput
+		{
+			get
+			{
+				if (Keyboard.current.zKey.isPressed)
+					return true;
+				else
+					return false;
+			}
+		}
+		public bool _LeftRotateInput
+		{
+			get
+			{
+				return LeftRotateInput;
+			}
+		}
+		public static bool RightRotateInput
+		{
+			get
+			{
+				if (Keyboard.current.cKey.isPressed)
+					return true;
+				else
+					return false;
+			}
+		}
+		public bool _RightRotateInput
+		{
+			get
+			{
+				return RightRotateInput;
 			}
 		}
 		public static bool TurnInput
