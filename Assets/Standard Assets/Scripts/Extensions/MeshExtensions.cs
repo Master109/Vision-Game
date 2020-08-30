@@ -5,7 +5,7 @@ namespace Extensions
 {
 	public static class MeshExtensions
 	{
-		public static MeshTriangle[] GetTriangles (this KeyValuePair<Mesh, Transform>[] meshesAndTransforms)
+		public static MeshTriangle[] GetTriangles (params KeyValuePair<Mesh, Transform>[] meshesAndTransforms)
 		{
 			List<MeshTriangle> output = new List<MeshTriangle>();
             for (int i = 0; i < meshesAndTransforms.Length; i ++)
@@ -108,7 +108,6 @@ namespace Extensions
 				this.trs = trs;
 				this.index = index;
 				point = trs.TransformPoint(mesh.vertices[index]);
-				// point = mesh.vertices[index];
 				List<MeshTriangle> _trianglesIAmPartOf = new List<MeshTriangle>();
 				for (int i = 0; i < mesh.triangles.Length; i += 3)
 				{
@@ -127,7 +126,6 @@ namespace Extensions
 				this.trs = trs;
 				this.index = index;
 				this.point = trs.TransformPoint(point);
-				// this.point = point;
 				List<MeshTriangle> _trianglesIAmPartOf = new List<MeshTriangle>();
 				for (int i = 0; i < mesh.triangles.Length; i += 3)
 				{
@@ -172,9 +170,6 @@ namespace Extensions
 				point1 = trs.TransformPoint(mesh.vertices[vertexIndex1]);
 				point2 = trs.TransformPoint(mesh.vertices[vertexIndex2]);
 				point3 = trs.TransformPoint(mesh.vertices[vertexIndex3]);
-				// point1 = mesh.vertices[vertexIndex1];
-				// point2 = mesh.vertices[vertexIndex2];
-				// point3 = mesh.vertices[vertexIndex3];
 			}
 
 			public MeshTriangle (Mesh mesh, Transform trs, int triangleIndex, int vertexIndex1, int vertexIndex2, int vertexIndex3)
@@ -188,9 +183,6 @@ namespace Extensions
 				point1 = trs.TransformPoint(mesh.vertices[vertexIndex1]);
 				point2 = trs.TransformPoint(mesh.vertices[vertexIndex2]);
 				point3 = trs.TransformPoint(mesh.vertices[vertexIndex3]);
-				// point1 = mesh.vertices[vertexIndex1];
-				// point2 = mesh.vertices[vertexIndex2];
-				// point3 = mesh.vertices[vertexIndex3];
 			}
 
 			public MeshTriangle (Mesh mesh, Transform trs, int vertexIndex1, int vertexIndex2, int vertexIndex3, Vector3 point1, Vector3 point2, Vector3 point3)
@@ -212,9 +204,6 @@ namespace Extensions
 				this.point1 = trs.TransformPoint(point1);
 				this.point2 = trs.TransformPoint(point2);
 				this.point3 = trs.TransformPoint(point3);
-				// this.point1 = point1;
-				// this.point2 = point2;
-				// this.point3 = point3;
 			}
 
 			public MeshTriangle (Mesh mesh, Transform trs, int triangleIndex, int vertexIndex1, int vertexIndex2, int vertexIndex3, Vector3 point1, Vector3 point2, Vector3 point3)
@@ -228,9 +217,6 @@ namespace Extensions
 				this.point1 = trs.TransformPoint(point1);
 				this.point2 = trs.TransformPoint(point2);
 				this.point3 = trs.TransformPoint(point3);
-				// this.point1 = point1;
-				// this.point2 = point2;
-				// this.point3 = point3;
 			}
 
 			public bool HasSimilarPoints (MeshTriangle meshTriangle, float maxDistanceSqr)
