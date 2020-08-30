@@ -288,7 +288,14 @@ namespace VisionGame
 
 		public virtual void LoadScene (int index)
 		{
-			LoadScene (SceneManager.GetSceneByBuildIndex(index).name);
+			// LoadScene (SceneManager.GetSceneByBuildIndex(index).name);
+			if (GetSingleton<GameManager>() != this)
+			{
+				GetSingleton<GameManager>().LoadScene (index);
+				return;
+			}
+			framesSinceLoadedScene = 0;
+			SceneManager.LoadScene(index);
 		}
 
 		public virtual void UnloadScene (string name)

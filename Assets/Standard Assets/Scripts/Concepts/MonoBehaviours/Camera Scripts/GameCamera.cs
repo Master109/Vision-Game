@@ -17,6 +17,8 @@ namespace VisionGame
 
 		public override void HandlePosition ()
 		{
+			if (this == null)
+				return;
 			InputManager.hmd = InputSystem.GetDevice<OculusHMD>();
 			if (InputManager.hmd == null || InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
 			{

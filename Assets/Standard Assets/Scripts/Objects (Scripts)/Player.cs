@@ -30,8 +30,9 @@ namespace VisionGame
 		public float moveSpeed;
 		public Rigidbody rigid;
 		public float grabRangeSqr;
-		public float rotateRate;
+		public Vector2 rotateRate;
 		public float rollRate;
+		public bool invulnerable;
 		[SerializeField]
 		[HideInInspector]
 		Vector3 initLeftHandLocalPosition;
@@ -133,6 +134,16 @@ namespace VisionGame
 			GameManager.updatables = GameManager.updatables.Remove(this);
 		}
 
+		void OnDestroy ()
+		{
+#if UNITY_EDITOR
+			if (!Application.isPlaying)
+				return;
+#endif
+			if (!invulnerable)
+				GameManager.GetSingleton<GameManager>().ReloadActiveScene ();
+		}
+
 		void HandleReplacement ()
 		{
 			if (leftReplaceInput && !previousLeftReplaceInput)
@@ -197,10 +208,12 @@ namespace VisionGame
 
 		void HandleOrbRotating (bool rotateInput, PhysicsObject grabbedPhysicsObject)
 		{
+			if (grabbedPhysicsObject == null)
+				return;
 			if (rotateInput)
 			{
 				Vector2 mouseMovement = InputManager.MouseMovement;
-				grabbedPhysicsObject.trs.localEulerAngles += new Vector3(mouseMovement.y, mouseMovement.x, 0) * rotateRate;
+				grabbedPhysicsObject.trs.localEulerAngles += new Vector3(-mouseMovement.y * rotateRate.x, mouseMovement.x * rotateRate.y, 0);
 				grabbedPhysicsObject.trs.RotateAround(grabbedPhysicsObject.trs.position, grabbedPhysicsObject.trs.forward, Mouse.current.scroll.y.ReadValue() * rollRate);
 			}
 		}

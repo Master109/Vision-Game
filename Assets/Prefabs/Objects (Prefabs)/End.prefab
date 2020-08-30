@@ -80,6 +80,31 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   angularVelocity: {x: 0, y: 0, z: 0}
   overlapAmountToGetStuck: 0.25
+--- !u!114 &4131035205014911101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7657393021846157927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 363ee72be5c7e3047b90a286c1223ce7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trs: {fileID: 7657393021846157925}
+--- !u!114 &512003158533042794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7657393021846157927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 406f6098a97d1104b98a6651ca87d6e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1163607564184779222
 PrefabInstance:
   m_ObjectHideFlags: 0

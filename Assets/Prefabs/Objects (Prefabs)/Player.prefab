@@ -405,7 +405,7 @@ MonoBehaviour:
   moveSpeed: 10
   rigid: {fileID: 2497963680048229902}
   grabRangeSqr: 2.25
-  rotateRate: -1
+  rotateRate: {x: -1, y: 1}
   rollRate: 0.1
   initLeftHandLocalPosition: {x: -0.5, y: 0, z: 1}
   initRightHandLocalPosition: {x: 0.5, y: 0, z: 1}
