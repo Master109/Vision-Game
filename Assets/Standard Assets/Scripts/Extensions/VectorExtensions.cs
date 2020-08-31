@@ -86,6 +86,12 @@ namespace Extensions
 			ang *= Mathf.Deg2Rad;
 			return (Vector2) pivotPoint + (new Vector2(Mathf.Cos(ang), Mathf.Sin(ang)).normalized * Vector2.Distance(v, pivotPoint));
 		}
+
+		public static Vector3 Rotate (this Vector3 v, Vector3 pivotPoint, Quaternion rotation)
+		{
+			Vector3 direction = (rotation * (v - pivotPoint)).normalized;
+			return pivotPoint + (direction * Vector3.Distance(v, pivotPoint));
+		}
 		
 		public static float GetFacingAngle (this Vector2 v)
 		{

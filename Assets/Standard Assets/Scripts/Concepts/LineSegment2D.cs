@@ -70,7 +70,7 @@ public class LineSegment2D
 
 	public virtual void DrawGizmos (params object[] args)
 	{
-		Gizmos.DrawRay(start, end - start);
+		Gizmos.DrawLine(start, end);
 	}
 #endif
 
