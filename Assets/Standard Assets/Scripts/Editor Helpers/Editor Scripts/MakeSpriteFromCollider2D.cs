@@ -140,8 +140,8 @@ public class MakeSpriteFromCollider2D : EditorScript
 		{
 			spriteRenderer.sprite = sprite;
 			Transform trs = spriteRenderer.GetComponent<Transform>();
-			trs.localScale = collider.GetSize();
-			trs.position = collider.GetCenter();
+			trs.localScale = collider.GetUnrotatedSize(trs);
+			trs.position = collider.GetUnrotatedCenter(trs);
 		}
 	}
 

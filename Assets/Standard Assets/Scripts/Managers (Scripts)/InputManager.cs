@@ -161,7 +161,8 @@ namespace VisionGame
 			{
 				if (_InputDevice == InputDevice.OculusRift && leftTouchController != null && leftTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin)
 					return true;
-				else if (Keyboard.current.qKey.isPressed)
+				// else if (Keyboard.current.qKey.isPressed)
+				else if (Keyboard.current.leftCtrlKey.isPressed)
 					return true;
 				else
 					return false;
@@ -180,7 +181,8 @@ namespace VisionGame
 			{
 				if (_InputDevice == InputDevice.OculusRift && rightTouchController != null && rightTouchController.grip.ReadValue() > Settings.defaultDeadzoneMin)
 					return true;
-				else if (Keyboard.current.eKey.isPressed)
+				// else if (Keyboard.current.eKey.isPressed)
+				else if (Keyboard.current.spaceKey.isPressed)
 					return true;
 				else
 					return false;
@@ -197,7 +199,8 @@ namespace VisionGame
 		{
 			get
 			{
-				if (Keyboard.current.zKey.isPressed)
+				// if (Keyboard.current.zKey.isPressed)
+				if (Keyboard.current.qKey.isPressed)
 					return true;
 				else
 					return false;
@@ -214,7 +217,8 @@ namespace VisionGame
 		{
 			get
 			{
-				if (Keyboard.current.cKey.isPressed)
+				// if (Keyboard.current.cKey.isPressed)
+				if (Keyboard.current.eKey.isPressed)
 					return true;
 				else
 					return false;
@@ -225,6 +229,42 @@ namespace VisionGame
 			get
 			{
 				return RightRotateInput;
+			}
+		}
+		public static bool LeftThrowInput
+		{
+			get
+			{
+				// if (Keyboard.current.zKey.isPressed)
+				if (Keyboard.current.qKey.isPressed)
+					return true;
+				else
+					return false;
+			}
+		}
+		public bool _LeftThrowInput
+		{
+			get
+			{
+				return LeftThrowInput;
+			}
+		}
+		public static bool RightThrowInput
+		{
+			get
+			{
+				// if (Keyboard.current.cKey.isPressed)
+				if (Keyboard.current.eKey.isPressed)
+					return true;
+				else
+					return false;
+			}
+		}
+		public bool _RightThrowInput
+		{
+			get
+			{
+				return RightThrowInput;
 			}
 		}
 		public static bool TurnInput

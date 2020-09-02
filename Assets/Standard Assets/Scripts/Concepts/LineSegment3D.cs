@@ -79,17 +79,11 @@ public class LineSegment3D
 
 	public virtual float GetDirectedDistanceAlongParallel (Vector3 point)
 	{
-		// Vector3 projection = Vector3.Project(end - start, point);
-		// return projection.magnitude - point.magnitude;
 		Quaternion rotation = Quaternion.LookRotation(end - start);
 		rotation = Quaternion.Inverse(rotation);
 		LineSegment3D rotatedLine = Rotate(Vector3.zero, rotation);
 		point = rotation * point;
 		return point.z - rotatedLine.start.z;
-	// 	float rotate = -GetFacingAngle();
-	// 	LineSegment3D rotatedLine = Rotate(Vector2.zero, rotate);
-	// 	point = point.Rotate(rotate);
-	// 	return point.x - rotatedLine.start.x;
 	}
 
 	public virtual Vector3 GetPointWithDirectedDistance (float directedDistance)

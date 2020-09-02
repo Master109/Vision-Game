@@ -33,6 +33,9 @@ namespace VisionGame
 		public Vector2 rotateRate;
 		public float rollRate;
 		public bool invulnerable;
+		public float armLength;
+		public float maxHandMoveRate;
+		public float maxHandRotateRate;
 		[SerializeField]
 		[HideInInspector]
 		Vector3 initLeftHandLocalPosition;
@@ -75,31 +78,9 @@ namespace VisionGame
 		public void DoUpdate ()
 		{
 			InputManager.leftTouchController = (OculusTouchController) OculusTouchController.leftHand;
-			if (InputManager.leftTouchController != null)
-			{
-				leftHandTrs.SetParent(trs);
-				leftHandTrs.localPosition = InputManager.leftTouchController.devicePosition.ReadValue();
-				leftHandTrs.localRotation = InputManager.leftTouchController.deviceRotation.ReadValue();
-			}
-			else
-			{
-				leftHandTrs.SetParent(GameManager.GetSingleton<GameCamera>().trs);
-				leftHandTrs.localPosition = initLeftHandLocalPosition;
-				leftHandTrs.localRotation = Quaternion.identity;
-			}
+			SetHandOrientation (leftHandTrs, InputManager.leftTouchController, initLeftHandLocalPosition);
 			InputManager.rightTouchController = (OculusTouchController) OculusTouchController.rightHand;
-			if (InputManager.rightTouchController != null)
-			{
-				rightHandTrs.SetParent(trs);
-				rightHandTrs.localPosition = InputManager.rightTouchController.devicePosition.ReadValue();
-				rightHandTrs.localRotation = InputManager.rightTouchController.deviceRotation.ReadValue();
-			}
-			else
-			{
-				rightHandTrs.SetParent(GameManager.GetSingleton<GameCamera>().trs);
-				rightHandTrs.localPosition = initRightHandLocalPosition;
-				rightHandTrs.localRotation = Quaternion.identity;
-			}
+			SetHandOrientation (rightHandTrs, InputManager.rightTouchController, initRightHandLocalPosition);
 			leftReplaceInput = InputManager.LeftReplaceInput;
 			rightReplaceInput = InputManager.RightReplaceInput;
 			turnInput = InputManager.TurnInput;
@@ -110,10 +91,8 @@ namespace VisionGame
 				canJump = true;
 			}
 			HandleFacing ();
-			HandleOrbGrabbing (InputManager.LeftGrabInput, leftHandTrs, ref leftGrabbedPhysicsObject, rightGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
-			HandleOrbGrabbing (InputManager.RightGrabInput, rightHandTrs, ref rightGrabbedPhysicsObject, leftGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
-			HandleOrbRotating (InputManager.LeftRotateInput, leftGrabbedPhysicsObject);
-			HandleOrbRotating (InputManager.RightRotateInput, rightGrabbedPhysicsObject);
+			HandleOrbGrabbing ();
+			HandleOrbRotating ();
 			Move ();
 			HandleGravity ();
 			HandleJump ();
@@ -127,6 +106,22 @@ namespace VisionGame
 			previousLeftHandEulerAngles = leftHandTrs.eulerAngles;
 			previousRightHandEulerAngles = rightHandTrs.eulerAngles;
 			previousMoveInput = move;
+		}
+
+		void SetHandOrientation (Transform handTrs, OculusTouchController oculusTouchController, Vector3 initLocalPosition)
+		{
+			if (oculusTouchController != null)
+			{
+				handTrs.SetParent(trs);
+				handTrs.localPosition = oculusTouchController.devicePosition.ReadValue();
+				handTrs.localRotation = oculusTouchController.deviceRotation.ReadValue();
+			}
+			else
+			{
+				handTrs.SetParent(GameManager.GetSingleton<GameCamera>().trs);
+				handTrs.localPosition = initLocalPosition;
+				handTrs.localRotation = Quaternion.identity;
+			}
 		}
 
 		void OnDisable ()
@@ -156,6 +151,12 @@ namespace VisionGame
 		{
 			if (turnInput && !previousTurnInput)
 				trs.forward = GameManager.GetSingleton<GameCamera>().trs.forward.SetY(0);
+		}
+
+		void HandleOrbGrabbing ()
+		{
+			HandleOrbGrabbing (InputManager.LeftGrabInput, leftHandTrs, ref leftGrabbedPhysicsObject, rightGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
+			HandleOrbGrabbing (InputManager.RightGrabInput, rightHandTrs, ref rightGrabbedPhysicsObject, leftGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
 		}
 
 		void HandleOrbGrabbing (bool grabInput, Transform grabbingHand, ref PhysicsObject grabbedPhysicsObject, PhysicsObject otherPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
@@ -204,6 +205,12 @@ namespace VisionGame
 				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), grabbingHand.rotation);
 				grabbedPhysicsObject = null;
 			}
+		}
+
+		void HandleOrbRotating ()
+		{
+			HandleOrbRotating (InputManager.LeftRotateInput, leftGrabbedPhysicsObject);
+			HandleOrbRotating (InputManager.RightRotateInput, rightGrabbedPhysicsObject);
 		}
 
 		void HandleOrbRotating (bool rotateInput, PhysicsObject grabbedPhysicsObject)

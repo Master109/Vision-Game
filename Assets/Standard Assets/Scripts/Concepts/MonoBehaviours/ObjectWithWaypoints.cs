@@ -19,15 +19,17 @@ public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 	}
 	public Transform trs;
 	public Transform[] wayPoints = new Transform[0];
-	public LineRenderer line;
+	public LineRenderer lineRenderer;
 	public Transform lineTrs;
 	public WaypointPath path;
 #if UNITY_EDITOR
 	public bool makeLineRenderer;
 	public bool autoSetWaypoints;
 	public Transform wayPointsParent;
-	public new Collider2D collider;
-	Vector2 fromPreviousPosition;
+	public new Collider collider;
+	[SerializeField]
+	Vector3 colliderSize;
+	Vector3 fromPreviousPosition;
 #endif
 
 	public virtual void Start ()
@@ -38,7 +40,7 @@ public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 			if (trs == null)
 				trs = GetComponent<Transform>();
 			if (collider == null)
-				collider = GetComponent<Collider2D>();
+				collider = GetComponent<Collider>();
 			if (wayPointsParent == null)
 				wayPointsParent = trs;
 			EditorApplication.update += DoEditorUpdate;
@@ -63,6 +65,7 @@ public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 			makeLineRenderer = false;
 			MakeLineRenderer ();
 		}
+		colliderSize = collider.GetUnrotatedSize(trs);
 #endif
 	}
 
@@ -80,51 +83,55 @@ public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 	
 	public virtual void DoEditorUpdate ()
 	{
-		if (line == null)
+		if (lineRenderer == null)
 			return;
-		line.SetPosition(0, trs.position);
+		lineRenderer.SetPosition(0, trs.position);
 		for (int i = 0; i < wayPoints.Length; i ++)
 		{
 			if (i == 0)
 				fromPreviousPosition = wayPoints[0].position - wayPoints[1].position;
 			else
 				fromPreviousPosition = wayPoints[i].position - wayPoints[i - 1].position;
-			line.SetPosition(i, (Vector2) wayPoints[i].position + (collider.GetSize() / 2).Multiply(fromPreviousPosition.normalized));
+			lineRenderer.SetPosition(i, wayPoints[i].position + (collider.GetUnrotatedSize(trs) / 2).Multiply(fromPreviousPosition.normalized));
 		}
 	}
 	
 	public virtual void MakeLineRenderer ()
 	{
-		if (line != null)
-			DestroyImmediate(line.gameObject);
-		line = new GameObject().AddComponent<LineRenderer>();
-		line.positionCount = wayPoints.Length;
+		if (lineRenderer != null)
+			DestroyImmediate(lineRenderer.gameObject);
+		lineRenderer = new GameObject().AddComponent<LineRenderer>();
+		lineRenderer.positionCount = wayPoints.Length;
 		for (int i = 0; i < wayPoints.Length; i ++)
 		{
 			if (i == 0)
 				fromPreviousPosition = wayPoints[0].position - wayPoints[1].position;
 			else
 				fromPreviousPosition = wayPoints[i].position - wayPoints[i - 1].position;
-			line.SetPosition(i, (Vector2) wayPoints[i].position + (collider.GetSize() / 2).Multiply(fromPreviousPosition.normalized));
+			lineRenderer.SetPosition(i, wayPoints[i].position + (collider.GetUnrotatedSize(trs) / 2).Multiply(fromPreviousPosition.normalized));
 		}
-		line.material = path.material;
-		line.startColor = path.color;
-		line.endColor = path.color;
+		lineRenderer.material = path.material;
+		lineRenderer.startColor = path.color;
+		lineRenderer.endColor = path.color;
 		float lineWidth; // TODO: Make this work with a path that "turns" or "bends"
 		if (wayPoints[0].position.x != wayPoints[1].position.x)
 		{
 			if (wayPoints[0].position.y != wayPoints[1].position.y)
-				lineWidth = Mathf.Max(collider.GetSize().x, collider.GetSize().y);
+			{
+				lineWidth = Mathf.Max(collider.GetUnrotatedSize(trs).x, collider.GetUnrotatedSize(trs).y);
+			}
 			else
-				lineWidth = collider.GetSize().y;
+			{
+				lineWidth = collider.GetUnrotatedSize(trs).y;
+			}
 		}
 		else
-			lineWidth = collider.GetSize().x;
-		line.startWidth = lineWidth;
-		line.endWidth = lineWidth;
-		line.sortingLayerName = path.sortingLayerName;
-		line.sortingOrder = path.sortingOrder;
-		lineTrs = line.GetComponent<Transform>();
+			lineWidth = collider.GetUnrotatedSize().x;
+		lineRenderer.startWidth = lineWidth;
+		lineRenderer.endWidth = lineWidth;
+		lineRenderer.sortingLayerName = path.sortingLayerName;
+		lineRenderer.sortingOrder = path.sortingOrder;
+		lineTrs = lineRenderer.GetComponent<Transform>();
 		lineTrs.SetParent(trs);
 	}
 #endif

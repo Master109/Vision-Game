@@ -10,18 +10,13 @@ namespace VisionGame
 		public Rigidbody rigid;
 		public float moveSpeed;
 		public bool repeat;
-		[HideInInspector]
-		public LineSegment3D[] allLines = new LineSegment3D[0];
-		public bool moveTowardsEnd;
-		[HideInInspector]
-		public Vector3 previousPosition;
+		LineSegment3D lineSegment;
+		Vector3 previousPosition;
+		bool moveTowardsEnd = true;
 
 		public override void OnEnable ()
 		{
-			int lineCount = wayPoints.Length - 1;
-			allLines = new LineSegment3D[lineCount];
-			for (int i = 0; i < lineCount; i ++)
-				allLines[i] = new LineSegment3D(wayPoints[i].position, wayPoints[i + 1].position);
+			lineSegment = new LineSegment3D(wayPoints[0].position, wayPoints[1].position);
 			GameManager.updatables = GameManager.updatables.Add(this);
 		}
 
@@ -31,28 +26,15 @@ namespace VisionGame
 			{
 				if (repeat)
 					moveTowardsEnd = !moveTowardsEnd;
-				else
+				else if (trs.position == lineSegment.end)
 					GameManager.updatables = GameManager.updatables.Remove(this);
 			}
-			previousPosition = trs.position;
-			float distanceToClosestPoint = (allLines[0].ClosestPoint(trs.position) - trs.position).sqrMagnitude;
-			float closestDistance = distanceToClosestPoint;
-			LineSegment3D stuckOnLine = allLines[0];
-			for (int i = 1; i < allLines.Length; i ++)
-			{
-				LineSegment3D lineSegment = allLines[i];
-				distanceToClosestPoint = (lineSegment.ClosestPoint(trs.position) - trs.position).sqrMagnitude;
-				if (distanceToClosestPoint < closestDistance)
-				{
-					closestDistance = distanceToClosestPoint;
-					stuckOnLine = lineSegment;
-				}
-			}
 			if (moveTowardsEnd)
-				trs.position = stuckOnLine.GetPointWithDirectedDistance(stuckOnLine.GetDirectedDistanceAlongParallel(trs.position) + moveSpeed * Time.deltaTime);
+				rigid.velocity = lineSegment.GetDirection() * moveSpeed;
 			else
-				trs.position = stuckOnLine.GetPointWithDirectedDistance(stuckOnLine.GetDirectedDistanceAlongParallel(trs.position) - moveSpeed * Time.deltaTime);
-			trs.position = stuckOnLine.ClosestPoint(trs.position);
+				rigid.velocity = -lineSegment.GetDirection() * moveSpeed;
+			trs.position = lineSegment.ClosestPoint(trs.position);
+			previousPosition = trs.position;
 		}
 
 		void OnDisable ()
