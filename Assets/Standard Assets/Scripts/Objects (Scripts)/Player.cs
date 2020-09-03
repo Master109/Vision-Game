@@ -427,7 +427,7 @@ namespace VisionGame
 			if (physicsObject != null)
 			{
 				Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereCollider.radius, whatIsGrabbable);
-				if (hits.Contains(physicsObject.collider))
+				if (hits.Contains(physicsObject.collider) && !physicsObjectsTouchingLeftHand.Contains(physicsObject))
 					physicsObjectsTouchingLeftHand.Add(physicsObject);
 				else
 					physicsObjectsTouchingRightHand.Add(physicsObject);
@@ -444,11 +444,10 @@ namespace VisionGame
 					physicsObjectsTouchingRightHand.Remove(physicsObject);
 				else
 				{
+					physicsObjectsTouchingLeftHand.Remove(physicsObject);
 					hits = Physics.OverlapSphere(rightHandTrs.position, rightHandSphereCollider.radius, whatIsGrabbable);
-					if (hits.Contains(physicsObject.collider))
-						physicsObjectsTouchingLeftHand.Remove(physicsObject);
-					else if (!physicsObjectsTouchingRightHand.Remove(physicsObject))
-						physicsObjectsTouchingLeftHand.Remove(physicsObject);
+					if (!hits.Contains(physicsObject.collider))
+						physicsObjectsTouchingRightHand.Remove(physicsObject);
 				}
 			}
 		}
