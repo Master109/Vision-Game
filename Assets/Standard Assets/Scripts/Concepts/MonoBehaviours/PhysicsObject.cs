@@ -8,6 +8,7 @@ namespace VisionGame
 	public class PhysicsObject : Spawnable
 	{
 		public Rigidbody rigid;
+		public new Collider collider;
 		[HideInInspector]
 		public Vector3 velocity;
 		[HideInInspector]

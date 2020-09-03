@@ -29,8 +29,9 @@ namespace VisionGame
 		public Vector3 move;
 		public float moveSpeed;
 		public Rigidbody rigid;
-		public Collider leftHandCollider;
-		public Collider rightHandCollider;
+		public SphereCollider leftHandSphereCollider;
+		public SphereCollider rightHandSphereCollider;
+		public LayerMask whatIsGrabbable;
 		public Vector2 rotateRate;
 		public float rollRate;
 		public bool invulnerable;
@@ -73,7 +74,8 @@ namespace VisionGame
 		bool turnInput;
 		bool previousTurnInput;
 		Dictionary<GameObject, Collision> goCollisions = new Dictionary<GameObject, Collision>();
-		List<PhysicsObject> physicsObjectsTouchingHands = new List<PhysicsObject>();
+		List<PhysicsObject> physicsObjectsTouchingLeftHand = new List<PhysicsObject>();
+		List<PhysicsObject> physicsObjectsTouchingRightHand = new List<PhysicsObject>();
 
 		void OnEnable ()
 		{
@@ -183,20 +185,20 @@ namespace VisionGame
 
 		void HandleGrabbing ()
 		{
-			HandleGrabbing (leftGrabInput, previousLeftGrabInput, leftThrowInput, leftHandTrs, ref leftGrabbedPhysicsObject, rightGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
-			HandleGrabbing (rightGrabInput, previousRightGrabInput, rightThrowInput, rightHandTrs, ref rightGrabbedPhysicsObject, leftGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
+			HandleGrabbing (leftGrabInput, previousLeftGrabInput, leftThrowInput, leftHandTrs, physicsObjectsTouchingLeftHand, ref leftGrabbedPhysicsObject, rightGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
+			HandleGrabbing (rightGrabInput, previousRightGrabInput, rightThrowInput, rightHandTrs, physicsObjectsTouchingRightHand, ref rightGrabbedPhysicsObject, leftGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
 		}
 
-		void HandleGrabbing (bool grabInput, bool previousGrabInput, bool throwInput, Transform handTrs, ref PhysicsObject grabbedPhysicsObject, PhysicsObject otherPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
+		void HandleGrabbing (bool grabInput, bool previousGrabInput, bool throwInput, Transform handTrs, List<PhysicsObject> touchingPhysicsObjects, ref PhysicsObject grabbedPhysicsObject, PhysicsObject otherGrabbedPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
 		{
 			if (grabInput)
 			{
 				if (!previousGrabInput && !throwInput && grabbedPhysicsObject == null)
 				{
-					for (int i = 0; i < physicsObjectsTouchingHands.Count; i ++)
+					for (int i = 0; i < touchingPhysicsObjects.Count; i ++)
 					{
-						PhysicsObject physicsObject = physicsObjectsTouchingHands[i];
-						if (!physicsObject.Equals(grabbedPhysicsObject) && !physicsObject.Equals(otherPhysicsObject))
+						PhysicsObject physicsObject = touchingPhysicsObjects[i];
+						if (!physicsObject.Equals(grabbedPhysicsObject) && !physicsObject.Equals(otherGrabbedPhysicsObject))
 						{
 							physicsObject.trs.SetParent(handTrs);
 							physicsObject.trs.localPosition = Vector3.zero;
@@ -423,14 +425,33 @@ namespace VisionGame
 		{
 			PhysicsObject physicsObject = other.GetComponent<PhysicsObject>();
 			if (physicsObject != null)
-				physicsObjectsTouchingHands.Add(physicsObject);
+			{
+				physicsObjectsTouchingLeftHand.Add(physicsObject);
+				Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereCollider.radius, whatIsGrabbable);
+				if (hits.Contains(physicsObject.collider))
+					physicsObjectsTouchingLeftHand.Add(physicsObject);
+				else
+					physicsObjectsTouchingRightHand.Add(physicsObject);
+			}
 		}
 
 		void OnTriggerExit (Collider other)
 		{
 			PhysicsObject physicsObject = other.GetComponent<PhysicsObject>();
 			if (physicsObject != null)
-				physicsObjectsTouchingHands.Remove(physicsObject);
+			{
+				Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereCollider.radius, whatIsGrabbable);
+				if (hits.Contains(physicsObject.collider))
+					physicsObjectsTouchingRightHand.Remove(physicsObject);
+				else
+				{
+					hits = Physics.OverlapSphere(rightHandTrs.position, rightHandSphereCollider.radius, whatIsGrabbable);
+					if (hits.Contains(physicsObject.collider))
+						physicsObjectsTouchingLeftHand.Remove(physicsObject);
+					else if (!physicsObjectsTouchingRightHand.Remove(physicsObject))
+						physicsObjectsTouchingLeftHand.Remove(physicsObject);
+				}
+			}
 		}
 	}
 }
