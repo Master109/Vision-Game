@@ -505,14 +505,14 @@ MonoBehaviour:
   rotateRate: {x: 1, y: -1}
   rollRate: 0.1
   invulnerable: 0
-  maxHandDistanceSqr: 6.25
+  maxHandDistance: 6.25
   leftAimer: {fileID: 6367818312437764565}
   rightAimer: {fileID: 1388642439339493007}
-  maxAimerDistanceSqr: 10000
+  maxAimerDistanceSqr: 100
   whatBlocksAimer:
     serializedVersion: 2
     m_Bits: 6912
-  throwSpeedWithKeyboard: 10
+  throwSpeedWithKeyboard: 15
   initLeftHandLocalPosition: {x: -0.5, y: 0, z: 1}
   initRightHandLocalPosition: {x: 0.5, y: 0, z: 1}
 --- !u!114 &4780438776155413846

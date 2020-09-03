@@ -29,7 +29,8 @@ namespace VisionGame
 		public Vector3 move;
 		public float moveSpeed;
 		public Rigidbody rigid;
-		public float grabRangeSqr;
+		public Collider leftHandCollider;
+		public Collider rightHandCollider;
 		public Vector2 rotateRate;
 		public float rollRate;
 		public bool invulnerable;
@@ -72,6 +73,7 @@ namespace VisionGame
 		bool turnInput;
 		bool previousTurnInput;
 		Dictionary<GameObject, Collision> goCollisions = new Dictionary<GameObject, Collision>();
+		List<PhysicsObject> physicsObjectsTouchingHands = new List<PhysicsObject>();
 
 		void OnEnable ()
 		{
@@ -191,25 +193,26 @@ namespace VisionGame
 			{
 				if (!previousGrabInput && !throwInput && grabbedPhysicsObject == null)
 				{
-					for (int i = 0; i < GameManager.GetSingleton<Level>().orbs.Length; i ++)
+					for (int i = 0; i < physicsObjectsTouchingHands.Count; i ++)
 					{
-						Orb orb = GameManager.GetSingleton<Level>().orbs[i];
-						if (!orb.Equals(grabbedPhysicsObject) && !orb.Equals(otherPhysicsObject) && (orb.trs.position - handTrs.position).sqrMagnitude <= grabRangeSqr)
+						PhysicsObject physicsObject = physicsObjectsTouchingHands[i];
+						if (!physicsObject.Equals(grabbedPhysicsObject) && !physicsObject.Equals(otherPhysicsObject))
 						{
-							orb.trs.SetParent(handTrs);
-							orb.trs.localPosition = Vector3.zero;
-							grabbedPhysicsObject = orb;
+							physicsObject.trs.SetParent(handTrs);
+							physicsObject.trs.localPosition = Vector3.zero;
+							grabbedPhysicsObject = physicsObject;
 							grabbedPhysicsObject.rigid.isKinematic = true;
-							if (GameManager.GetSingleton<Level>().orbs.Length == 2)
+							Orb orb = physicsObject.GetComponent<Orb>();
+							if (orb != null && GameManager.GetSingleton<Level>().orbs.Length == 2)
 							{
-								if (handTrs == leftHandTrs)
+								if ((orb == GameManager.GetSingleton<Level>().orbs[0]) == (handTrs == leftHandTrs))
 								{
 									GameManager.GetSingleton<Level>().leftOrb = orb;
-									GameManager.GetSingleton<Level>().rightOrb = GameManager.GetSingleton<Level>().orbs[1 - i];
+									GameManager.GetSingleton<Level>().rightOrb = GameManager.GetSingleton<Level>().orbs[1];
 								}
 								else
 								{
-									GameManager.GetSingleton<Level>().leftOrb = GameManager.GetSingleton<Level>().orbs[1 - i];
+									GameManager.GetSingleton<Level>().leftOrb = GameManager.GetSingleton<Level>().orbs[1];
 									GameManager.GetSingleton<Level>().rightOrb = orb;
 								}
 							}
@@ -414,6 +417,20 @@ namespace VisionGame
 		void OnCollisionExit (Collision coll)
 		{
 			goCollisions.Remove(coll.gameObject);
+		}
+
+		void OnTriggerEnter (Collider other)
+		{
+			PhysicsObject physicsObject = other.GetComponent<PhysicsObject>();
+			if (physicsObject != null)
+				physicsObjectsTouchingHands.Add(physicsObject);
+		}
+
+		void OnTriggerExit (Collider other)
+		{
+			PhysicsObject physicsObject = other.GetComponent<PhysicsObject>();
+			if (physicsObject != null)
+				physicsObjectsTouchingHands.Remove(physicsObject);
 		}
 	}
 }
