@@ -189,6 +189,7 @@ MonoBehaviour:
   trs: {fileID: 8642901722070886499}
   prefabIndex: 0
   rigid: {fileID: 8642901722070886498}
+  collider: {fileID: 8011746275113440144}
   velocity: {x: 0, y: 0, z: 0}
   angularVelocity: {x: 0, y: 0, z: 0}
   overlapAmountToGetStuck: 0.25

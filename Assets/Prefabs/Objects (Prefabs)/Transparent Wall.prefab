@@ -77,5 +77,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 8558334622425614867, guid: 43c3f6c69342b8542b58e6161e739898,
+        type: 3}
+      propertyPath: collider
+      value: 
+      objectReference: {fileID: 1999771660313269947}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43c3f6c69342b8542b58e6161e739898, type: 3}
+--- !u!65 &1999771660313269947 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 7244035608346749803, guid: 43c3f6c69342b8542b58e6161e739898,
+    type: 3}
+  m_PrefabInstance: {fileID: 9171406624149241296}
+  m_PrefabAsset: {fileID: 0}

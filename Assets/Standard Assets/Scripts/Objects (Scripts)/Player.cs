@@ -185,17 +185,17 @@ namespace VisionGame
 
 		void HandleGrabbing ()
 		{
-			HandleGrabbing (leftGrabInput, previousLeftGrabInput, leftThrowInput, leftHandTrs, physicsObjectsTouchingLeftHand, ref leftGrabbedPhysicsObject, rightGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
-			HandleGrabbing (rightGrabInput, previousRightGrabInput, rightThrowInput, rightHandTrs, physicsObjectsTouchingRightHand, ref rightGrabbedPhysicsObject, leftGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
+			HandleGrabbing (leftGrabInput, previousLeftGrabInput, leftThrowInput, leftHandTrs, physicsObjectsTouchingLeftHand.ToArray(), ref leftGrabbedPhysicsObject, rightGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
+			HandleGrabbing (rightGrabInput, previousRightGrabInput, rightThrowInput, rightHandTrs, physicsObjectsTouchingRightHand.ToArray(), ref rightGrabbedPhysicsObject, leftGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
 		}
 
-		void HandleGrabbing (bool grabInput, bool previousGrabInput, bool throwInput, Transform handTrs, List<PhysicsObject> touchingPhysicsObjects, ref PhysicsObject grabbedPhysicsObject, PhysicsObject otherGrabbedPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
+		void HandleGrabbing (bool grabInput, bool previousGrabInput, bool throwInput, Transform handTrs, PhysicsObject[] touchingPhysicsObjects, ref PhysicsObject grabbedPhysicsObject, PhysicsObject otherGrabbedPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
 		{
 			if (grabInput)
 			{
 				if (!previousGrabInput && !throwInput && grabbedPhysicsObject == null)
 				{
-					for (int i = 0; i < touchingPhysicsObjects.Count; i ++)
+					for (int i = 0; i < touchingPhysicsObjects.Length; i ++)
 					{
 						PhysicsObject physicsObject = touchingPhysicsObjects[i];
 						if (!physicsObject.Equals(grabbedPhysicsObject) && !physicsObject.Equals(otherGrabbedPhysicsObject))
@@ -426,7 +426,6 @@ namespace VisionGame
 			PhysicsObject physicsObject = other.GetComponent<PhysicsObject>();
 			if (physicsObject != null)
 			{
-				physicsObjectsTouchingLeftHand.Add(physicsObject);
 				Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereCollider.radius, whatIsGrabbable);
 				if (hits.Contains(physicsObject.collider))
 					physicsObjectsTouchingLeftHand.Add(physicsObject);

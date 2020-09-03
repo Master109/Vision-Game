@@ -99,6 +99,11 @@ PrefabInstance:
       propertyPath: prefabIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8818453291387126704, guid: 99343b054b58b5a48884b69b4773e7e7,
+        type: 3}
+      propertyPath: collider
+      value: 
+      objectReference: {fileID: 7244035608346749803}
     - target: {fileID: 8818453291387126705, guid: 99343b054b58b5a48884b69b4773e7e7,
         type: 3}
       propertyPath: m_Name
