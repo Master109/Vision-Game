@@ -24,9 +24,9 @@ public class CombineCubes : MonoBehaviour
 		for (int i = 0; i < combineEntries.Length; i ++)
 		{
 			CombineEntry combineEntry = combineEntries[i];
-			meshesAndTransforms[i] = new KeyValuePair<Mesh, Transform>(combineEntry.meshFilter.mesh, combineEntry.trs);
+			meshesAndTransforms[i] = new KeyValuePair<Mesh, Transform>(combineEntry.meshFilter.sharedMesh, combineEntry.trs);
 			CombineInstance combineInstance = combineInstances[i];
-			combineInstance.mesh = combineEntry.meshFilter.mesh;
+			combineInstance.mesh = Instantiate(combineEntry.meshFilter.sharedMesh);
 			combineInstance.transform = combineEntry.trs.localToWorldMatrix;
 			combineEntry.trs.gameObject.SetActive(false);
 			combineInstances[i] = combineInstance;
@@ -174,8 +174,8 @@ public class CombineCubes : MonoBehaviour
 				boxCollider.size = outputTrs.InverseTransformPoint(combineEntry.trs.lossyScale);
 			}
 		}
-		meshFilter.mesh = new Mesh();
-		meshFilter.mesh.CombineMeshes(combineInstances);
+		meshFilter.sharedMesh = new Mesh();
+		meshFilter.sharedMesh.CombineMeshes(combineInstances);
 		// for (int i = 0; i < combineEntries.Length; i ++)
 		// 	DestroyImmediate(combineEntries[i].trs.gameObject);
 		outputGo = null;

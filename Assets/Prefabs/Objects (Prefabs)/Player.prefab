@@ -530,7 +530,8 @@ MonoBehaviour:
   whatBlocksAimer:
     serializedVersion: 2
     m_Bits: 6912
-  throwSpeedWithKeyboard: 15
+  throwSpeedWithKeyboard: 25
+  collider: {fileID: 777132718866571283}
   initLeftHandLocalPosition: {x: -0.5, y: 0, z: 1}
   initRightHandLocalPosition: {x: 0.5, y: 0, z: 1}
 --- !u!114 &4780438776155413846
