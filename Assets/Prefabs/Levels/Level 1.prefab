@@ -18860,6 +18860,11 @@ PrefabInstance:
       propertyPath: trs
       value: 
       objectReference: {fileID: 400004713346460946}
+    - target: {fileID: 8498877417163792123, guid: df82fe2ad40055a4b9d8a253cea24e92,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 3af729fde79fb9c45a31bc2a112e1ab3, type: 2}
     - target: {fileID: 8642901722070886497, guid: df82fe2ad40055a4b9d8a253cea24e92,
         type: 3}
       propertyPath: m_Name
