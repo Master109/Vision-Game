@@ -520,8 +520,9 @@ MonoBehaviour:
   whatIsGrabbable:
     serializedVersion: 2
     m_Bits: 6912
-  rotateRate: {x: 1, y: -1}
-  rollRate: 0.1
+  rotateRate: {x: 100, y: -100}
+  rollRate: 10
+  collider: {fileID: 1947843263013433115}
   invulnerable: 0
   maxHandDistance: 6.25
   leftAimer: {fileID: 6367818312437764565}
@@ -531,7 +532,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 6912
   throwSpeedWithKeyboard: 25
-  collider: {fileID: 777132718866571283}
   initLeftHandLocalPosition: {x: -0.5, y: 0, z: 1}
   initRightHandLocalPosition: {x: 0.5, y: 0, z: 1}
 --- !u!114 &4780438776155413846
@@ -607,7 +607,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 1
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}

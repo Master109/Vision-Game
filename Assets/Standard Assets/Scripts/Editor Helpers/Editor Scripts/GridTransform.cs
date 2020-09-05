@@ -7,8 +7,8 @@ using Extensions;
 public class GridTransform : EditorScript
 {
 	public Transform trs;
-	protected Vector2 offset;
-	public float smallValue = 0.0001f;
+	public float smallValue;
+	protected Vector3 offset;
 
 	public virtual void Start ()
 	{
@@ -22,16 +22,20 @@ public class GridTransform : EditorScript
 
 	public override void DoEditorUpdate ()
 	{
-		trs.SetWorldScale(trs.lossyScale.Snap(Vector2.one));
+		trs.SetWorldScale(trs.lossyScale.Snap(Vector3.one));
 		if (trs.localScale.x % 2 == 0)
 			offset.x = -.5f + smallValue;
 		else
 			offset.x = 0;
-		if (trs.localScale.y % 2 == 0)
+		if (trs.localScale.y % 2 != 0)
 			offset.y = 0;
 		else
 			offset.y = -.5f + smallValue;
-		trs.position = trs.position.Snap(Vector2.one) + (Vector3) offset;
+		if (trs.localScale.z % 2 == 0)
+			offset.z = -.5f + smallValue;
+		else
+			offset.z = 0;
+		trs.position = trs.position.Snap(Vector3.one) + offset;
 	}
 }
 #endif

@@ -13,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - Opaque Wall
-  - Transparent Wall
+  - Opaque
+  - Transparent
   - Player
   - End
   - Orb

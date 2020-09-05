@@ -34,6 +34,7 @@ namespace VisionGame
 		public LayerMask whatIsGrabbable;
 		public Vector2 rotateRate;
 		public float rollRate;
+		public new Collider collider;
 		public bool invulnerable;
 		public float maxHandDistance;
 		public LineRenderer leftAimer;
@@ -87,6 +88,7 @@ namespace VisionGame
 				return;
 			}
 #endif
+			Application.wantsToQuit += () => { invulnerable = true; return true; };
 			GameManager.updatables = GameManager.updatables.Add(this);
 		}
 
@@ -200,6 +202,8 @@ namespace VisionGame
 						PhysicsObject physicsObject = touchingPhysicsObjects[i];
 						if (!physicsObject.Equals(grabbedPhysicsObject) && !physicsObject.Equals(otherGrabbedPhysicsObject))
 						{
+							Physics.IgnoreCollision(physicsObject.collider, collider, true);
+							Physics.IgnoreCollision(physicsObject.collider, controller, true);
 							physicsObject.trs.SetParent(handTrs);
 							physicsObject.trs.localPosition = Vector3.zero;
 							grabbedPhysicsObject = physicsObject;
@@ -228,6 +232,8 @@ namespace VisionGame
 				grabbedPhysicsObject.rigid.isKinematic = false;
 				grabbedPhysicsObject.rigid.velocity = (handTrs.position - previousHandPosition) * Time.deltaTime;
 				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
+				Physics.IgnoreCollision(grabbedPhysicsObject.collider, collider, false);
+				Physics.IgnoreCollision(grabbedPhysicsObject.collider, controller, false);
 				grabbedPhysicsObject = null;
 			}
 		}
@@ -309,8 +315,8 @@ namespace VisionGame
 			if (rotateInput)
 			{
 				Vector2 mouseMovement = InputManager.MouseMovement;
-				grabbedPhysicsObject.trs.localEulerAngles += new Vector3(-mouseMovement.y * rotateRate.x, mouseMovement.x * rotateRate.y, 0);
-				grabbedPhysicsObject.trs.RotateAround(grabbedPhysicsObject.trs.position, grabbedPhysicsObject.trs.forward, Mouse.current.scroll.y.ReadValue() * rollRate);
+				grabbedPhysicsObject.trs.localEulerAngles += new Vector3(-mouseMovement.y * rotateRate.x, mouseMovement.x * rotateRate.y) * Time.deltaTime;
+				grabbedPhysicsObject.trs.RotateAround(grabbedPhysicsObject.trs.position, grabbedPhysicsObject.trs.forward, Mouse.current.scroll.y.ReadValue() * rollRate * Time.deltaTime);
 			}
 		}
 

@@ -12,7 +12,7 @@ public class CombineCubes : MonoBehaviour
 {
 	public GameObject outputGo;
 	public bool autoAddRigidbody;
-	public bool autoAddColliders;
+	public bool autoSetColliders;
 	public CombineEntry[] combineEntries = new CombineEntry[0];
 
 	public void OnEnable ()
@@ -157,7 +157,7 @@ public class CombineCubes : MonoBehaviour
 				rigid = outputGo.AddComponent<Rigidbody>();
 			rigid.mass = combineEntries.Length;
 		}
-		if (autoAddColliders)
+		if (autoSetColliders)
 		{
 			Collider[] colliders = outputGo.GetComponents<Collider>();
 			for (int i2 = 0; i2 < colliders.Length; i2 ++)
@@ -194,12 +194,12 @@ public class CombineCubes : MonoBehaviour
 		}
 		GameObject outputGo = GameManager.GetSingleton<CombineCubes>().outputGo;
 		bool autoAddRigidbody = GameManager.GetSingleton<CombineCubes>().autoAddRigidbody;
-		bool autoAddColliders = GameManager.GetSingleton<CombineCubes>().autoAddColliders;
+		bool autoSetColliders = GameManager.GetSingleton<CombineCubes>().autoSetColliders;
 		CombineCubes combineCubes = new GameObject().AddComponent<CombineCubes>();
 		combineCubes.outputGo = outputGo;
 		combineCubes.combineEntries = combineEntries;
 		combineCubes.autoAddRigidbody = autoAddRigidbody;
-		combineCubes.autoAddColliders = autoAddColliders;
+		combineCubes.autoSetColliders = autoSetColliders;
 		combineCubes.OnEnable ();
 		DestroyImmediate(combineCubes.gameObject);
 	}
