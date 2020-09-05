@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 1388642439339493007}
   - component: {fileID: 1335693853801819366}
   m_Layer: 10
-  m_Name: Right Hand Offset
+  m_Name: Right Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 2848546686346141087}
   - component: {fileID: 7827262796333475202}
   m_Layer: 10
-  m_Name: Left Hand
+  m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 24837264365223824}
   - component: {fileID: 5304582753955175062}
   m_Layer: 10
-  m_Name: Right Hand
+  m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -534,6 +534,8 @@ MonoBehaviour:
   throwSpeedWithKeyboard: 25
   initLeftHandLocalPosition: {x: -0.5, y: 0, z: 1}
   initRightHandLocalPosition: {x: 0.5, y: 0, z: 1}
+  physicsObjectsTouchingLeftHand: []
+  physicsObjectsTouchingRightHand: []
 --- !u!114 &4780438776155413846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,7 +680,7 @@ GameObject:
   - component: {fileID: 6367818312437764565}
   - component: {fileID: 6075677361182081644}
   m_Layer: 10
-  m_Name: Left Hand Offset
+  m_Name: Left Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
