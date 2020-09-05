@@ -77,6 +77,8 @@ namespace VisionGame
 		Dictionary<GameObject, Collision> goCollisions = new Dictionary<GameObject, Collision>();
 		List<PhysicsObject> physicsObjectsTouchingLeftHand = new List<PhysicsObject>();
 		List<PhysicsObject> physicsObjectsTouchingRightHand = new List<PhysicsObject>();
+		bool leftCanThrow;
+		bool rightCanThrow;
 
 		void OnEnable ()
 		{
@@ -104,6 +106,7 @@ namespace VisionGame
 				timeLastGrounded = Time.time;
 				canJump = true;
 			}
+			// print(GameManager.GetSingleton<Orb>().trs.position.y - trs.position.y);
 			HandleFacing ();
 			leftGrabInput = InputManager.LeftGrabInput;
 			rightGrabInput = InputManager.RightGrabInput;
@@ -132,6 +135,9 @@ namespace VisionGame
 			previousRightThrowInput = rightThrowInput;
 			previousLeftGrabInput = leftGrabInput;
 			previousRightGrabInput = rightGrabInput;
+
+			print(nameof(leftCanThrow) + leftCanThrow);
+			print(nameof(rightCanThrow) + rightCanThrow);
 		}
 
 		void OnDisable ()
@@ -230,7 +236,7 @@ namespace VisionGame
 			{
 				grabbedPhysicsObject.trs.SetParent(null);
 				grabbedPhysicsObject.rigid.isKinematic = false;
-				grabbedPhysicsObject.rigid.velocity = (handTrs.position - previousHandPosition) * Time.deltaTime;
+				grabbedPhysicsObject.rigid.velocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
 				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
 				Physics.IgnoreCollision(grabbedPhysicsObject.collider, collider, false);
 				Physics.IgnoreCollision(grabbedPhysicsObject.collider, controller, false);
@@ -240,15 +246,20 @@ namespace VisionGame
 
 		void HandleAiming ()
 		{
-			HandleAiming (leftThrowInput, previousLeftThrowInput, leftHandTrs, leftGrabbedPhysicsObject, leftAimer, previousLeftHandPosition, previousLeftHandEulerAngles);
-			HandleAiming (rightThrowInput, previousRightThrowInput, rightHandTrs, rightGrabbedPhysicsObject, rightAimer, previousRightHandPosition, previousRightHandEulerAngles);
+			HandleAiming (leftThrowInput, previousLeftThrowInput, leftCanThrow, leftHandTrs, leftGrabbedPhysicsObject, leftAimer, previousLeftHandPosition, previousLeftHandEulerAngles);
+			HandleAiming (rightThrowInput, previousRightThrowInput, rightCanThrow, rightHandTrs, rightGrabbedPhysicsObject, rightAimer, previousRightHandPosition, previousRightHandEulerAngles);
 		}
 
-		void HandleAiming (bool throwInput, bool previousThrowInput, Transform handTrs, PhysicsObject grabbedPhysicsObject, LineRenderer aimer, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
+		void HandleAiming (bool throwInput, bool previousThrowInput, bool canThrow, Transform handTrs, PhysicsObject grabbedPhysicsObject, LineRenderer aimer, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
 		{
+			if (!canThrow)
+			{
+				aimer.enabled = false;
+				return;
+			}
 			if (throwInput && grabbedPhysicsObject != null)
 			{
-				Vector3 currentVelocity = (handTrs.position - previousHandPosition) * Time.deltaTime;
+				Vector3 currentVelocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
 				if (InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
 					currentVelocity += handTrs.forward * throwSpeedWithKeyboard;
 				float currentDrag = grabbedPhysicsObject.rigid.drag;
@@ -283,17 +294,19 @@ namespace VisionGame
 
 		void HandleThrowing ()
 		{
-			HandleThrowing (leftThrowInput, previousLeftThrowInput, leftHandTrs, ref leftGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
-			HandleThrowing (rightThrowInput, previousRightThrowInput, rightHandTrs, ref rightGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
+			HandleThrowing (leftThrowInput, previousLeftThrowInput, leftCanThrow, leftHandTrs, ref leftGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
+			HandleThrowing (rightThrowInput, previousRightThrowInput, rightCanThrow, rightHandTrs, ref rightGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
 		}
 
-		void HandleThrowing (bool throwInput, bool previousThrowInput, Transform handTrs, ref PhysicsObject grabbedPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
+		void HandleThrowing (bool throwInput, bool previousThrowInput, bool canThrow, Transform handTrs, ref PhysicsObject grabbedPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
 		{
+			if (!canThrow)
+				return;
 			if (!throwInput && previousThrowInput && grabbedPhysicsObject != null)
 			{
 				grabbedPhysicsObject.trs.SetParent(null);
 				grabbedPhysicsObject.rigid.isKinematic = false;
-				Vector3 throwVelocity = (handTrs.position - previousHandPosition) * Time.deltaTime;
+				Vector3 throwVelocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
 				if (InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
 					throwVelocity += handTrs.forward * throwSpeedWithKeyboard;
 				grabbedPhysicsObject.rigid.velocity = throwVelocity;
@@ -304,20 +317,26 @@ namespace VisionGame
 
 		void HandleRotating ()
 		{
-			HandleRotating (InputManager.LeftRotateInput, leftGrabbedPhysicsObject);
-			HandleRotating (InputManager.RightRotateInput, rightGrabbedPhysicsObject);
+			HandleRotating (InputManager.LeftRotateInput, ref leftCanThrow, leftGrabbedPhysicsObject);
+			HandleRotating (InputManager.RightRotateInput, ref rightCanThrow, rightGrabbedPhysicsObject);
 		}
 
-		void HandleRotating (bool rotateInput, PhysicsObject grabbedPhysicsObject)
+		void HandleRotating (bool rotateInput, ref bool canThrow, PhysicsObject grabbedPhysicsObject)
 		{
+			bool _canThrow = canThrow;
 			if (grabbedPhysicsObject == null)
+			{
+				canThrow = true;
 				return;
+			}
 			if (rotateInput)
 			{
+				_canThrow = false;
 				Vector2 mouseMovement = InputManager.MouseMovement;
 				grabbedPhysicsObject.trs.localEulerAngles += new Vector3(-mouseMovement.y * rotateRate.x, mouseMovement.x * rotateRate.y) * Time.deltaTime;
 				grabbedPhysicsObject.trs.RotateAround(grabbedPhysicsObject.trs.position, grabbedPhysicsObject.trs.forward, Mouse.current.scroll.y.ReadValue() * rollRate * Time.deltaTime);
 			}
+			canThrow = _canThrow;
 		}
 
 		void HandleOrbViewing ()
@@ -340,8 +359,10 @@ namespace VisionGame
 			if (!controller.isGrounded)
 			{
 				yVel -= gravity * Time.deltaTime;
-				move += Vector3.up * yVel;
+				move.y = yVel;
 			}
+			else
+				yVel = 0;
 		}
 	
 		Vector3 GetMoveInput ()
@@ -364,17 +385,13 @@ namespace VisionGame
 			if (controller.enabled && controller.isGrounded)
 				move += GetMoveInput() * moveSpeed;
 			else
-				move = previousMoveInput.SetY(0);
+				move = previousMoveInput.SetY(yVel);
 		}
 		
 		void HandleJump ()
 		{
 			if (canJump && InputManager.JumpInput && Time.time - timeLastGrounded < jumpDuration)
-			{
-				if (controller.isGrounded)
-					yVel = 0;
 				Jump ();
-			}
 			else
 			{
 				if (yVel > 0)
@@ -406,7 +423,7 @@ namespace VisionGame
 		void Jump ()
 		{
 			yVel += jumpSpeed * Time.deltaTime;
-			move += Vector3.up * yVel;
+			move.y = yVel;
 		}
 
 		void OnCollisionEnter (Collision coll)

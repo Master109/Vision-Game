@@ -509,7 +509,7 @@ MonoBehaviour:
   leftHandTrs: {fileID: 3142074764428097995}
   rightHandTrs: {fileID: 1023724895461546157}
   controller: {fileID: 777132718866571283}
-  jumpSpeed: 45
+  jumpSpeed: 60
   jumpDuration: 0.3
   gravity: 25
   move: {x: 0, y: 0, z: 0}

@@ -199,8 +199,9 @@ namespace VisionGame
 		{
 			get
 			{
-				// if (Keyboard.current.zKey.isPressed)
-				if (Keyboard.current.qKey.isPressed)
+				if (Keyboard.current.zKey.isPressed)
+				// if (Keyboard.current.qKey.isPressed)
+				// if (Keyboard.current.cKey.isPressed)
 					return true;
 				else
 					return false;
@@ -217,8 +218,9 @@ namespace VisionGame
 		{
 			get
 			{
-				// if (Keyboard.current.cKey.isPressed)
-				if (Keyboard.current.eKey.isPressed)
+				if (Keyboard.current.cKey.isPressed)
+				// if (Keyboard.current.eKey.isPressed)
+				// if (Keyboard.current.vKey.isPressed)
 					return true;
 				else
 					return false;
@@ -237,6 +239,7 @@ namespace VisionGame
 			{
 				// if (Keyboard.current.zKey.isPressed)
 				if (Keyboard.current.qKey.isPressed)
+				// if (Keyboard.current.cKey.isPressed)
 					return true;
 				else
 					return false;
@@ -255,6 +258,7 @@ namespace VisionGame
 			{
 				// if (Keyboard.current.cKey.isPressed)
 				if (Keyboard.current.eKey.isPressed)
+				// if (Keyboard.current.vKey.isPressed)
 					return true;
 				else
 					return false;
@@ -285,7 +289,11 @@ namespace VisionGame
 		{
 			get
 			{
-				return _InputDevice == InputDevice.OculusRift && leftTouchController != null && leftTouchController.secondaryButton.isPressed;
+				if (_InputDevice == InputDevice.OculusRift && leftTouchController != null && leftTouchController.secondaryButton.isPressed)
+					return true;
+				else if (Keyboard.current.digit1Key.isPressed)
+					return true;
+				return false;
 			}
 		}
 		public bool _LeftOrbViewInput
@@ -299,7 +307,11 @@ namespace VisionGame
 		{
 			get
 			{
-				return _InputDevice == InputDevice.OculusRift && rightTouchController != null && rightTouchController.secondaryButton.isPressed;
+				if (_InputDevice == InputDevice.OculusRift && rightTouchController != null && rightTouchController.secondaryButton.isPressed)
+					return true;
+				else if (Keyboard.current.digit3Key.isPressed)
+					return true;
+				return false;
 			}
 		}
 		public bool _RightOrbViewInput
