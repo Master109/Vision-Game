@@ -250,16 +250,23 @@ namespace VisionGame
 
 		void HandleAiming ()
 		{
-			HandleAiming (leftThrowInput, previousLeftThrowInput, leftCanThrow, leftHandTrs, leftGrabbedPhysicsObject, leftAimer, previousLeftHandPosition, previousLeftHandEulerAngles);
-			HandleAiming (rightThrowInput, previousRightThrowInput, rightCanThrow, rightHandTrs, rightGrabbedPhysicsObject, rightAimer, previousRightHandPosition, previousRightHandEulerAngles);
+			HandleAiming (leftThrowInput, previousLeftThrowInput, ref leftCanThrow, leftHandTrs, leftGrabbedPhysicsObject, leftAimer, previousLeftHandPosition, previousLeftHandEulerAngles);
+			HandleAiming (rightThrowInput, previousRightThrowInput, ref rightCanThrow, rightHandTrs, rightGrabbedPhysicsObject, rightAimer, previousRightHandPosition, previousRightHandEulerAngles);
 		}
 
-		void HandleAiming (bool throwInput, bool previousThrowInput, bool canThrow, Transform handTrs, PhysicsObject grabbedPhysicsObject, LineRenderer aimer, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
+		void HandleAiming (bool throwInput, bool previousThrowInput, ref bool canThrow, Transform handTrs, PhysicsObject grabbedPhysicsObject, LineRenderer aimer, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
 		{
 			if (!canThrow)
 			{
-				aimer.enabled = false;
-				return;
+				if (throwInput && !previousThrowInput)
+				{
+					canThrow = true;
+				}
+				else
+				{
+					aimer.enabled = false;
+					return;
+				}
 			}
 			if (throwInput && grabbedPhysicsObject != null)
 			{
