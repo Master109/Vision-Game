@@ -72,6 +72,8 @@ namespace VisionGame
 			for (int i = 0; i < hitGos.Count; i ++)
 			{
 				GameObject hitGo = hitGos[i];
+				if (hitGo == gameObject)
+					continue;
 				IStorable storable = hitGo.GetComponent<IStorable>();
 				if (storable != null)
 					Instantiate(storable.Trs, storable.Trs.position, storable.Trs.rotation, capturedObjectsParent);
