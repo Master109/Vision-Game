@@ -49,6 +49,8 @@ namespace VisionGame
 		[HideInInspector]
 		Vector3 initRightHandLocalPosition;
 		Vector3 previousMoveInput;
+		Vector3 leftHandPosition;
+		Vector3 rightHandPosition;
 		Vector3 previousLeftHandPosition;
 		Vector3 previousRightHandPosition;
 		Vector3 previousLeftHandEulerAngles;
@@ -79,6 +81,8 @@ namespace VisionGame
 		List<PhysicsObject> physicsObjectsTouchingRightHand = new List<PhysicsObject>();
 		bool leftCanThrow;
 		bool rightCanThrow;
+		float yDistanceFromOrb;
+		float previousYDistanceFromOrb;
 
 		void OnEnable ()
 		{
@@ -96,8 +100,11 @@ namespace VisionGame
 
 		public void DoUpdate ()
 		{
+			yDistanceFromOrb = GameManager.GetSingleton<Orb>().trs.position.y - trs.position.y;
 			InputManager.leftTouchController = (OculusTouchController) OculusTouchController.leftHand;
 			InputManager.rightTouchController = (OculusTouchController) OculusTouchController.rightHand;
+			leftHandPosition = leftHandTrs.position;
+			rightHandPosition = rightHandTrs.position;
 			HandleHandOrientation ();
 			turnInput = InputManager.TurnInput;
 			move = Vector3.zero;
@@ -106,7 +113,6 @@ namespace VisionGame
 				timeLastGrounded = Time.time;
 				canJump = true;
 			}
-			// print(GameManager.GetSingleton<Orb>().trs.position.y - trs.position.y);
 			HandleFacing ();
 			leftGrabInput = InputManager.LeftGrabInput;
 			rightGrabInput = InputManager.RightGrabInput;
@@ -126,8 +132,8 @@ namespace VisionGame
 			previousLeftReplaceInput = leftReplaceInput;
 			previousRightReplaceInput = rightReplaceInput;
 			previousTurnInput = turnInput;
-			previousLeftHandPosition = leftHandTrs.position;
-			previousRightHandPosition = rightHandTrs.position;
+			previousLeftHandPosition = leftHandPosition;
+			previousRightHandPosition = rightHandPosition;
 			previousLeftHandEulerAngles = leftHandTrs.eulerAngles;
 			previousRightHandEulerAngles = rightHandTrs.eulerAngles;
 			previousMoveInput = move;
@@ -135,9 +141,7 @@ namespace VisionGame
 			previousRightThrowInput = rightThrowInput;
 			previousLeftGrabInput = leftGrabInput;
 			previousRightGrabInput = rightGrabInput;
-
-			print(nameof(leftCanThrow) + leftCanThrow);
-			print(nameof(rightCanThrow) + rightCanThrow);
+			previousYDistanceFromOrb = yDistanceFromOrb;
 		}
 
 		void OnDisable ()
@@ -311,6 +315,8 @@ namespace VisionGame
 					throwVelocity += handTrs.forward * throwSpeedWithKeyboard;
 				grabbedPhysicsObject.rigid.velocity = throwVelocity;
 				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
+				Physics.IgnoreCollision(grabbedPhysicsObject.collider, collider, false);
+				Physics.IgnoreCollision(grabbedPhysicsObject.collider, controller, false);
 				grabbedPhysicsObject = null;
 			}
 		}

@@ -258,7 +258,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.45
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &728910337517574492
 GameObject:
@@ -534,8 +534,6 @@ MonoBehaviour:
   throwSpeedWithKeyboard: 25
   initLeftHandLocalPosition: {x: -0.5, y: 0, z: 1}
   initRightHandLocalPosition: {x: 0.5, y: 0, z: 1}
-  physicsObjectsTouchingLeftHand: []
-  physicsObjectsTouchingRightHand: []
 --- !u!114 &4780438776155413846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,7 +806,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.45
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4780438776851788142
 PrefabInstance:
