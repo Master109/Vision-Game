@@ -15,7 +15,7 @@ using UnityEngine.InputSystem.XR;
 
 namespace VisionGame
 {
-	//[ExecuteInEditMode]
+	[ExecuteInEditMode]
 	public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveableAndLoadable
 	{
 		public string Name

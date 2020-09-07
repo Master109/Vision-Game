@@ -321,6 +321,23 @@ namespace VisionGame
 				return RightOrbViewInput;
 			}
 		}
+		public static float MouseScrollWheelInput
+		{
+			get
+			{
+				if (UsingMouse)
+					return Mouse.current.scroll.y.ReadValue();
+				else
+					return 0;
+			}
+		}
+		public float _MouseScrollWheelInput
+		{
+			get
+			{
+				return MouseScrollWheelInput;
+			}
+		}
 		public static bool JumpInput
 		{
 			get

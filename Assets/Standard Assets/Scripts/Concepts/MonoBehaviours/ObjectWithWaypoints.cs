@@ -7,7 +7,7 @@ using Extensions;
 using UnityEditor;
 #endif
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 {
 	public virtual bool PauseWhileUnfocused
@@ -27,6 +27,7 @@ public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 	public bool autoSetWaypoints;
 	public Transform wayPointsParent;
 	public new Collider collider;
+	[HideInInspector]
 	[SerializeField]
 	Vector3 colliderSize;
 	Vector3 fromPreviousPosition;

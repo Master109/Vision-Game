@@ -122,7 +122,13 @@ namespace Extensions
 
 		public static void SetWorldScale (this Transform trs, Vector3 scale)
 		{
-			trs.localScale = trs.rotation * trs.InverseTransformDirection(scale);
+			trs.localScale = Vector3.one;
+			trs.localScale = scale.Divide(trs.lossyScale);
+		}
+
+		public static Matrix4x4 GetMatrix (this Transform trs)
+		{
+			return Matrix4x4.TRS(trs.position, trs.rotation, trs.lossyScale);
 		}
 	}
 }

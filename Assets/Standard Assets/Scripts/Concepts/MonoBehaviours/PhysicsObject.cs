@@ -32,7 +32,7 @@ namespace VisionGame
 			}
 #endif
 			frameIWasEnabled = GameManager.framesSinceLoadedScene;
-			Physics.Simulate(0);
+			Physics.Simulate(float.Epsilon);
 			if (isStuck)
 			{
 				return;

@@ -93,7 +93,7 @@ public class LineSegment3D
 
 	public virtual float GetLength ()
 	{
-		return Vector2.Distance(start, end);
+		return Vector3.Distance(start, end);
 	}
 
 	public virtual float GetLengthSqr ()
