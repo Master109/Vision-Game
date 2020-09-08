@@ -43,13 +43,14 @@ namespace VisionGame
 		public LayerMask whatBlocksAimer;
 		public FloatRange throwSpeedRange;
 		public float throwSpeedChangeRate;
-		float currentThrowSpeed;
+		public LayerMask whatICollideWith;
 		[SerializeField]
 		[HideInInspector]
 		Vector3 initLeftHandLocalPosition;
 		[SerializeField]
 		[HideInInspector]
 		Vector3 initRightHandLocalPosition;
+		float currentThrowSpeed;
 		Vector3 previousMoveInput;
 		Vector3 leftHandPosition;
 		Vector3 rightHandPosition;
@@ -424,21 +425,33 @@ namespace VisionGame
 
 		void HandleCollisions ()
 		{
-			foreach (Collision coll in goCollisions.Values)
+			// foreach (Collision coll in goCollisions.Values)
+			// {
+			// 	for (int i = 0; i < coll.contactCount; i ++)
+			// 	{
+			// 		ContactPoint contactPoint = coll.GetContact(i);
+			// 		float slopeAngle = Vector3.Angle(contactPoint.normal, Vector3.up);
+			// 		if (slopeAngle <= controller.slopeLimit)
+			// 		{
+			// 			controller.enabled = true;
+			// 			rigid.useGravity = false;
+			// 			rigid.velocity = Vector3.zero;
+			// 			return;
+			// 		}
+			// 		else if (Mathf.Approximately(slopeAngle, 90))
+			// 			return;
+			// 	}
+			// }
+			RaycastHit hit;
+			if (Physics.Raycast(collider.bounds.center + Vector3.down * collider.bounds.extents.y, Vector3.down, out hit, 1, whatICollideWith))
 			{
-				for (int i = 0; i < coll.contactCount; i ++)
+				float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+				if (slopeAngle <= controller.slopeLimit)
 				{
-					ContactPoint contactPoint = coll.GetContact(i);
-					float slopeAngle = Vector3.Angle(contactPoint.normal, Vector3.up);
-					if (slopeAngle <= controller.slopeLimit)
-					{
-						controller.enabled = true;
-						rigid.useGravity = false;
-						rigid.velocity = Vector3.zero;
-						return;
-					}
-					else if (Mathf.Approximately(slopeAngle, 90))
-						return;
+					controller.enabled = true;
+					rigid.useGravity = false;
+					rigid.velocity = Vector3.zero;
+					return;
 				}
 			}
 			controller.enabled = false;
