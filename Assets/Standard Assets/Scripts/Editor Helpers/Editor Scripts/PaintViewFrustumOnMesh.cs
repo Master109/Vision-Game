@@ -41,7 +41,7 @@ public class PaintViewFrustumOnMesh : EditorScript
 		}
 		for (int i = 0; i < mesh.vertexCount; i ++)
 		{
-			MeshExtensions.MeshVertex meshVertex = new MeshExtensions.MeshVertex(mesh, trs, i);
+			MeshExtensions.MeshVertex meshVertex = new MeshExtensions.MeshVertex(mesh, trs, i, null);
 			if (boundingFrustum.Contains(ref meshVertex.point))
 			{
 				if (paintType == PaintType.Both || paintType == PaintType.Inside)

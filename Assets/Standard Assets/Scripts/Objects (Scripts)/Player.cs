@@ -216,8 +216,8 @@ namespace VisionGame
 							Physics.IgnoreCollision(physicsObject.collider, collider, true);
 							Physics.IgnoreCollision(physicsObject.collider, controller, true);
 							physicsObject.trs.SetParent(handTrs);
-							physicsObject.trs.localPosition = Vector3.zero;
 							grabbedPhysicsObject = physicsObject;
+							physicsObject.trs.localPosition = GetClosestVectorFromPhysicsObject(grabbedPhysicsObject);
 							grabbedPhysicsObject.rigid.isKinematic = true;
 							Orb orb = physicsObject.GetComponent<Orb>();
 							if (orb != null && GameManager.GetSingleton<Level>().orbs.Length == 2)
@@ -247,6 +247,13 @@ namespace VisionGame
 				Physics.IgnoreCollision(grabbedPhysicsObject.collider, controller, false);
 				grabbedPhysicsObject = null;
 			}
+		}
+
+		Vector3 GetClosestVectorFromPhysicsObject (PhysicsObject physicsObject)
+		{
+			Vector3 closestPointOnPhysicsObject = physicsObject.collider.ClosestPoint(trs.position);
+			Vector3 closestPointOnMe = collider.ClosestPoint(physicsObject.trs.position);
+			return closestPointOnMe - closestPointOnPhysicsObject;
 		}
 
 		void HandleAiming ()
@@ -427,12 +434,15 @@ namespace VisionGame
 					{
 						controller.enabled = true;
 						rigid.useGravity = false;
+						rigid.velocity = Vector3.zero;
 						return;
 					}
 					else if (Mathf.Approximately(slopeAngle, 90))
 						return;
 				}
 			}
+			controller.enabled = false;
+			rigid.useGravity = true;
 		}
 		
 		void Jump ()

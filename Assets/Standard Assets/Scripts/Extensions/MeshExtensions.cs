@@ -8,10 +8,10 @@ namespace Extensions
 		public static MeshTriangle[] GetTriangles (params KeyValuePair<Mesh, Transform>[] meshesAndTransforms)
 		{
 			List<MeshTriangle> output = new List<MeshTriangle>();
-            for (int i = 0; i < meshesAndTransforms.Length; i ++)
+			for (int i = 0; i < meshesAndTransforms.Length; i ++)
 			{
-                KeyValuePair<Mesh, Transform> meshAndTransform = meshesAndTransforms[i];
-                for (int i2 = 0; i2 < meshAndTransform.Key.vertexCount; i2 ++)
+				KeyValuePair<Mesh, Transform> meshAndTransform = meshesAndTransforms[i];
+				for (int i2 = 0; i2 < meshAndTransform.Key.vertexCount; i2 ++)
 				{
 					MeshVertex meshVertex = new MeshVertex(meshAndTransform.Key, meshAndTransform.Value, i2);
 					foreach (MeshTriangle meshTriangle in meshVertex.trianglesIAmPartOf)
@@ -31,6 +31,54 @@ namespace Extensions
 				}
 			}
 			return output.ToArray();
+		}
+ 
+		static int GetNewVertex (int i1, int i2, ref List<Vector3> vertices, ref Dictionary<uint, int> newVertices, ref List<Vector3> normals)
+		{
+			uint t1 = ((uint) i1 << 16) | (uint) i2;
+			uint t2 = ((uint) i2 << 16) | (uint) i1;
+			if (newVertices.ContainsKey(t2))
+				return newVertices[t2];
+			if (newVertices.ContainsKey(t1))
+				return newVertices[t1];
+			int newIndex = vertices.Count;
+			newVertices.Add(t1, newIndex);
+			vertices.Add((vertices[i1] + vertices[i2]) * 0.5f);
+			normals.Add((normals[i1] + normals[i2]).normalized);
+			return newIndex;
+		}
+	
+		public static void Subdivide (this Mesh mesh)
+		{
+			Dictionary<uint, int> newVertices = new Dictionary<uint, int>();
+			List<Vector3> vertices = new List<Vector3>(mesh.vertices);
+			List<Vector3> normals = new List<Vector3>(mesh.normals);
+			List<int> indices = new List<int>();
+			int[] triangles = mesh.triangles;
+			for (int i = 0; i < triangles.Length; i += 3)
+			{
+				int i1 = triangles[i + 0];
+				int i2 = triangles[i + 1];
+				int i3 = triangles[i + 2];
+				int a = GetNewVertex(i1, i2, ref vertices, ref newVertices, ref normals);
+				int b = GetNewVertex(i2, i3, ref vertices, ref newVertices, ref normals);
+				int c = GetNewVertex(i3, i1, ref vertices, ref newVertices, ref normals);
+				indices.Add(i1);
+				indices.Add(a);
+				indices.Add(c);
+				indices.Add(i2);
+				indices.Add(b);
+				indices.Add(a);
+				indices.Add(i3);
+				indices.Add(c);
+				indices.Add(b);
+				indices.Add(a);
+				indices.Add(b);
+				indices.Add(c);
+			}
+			mesh.vertices = vertices.ToArray();
+			mesh.normals = normals.ToArray();
+			mesh.triangles = indices.ToArray();
 		}
 
 		// public static MeshTriangle[] GetTrianglesOnTheSameQuad (this Mesh mesh, Transform trs, Mesh otherMesh, Transform otherTrs)
@@ -136,6 +184,24 @@ namespace Extensions
 						_trianglesIAmPartOf.Add(new MeshTriangle(mesh, trs, i / 3, vertexIndex1, vertexIndex2, vertexIndex3));
 				}
 				trianglesIAmPartOf = _trianglesIAmPartOf.ToArray();
+			}
+
+			public MeshVertex (Mesh mesh, Transform trs, int index, Vector3 point, MeshTriangle[] trianglesIAmPartOf)
+			{
+				this.mesh = mesh;
+				this.trs = trs;
+				this.index = index;
+				this.point = trs.TransformPoint(point);
+				this.trianglesIAmPartOf = trianglesIAmPartOf;
+			}
+
+			public MeshVertex (Mesh mesh, Transform trs, int index, MeshTriangle[] trianglesIAmPartOf)
+			{
+				this.mesh = mesh;
+				this.trs = trs;
+				this.index = index;
+				point = trs.TransformPoint(mesh.vertices[index]);
+				this.trianglesIAmPartOf = trianglesIAmPartOf;
 			}
 		}
 
