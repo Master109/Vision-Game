@@ -454,6 +454,8 @@ namespace VisionGame
 					return;
 				}
 			}
+			else
+				return;
 			controller.enabled = false;
 			rigid.useGravity = true;
 		}
