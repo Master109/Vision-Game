@@ -486,7 +486,7 @@ namespace VisionGame
 
 		void OnTriggerEnter (Collider other)
 		{
-			PhysicsObject physicsObject = other.GetComponent<PhysicsObject>();
+			PhysicsObject physicsObject = other.GetComponentInParent<PhysicsObject>();
 			if (physicsObject != null)
 			{
 				Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereCollider.radius, whatIsGrabbable);
@@ -502,7 +502,7 @@ namespace VisionGame
 
 		void OnTriggerExit (Collider other)
 		{
-			PhysicsObject physicsObject = other.GetComponent<PhysicsObject>();
+			PhysicsObject physicsObject = other.GetComponentInParent<PhysicsObject>();
 			if (physicsObject != null)
 			{
 				Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereCollider.radius, whatIsGrabbable);

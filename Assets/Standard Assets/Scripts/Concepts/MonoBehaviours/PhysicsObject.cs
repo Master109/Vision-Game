@@ -36,6 +36,11 @@ namespace VisionGame
 				return;
 			}
 #endif
+			if (rigid == null)
+			{
+				Destroy(this);
+				return;
+			}
 			frameIWasEnabled = GameManager.framesSinceLoadedScene;
 			Physics.Simulate(float.Epsilon);
 			if (isStuck)
