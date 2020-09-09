@@ -10,8 +10,9 @@ namespace VisionGame
 		{
 			get
 			{
-				return gameObject;
+				return go;
 			}
 		}
+		public GameObject go;
 	}
 }

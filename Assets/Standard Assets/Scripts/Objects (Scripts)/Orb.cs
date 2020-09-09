@@ -79,7 +79,7 @@ namespace VisionGame
 					Instantiate(storable.Trs, storable.Trs.position, storable.Trs.rotation, capturedObjectsParent);
 				IDestroyable destroyable = hitGo.GetComponentInParent<IDestroyable>();
 				if (destroyable != null)
-					Destroy(hitGo);
+					Destroy(destroyable.Go);
 			}
 			oldCapturedObjectsParent.DetachChildren();
 		}
