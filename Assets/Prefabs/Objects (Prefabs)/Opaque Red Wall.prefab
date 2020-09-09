@@ -12,6 +12,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4139053475e6e2441882447c723ecfe4, type: 2}
+    - target: {fileID: 6276333853413823122, guid: 43c3f6c69342b8542b58e6161e739898,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 6276333853413823122, guid: 43c3f6c69342b8542b58e6161e739898,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7856562513247986364, guid: 43c3f6c69342b8542b58e6161e739898,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8558334622425614864, guid: 43c3f6c69342b8542b58e6161e739898,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,17 +82,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8558334622425614865, guid: 43c3f6c69342b8542b58e6161e739898,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8558334622425614866, guid: 43c3f6c69342b8542b58e6161e739898,
         type: 3}
       propertyPath: m_Name
       value: Opaque Red Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 8558334622425614867, guid: 43c3f6c69342b8542b58e6161e739898,
+        type: 3}
+      propertyPath: collider
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2377912156065556900, guid: 43c3f6c69342b8542b58e6161e739898, type: 3}
     - {fileID: 5647851490461033018, guid: 43c3f6c69342b8542b58e6161e739898, type: 3}
+    - {fileID: 155131498594321089, guid: 43c3f6c69342b8542b58e6161e739898, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 43c3f6c69342b8542b58e6161e739898, type: 3}

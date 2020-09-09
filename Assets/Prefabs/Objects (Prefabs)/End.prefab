@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trs: {fileID: 7657393021846157925}
   prefabIndex: 0
+  childrenParent: {fileID: 7247705926087124293}
   rigid: {fileID: 7657393021846157924}
   collider: {fileID: 6649981102269924842}
   velocity: {x: 0, y: 0, z: 0}
@@ -216,6 +217,12 @@ Transform:
 --- !u!54 &7657393021846157924 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 8818453291387126706, guid: 99343b054b58b5a48884b69b4773e7e7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1163607564184779222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7247705926087124293 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8408485254303210643, guid: 99343b054b58b5a48884b69b4773e7e7,
     type: 3}
   m_PrefabInstance: {fileID: 1163607564184779222}
   m_PrefabAsset: {fileID: 0}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3159589260634709775}
   - component: {fileID: 8721998661673588287}
   m_Layer: 8
-  m_Name: Piston
+  m_Name: Opaque Piston
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,7 +215,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 08333f9de1c66f74ab1ce71420b499f8, type: 2}
+  - {fileID: 2100000, guid: 4139053475e6e2441882447c723ecfe4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

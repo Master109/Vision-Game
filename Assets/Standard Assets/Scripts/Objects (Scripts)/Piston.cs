@@ -32,18 +32,22 @@ namespace VisionGame
 		LineSegment3D lineSegment;
 		bool moveTowardsEnd = true;
 
+		void Awake ()
+		{
+			for (int i = 0; i < ignoreCollisionEntries.Length; i ++)
+			{
+				IgnoreCollisionEntry ignoreCollisionEntry = ignoreCollisionEntries[i];
+				Physics.IgnoreCollision(ignoreCollisionEntry.collider, ignoreCollisionEntry.otherCollider);
+			}
+			lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + axelTrs.forward * (moveDistance - axelOffset - extendAxel));
+		}
+
 		void OnEnable ()
 		{
 #if UNITY_EDITOR
 			if (!Application.isPlaying)
 				return;
 #endif
-            for (int i = 0; i < ignoreCollisionEntries.Length; i ++)
-			{
-                IgnoreCollisionEntry ignoreCollisionEntry = ignoreCollisionEntries[i];
-                Physics.IgnoreCollision(ignoreCollisionEntry.collider, ignoreCollisionEntry.otherCollider);
-			}
-			lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + axelTrs.forward * (moveDistance - axelOffset - extendAxel));
 			GameManager.updatables = GameManager.updatables.Add(this);
 		}
 

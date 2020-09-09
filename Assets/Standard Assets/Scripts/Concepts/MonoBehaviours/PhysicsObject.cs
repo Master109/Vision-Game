@@ -7,6 +7,7 @@ namespace VisionGame
 	[ExecuteInEditMode]
 	public class PhysicsObject : Spawnable
 	{
+		public Transform childrenParent;
 		public Rigidbody rigid;
 		public new Collider collider;
 		[HideInInspector]
@@ -28,6 +29,10 @@ namespace VisionGame
 				if (rigid == null)
 					rigid = GetComponent<Rigidbody>();
 				velocity = Vector3.zero;
+				childrenParent.localScale = Vector3.one.Divide(trs.lossyScale);
+				BoxCollider boxCollider = collider as BoxCollider;
+				if (boxCollider != null)
+					boxCollider.size = trs.lossyScale;
 				return;
 			}
 #endif
@@ -85,7 +90,7 @@ namespace VisionGame
 						// Destroy(rigid);
 						// Destroy(coll.rigidbody);
 						PhysicsObject physicsObject = GameManager.GetSingleton<ObjectPool>().SpawnComponent<PhysicsObject> (prefabIndex, default(Vector3), default(Quaternion), trs.parent);
-						trs.SetParent(physicsObject.trs);
+						trs.SetParent(physicsObject.childrenParent);
 					}
 					return;
 				}

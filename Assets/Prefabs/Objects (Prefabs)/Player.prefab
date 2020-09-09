@@ -527,7 +527,7 @@ MonoBehaviour:
   maxHandDistance: 6.25
   leftAimer: {fileID: 6367818312437764565}
   rightAimer: {fileID: 1388642439339493007}
-  maxAimerDistanceSqr: 100
+  maxAimerDistanceSqr: 10000
   whatBlocksAimer:
     serializedVersion: 2
     m_Bits: 6912

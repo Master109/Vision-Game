@@ -203,6 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trs: {fileID: 8642901722070886499}
   prefabIndex: 0
+  childrenParent: {fileID: 8728047618191456067}
   rigid: {fileID: 8642901722070886498}
   collider: {fileID: 8011746275113440144}
   velocity: {x: 0, y: 0, z: 0}
@@ -258,6 +259,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8407068622943312580, guid: 99343b054b58b5a48884b69b4773e7e7,
+        type: 3}
+      propertyPath: collider
+      value: 
+      objectReference: {fileID: 8011746275113440144}
+    - target: {fileID: 8408485254303210643, guid: 99343b054b58b5a48884b69b4773e7e7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8818453291387126705, guid: 99343b054b58b5a48884b69b4773e7e7,
         type: 3}
       propertyPath: m_Name
@@ -341,6 +352,12 @@ Transform:
 --- !u!54 &8642901722070886498 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 8818453291387126706, guid: 99343b054b58b5a48884b69b4773e7e7,
+    type: 3}
+  m_PrefabInstance: {fileID: 977476665261468624}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8728047618191456067 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8408485254303210643, guid: 99343b054b58b5a48884b69b4773e7e7,
     type: 3}
   m_PrefabInstance: {fileID: 977476665261468624}
   m_PrefabAsset: {fileID: 0}

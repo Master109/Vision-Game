@@ -74,10 +74,10 @@ namespace VisionGame
 				GameObject hitGo = hitGos[i];
 				if (hitGo == gameObject)
 					continue;
-				IStorable storable = hitGo.GetComponent<IStorable>();
+				IStorable storable = hitGo.GetComponentInParent<IStorable>();
 				if (storable != null)
 					Instantiate(storable.Trs, storable.Trs.position, storable.Trs.rotation, capturedObjectsParent);
-				IDestroyable destroyable = hitGo.GetComponent<IDestroyable>();
+				IDestroyable destroyable = hitGo.GetComponentInParent<IDestroyable>();
 				if (destroyable != null)
 					Destroy(hitGo);
 			}

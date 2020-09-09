@@ -79,7 +79,7 @@ namespace VisionGame
 		float timeLastGrounded;
 		bool turnInput;
 		bool previousTurnInput;
-		Dictionary<GameObject, Collision> goCollisions = new Dictionary<GameObject, Collision>();
+		// Dictionary<GameObject, Collision> goCollisions = new Dictionary<GameObject, Collision>();
 		List<PhysicsObject> physicsObjectsTouchingLeftHand = new List<PhysicsObject>();
 		List<PhysicsObject> physicsObjectsTouchingRightHand = new List<PhysicsObject>();
 		bool leftCanThrow;
@@ -468,21 +468,21 @@ namespace VisionGame
 
 		void OnCollisionEnter (Collision coll)
 		{
-			goCollisions.Remove(coll.gameObject);
-			goCollisions.Add(coll.gameObject, coll);
+			// goCollisions.Remove(coll.gameObject);
+			// goCollisions.Add(coll.gameObject, coll);
 			HandleCollisions ();
 		}
 
 		void OnCollisionStay (Collision coll)
 		{
-			goCollisions[coll.gameObject] = coll;
+			// goCollisions[coll.gameObject] = coll;
 			HandleCollisions ();
 		}
 
-		void OnCollisionExit (Collision coll)
-		{
-			goCollisions.Remove(coll.gameObject);
-		}
+		// void OnCollisionExit (Collision coll)
+		// {
+		// 	goCollisions.Remove(coll.gameObject);
+		// }
 
 		void OnTriggerEnter (Collider other)
 		{
