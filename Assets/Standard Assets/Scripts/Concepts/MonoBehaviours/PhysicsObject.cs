@@ -7,6 +7,7 @@ namespace VisionGame
 	[ExecuteInEditMode]
 	public class PhysicsObject : Spawnable
 	{
+		public static List<Rigidbody> stuckRigidbodies = new List<Rigidbody>();
 		public Transform childrenParent;
 		public Rigidbody rigid;
 		public new Collider collider;
@@ -15,11 +16,12 @@ namespace VisionGame
 		[HideInInspector]
 		public Vector3 angularVelocity;
 		public float overlapAmountToGetStuck;
-		public static List<Rigidbody> stuckRigidbodies = new List<Rigidbody>();
-		bool isStuck;
-		int frameIWasEnabled;
+		[HideInInspector]
+		public bool isStuck;
+		[HideInInspector]
+		public int frameIWasEnabled;
 
-		void OnEnable ()
+		public virtual void OnEnable ()
 		{
 #if UNITY_EDITOR
 			if (!Application.isPlaying)
@@ -50,23 +52,18 @@ namespace VisionGame
 			else
 			{
 				rigid.isKinematic = false;
-				isStuck = false;
 				stuckRigidbodies.Remove(rigid);
 				// if (rigid == null)
 				// 	rigid = gameObject.AddComponent<Rigidbody>();
 			}
 			rigid.velocity = trs.TransformDirection(velocity);
+			print(rigid.velocity);
 			rigid.angularVelocity = trs.TransformDirection(angularVelocity);
 		}
 
-		void OnDisable ()
+		public virtual void OnDisable ()
 		{
-#if UNITY_EDITOR
-			if (!Application.isPlaying)
-				return;
-#endif
-			velocity = trs.InverseTransformDirection(rigid.velocity);
-			angularVelocity = trs.InverseTransformDirection(rigid.angularVelocity);
+			isStuck = false;
 		}
 
 		void OnCollisionEnter (Collision coll)

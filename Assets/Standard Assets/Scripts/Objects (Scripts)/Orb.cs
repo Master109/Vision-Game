@@ -74,12 +74,23 @@ namespace VisionGame
 				GameObject hitGo = hitGos[i];
 				if (hitGo == gameObject)
 					continue;
+				else if (hitGo == GameManager.GetSingleton<Player>().gameObject)
+				{
+					Destroy (GameManager.GetSingleton<Player>().gameObject);
+					return;
+				}
 				IStorable storable = hitGo.GetComponentInParent<IStorable>();
 				if (storable != null)
-					Instantiate(storable.Trs, storable.Trs.position, storable.Trs.rotation, capturedObjectsParent);
-				IDestroyable destroyable = hitGo.GetComponentInParent<IDestroyable>();
-				if (destroyable != null)
-					Destroy(destroyable.Go);
+				{
+					PhysicsObject physicsObject = hitGo.GetComponentInParent<PhysicsObject>();
+					if (physicsObject != null)
+					{
+						physicsObject.velocity = physicsObject.trs.InverseTransformDirection(physicsObject.rigid.velocity);
+						print(physicsObject.velocity);
+						physicsObject.angularVelocity = physicsObject.trs.InverseTransformDirection(physicsObject.rigid.angularVelocity);
+						physicsObject.trs.SetParent(capturedObjectsParent);
+					}
+				}
 			}
 			oldCapturedObjectsParent.DetachChildren();
 		}

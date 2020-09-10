@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8108363363806545281}
   - component: {fileID: 3159589260634709775}
   - component: {fileID: 8721998661673588287}
+  - component: {fileID: 2649347823527808878}
   m_Layer: 8
   m_Name: Opaque Piston
   m_TagString: Untagged
@@ -42,7 +43,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 930546999370169148}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e32c588fd45a40f4aa0aff1474009476, type: 3}
   m_Name: 
@@ -123,6 +124,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2649347823527808878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930546999370169148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f53e1d378552af48a4187a4ccfd0a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hotkeys: []
+  trs: {fileID: 930546999370169150}
+  smallValue: 0.000001
 --- !u!1 &5309009152495794485
 GameObject:
   m_ObjectHideFlags: 0

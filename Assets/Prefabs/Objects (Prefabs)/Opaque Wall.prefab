@@ -49,19 +49,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8558334622425614866}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &2377912156065556900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8558334622425614866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 406f6098a97d1104b98a6651ca87d6e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  go: {fileID: 8558334622425614866}
 --- !u!114 &5647851490461033018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hotkeys: []
   trs: {fileID: 8558334622425614864}
-  smallValue: 0.000001
+  smallValue: 0.0001
 --- !u!65 &6276333853413823122
 BoxCollider:
   m_ObjectHideFlags: 0

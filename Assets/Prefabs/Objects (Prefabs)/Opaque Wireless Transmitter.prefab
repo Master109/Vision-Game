@@ -94,21 +94,8 @@ MonoBehaviour:
   collider: {fileID: 1507108585685850502}
   velocity: {x: 0, y: 0, z: 0}
   angularVelocity: {x: 0, y: 0, z: 0}
-  overlapAmountToGetStuck: 0.25
+  overlapAmountToGetStuck: 0.1
   receiverIds: 
---- !u!114 &7288563288659982999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 51721720902338797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 406f6098a97d1104b98a6651ca87d6e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  go: {fileID: 51721720902338797}
 --- !u!114 &7833878919439437363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8818453291387126704, guid: 99343b054b58b5a48884b69b4773e7e7, type: 3}
+    - {fileID: 8407068622943312580, guid: 99343b054b58b5a48884b69b4773e7e7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 99343b054b58b5a48884b69b4773e7e7, type: 3}
 --- !u!1 &51721720902338797 stripped
 GameObject:

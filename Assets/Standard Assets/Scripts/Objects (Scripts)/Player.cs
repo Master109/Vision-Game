@@ -19,6 +19,8 @@ namespace VisionGame
 			}
 		}
 		public Transform trs;
+		public Rigidbody rigid;
+		public new Collider collider;
 		public Transform leftHandTrs;
 		public Transform rightHandTrs;
 		public CharacterController controller;
@@ -28,13 +30,11 @@ namespace VisionGame
 		[HideInInspector]
 		public Vector3 move;
 		public float moveSpeed;
-		public Rigidbody rigid;
 		public SphereCollider leftHandSphereCollider;
 		public SphereCollider rightHandSphereCollider;
 		public LayerMask whatIsGrabbable;
 		public Vector2 rotateRate;
 		public float rollRate;
-		public new Collider collider;
 		public bool invulnerable;
 		public float maxHandDistance;
 		public LineRenderer leftAimer;
@@ -148,6 +148,10 @@ namespace VisionGame
 
 		void OnDisable ()
 		{
+#if UNITY_EDITOR
+			if (!Application.isPlaying)
+				return;
+#endif
 			GameManager.updatables = GameManager.updatables.Remove(this);
 		}
 
@@ -516,6 +520,15 @@ namespace VisionGame
 						physicsObjectsTouchingRightHand.Remove(physicsObject);
 				}
 			}
+		}
+
+		void OnTransformParentChanged ()
+		{
+#if UNITY_EDITOR
+			if (!Application.isPlaying)
+				return;
+#endif
+			Destroy(gameObject);
 		}
 	}
 }
