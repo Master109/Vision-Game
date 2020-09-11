@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Extensions;
 using System;
-using Extensions;
 
 namespace VisionGame
 {
@@ -24,13 +23,13 @@ namespace VisionGame
 		public float childObjectsOffset;
 		public Transform childObjectsParent;
 		public IgnoreCollisionEntry[] ignoreCollisionEntries = new IgnoreCollisionEntry[0];
-		// public Rigidbody rigid;
+		public Rigidbody rigid;
 		public float moveDistance;
 		public float moveSpeed;
 		public bool repeat;
 		float distanceAlongLineSegment;
 		LineSegment3D lineSegment;
-		bool moveTowardsEnd = true;
+		bool moveTowardsEnd;
 
 		void Awake ()
 		{
@@ -40,6 +39,7 @@ namespace VisionGame
 				Physics.IgnoreCollision(ignoreCollisionEntry.collider, ignoreCollisionEntry.otherCollider);
 			}
 			lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + axelTrs.forward * (moveDistance - axelOffset - extendAxel));
+			// lineSegment = new LineSegment3D(trs.position + (trs.forward * (-.5f - moveDistance + axelOffset)), trs.position + (trs.forward * (.5f + extendAxel + axelOffset)));
 		}
 
 		void OnEnable ()
@@ -55,20 +55,35 @@ namespace VisionGame
 		void OnValidate ()
 		{
 			lineSegment = new LineSegment3D(trs.position + (trs.forward * (-.5f - moveDistance + axelOffset)), trs.position + (trs.forward * (.5f + extendAxel + axelOffset)));
+			// lineSegment.DrawGizmos(Color.green);
 			axelTrs.position = lineSegment.start;
 			axelTrs.localScale = axelTrs.localScale.SetZ(lineSegment.GetLength());
 			childObjectsParent.position = lineSegment.end + (lineSegment.GetDirection() * childObjectsOffset);
 			childObjectsParent.SetWorldScale(Vector3.one);
+			// Vector3 lineSegmentOffset = Vector3.right;
+			// lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + axelTrs.forward * (moveDistance - axelOffset - extendAxel));
+			// lineSegment = lineSegment.Move(lineSegmentOffset);
+			// lineSegment.DrawGizmos(Color.black);
 		}
 #endif
 
 		public void DoUpdate ()
 		{
+			// axelTrs.position = lineSegment.ClosestPoint(axelTrs.position);
+			// if (axelTrs.position == lineSegment.start || axelTrs.position == lineSegment.end)
+			// {
+			// 	if (repeat)
+			// 		moveTowardsEnd = !moveTowardsEnd;
+			// 	else
+			// 	{
+			// 		GameManager.updatables = GameManager.updatables.Remove(this);
+			// 		return;
+			// 	}
+			// }
 			// if (moveTowardsEnd)
 			// 	rigid.velocity = lineSegment.GetDirection() * moveSpeed;
 			// else
 			// 	rigid.velocity = -lineSegment.GetDirection() * moveSpeed;
-			// axelTrs.position = lineSegment.ClosestPoint(axelTrs.position);
 			if (moveTowardsEnd)
 				distanceAlongLineSegment += moveSpeed * Time.deltaTime;
 			else

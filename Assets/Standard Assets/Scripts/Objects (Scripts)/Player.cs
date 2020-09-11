@@ -73,9 +73,7 @@ namespace VisionGame
 		bool rightGrabInput;
 		bool previousRightGrabInput;
 		Quaternion previousRotation;
-		float yVel;
 		Vector3 previousPosition;
-		bool canJump;
 		float timeLastGrounded;
 		bool turnInput;
 		bool previousTurnInput;
@@ -85,6 +83,11 @@ namespace VisionGame
 		bool leftCanThrow;
 		bool rightCanThrow;
 		float mouseScrollWheelInput;
+		bool jumpInput;
+		bool previousJumpInput;
+		bool previousIsGrounded;
+		bool previousIsGrounded2;
+		bool previousIsGrounded3;
 
 		void OnEnable ()
 		{
@@ -109,13 +112,12 @@ namespace VisionGame
 			leftHandPosition = leftHandTrs.position;
 			rightHandPosition = rightHandTrs.position;
 			HandleHandOrientation ();
-			turnInput = InputManager.TurnInput;
-			move = Vector3.zero;
+			// move = Vector3.zero;
+			move.x = 0;
+			move.z = 0;
 			if (controller.isGrounded)
-			{
 				timeLastGrounded = Time.time;
-				canJump = true;
-			}
+			turnInput = InputManager.TurnInput;
 			HandleFacing ();
 			leftGrabInput = InputManager.LeftGrabInput;
 			rightGrabInput = InputManager.RightGrabInput;
@@ -125,9 +127,8 @@ namespace VisionGame
 			HandleAiming ();
 			HandleThrowing ();
 			HandleRotating ();
-			Move ();
-			HandleGravity ();
-			HandleJump ();
+			jumpInput = InputManager.JumpInput;
+			HandleVelocity ();
 			leftReplaceInput = InputManager.LeftReplaceInput;
 			rightReplaceInput = InputManager.RightReplaceInput;
 			HandleReplacement ();
@@ -144,6 +145,10 @@ namespace VisionGame
 			previousRightThrowInput = rightThrowInput;
 			previousLeftGrabInput = leftGrabInput;
 			previousRightGrabInput = rightGrabInput;
+			previousJumpInput = jumpInput;
+			previousIsGrounded3 = previousIsGrounded2;
+			previousIsGrounded2 = previousIsGrounded;
+			previousIsGrounded = controller.isGrounded;
 		}
 
 		void OnDisable ()
@@ -163,6 +168,13 @@ namespace VisionGame
 #endif
 			if (!invulnerable)
 				GameManager.GetSingleton<GameManager>().ReloadActiveScene ();
+		}
+
+		void HandleVelocity ()
+		{
+			Move ();
+			HandleGravity ();
+			HandleJump ();
 		}
 
 		void HandleHandOrientation ()
@@ -385,11 +397,12 @@ namespace VisionGame
 		{
 			if (!controller.isGrounded)
 			{
-				yVel -= gravity * Time.deltaTime;
-				move.y = yVel;
+				move.y -= gravity * Time.deltaTime;
+				// if (previousIsGrounded3)
+				// 	move.y = 0;
 			}
 			else
-				yVel = 0;
+				move.y = controller.velocity.y;
 		}
 	
 		Vector3 GetMoveInput ()
@@ -409,22 +422,22 @@ namespace VisionGame
 		
 		void Move ()
 		{
-			if (controller.enabled && controller.isGrounded)
+			if (controller.isGrounded)
 				move += GetMoveInput() * moveSpeed;
 			else
-				move = previousMoveInput.SetY(yVel);
+				move = previousMoveInput.SetY(move.y);
 		}
 		
 		void HandleJump ()
 		{
-			if (canJump && InputManager.JumpInput && Time.time - timeLastGrounded < jumpDuration)
-				Jump ();
-			else
+			if (jumpInput && Time.time - timeLastGrounded < jumpDuration)
 			{
-				if (yVel > 0)
-					yVel = 0;
-				canJump = false;
+				if (!previousJumpInput)
+					move.y = controller.velocity.y;
+				Jump ();
 			}
+			else if (move.y > 0)
+				move.y = 0;
 		}
 
 		void HandleCollisions ()
@@ -452,22 +465,21 @@ namespace VisionGame
 				float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
 				if (slopeAngle <= controller.slopeLimit)
 				{
-					controller.enabled = true;
-					rigid.useGravity = false;
-					rigid.velocity = Vector3.zero;
+					// controller.enabled = true;
+					// rigid.useGravity = false;
+					// rigid.velocity = Vector3.zero;
 					return;
 				}
 			}
 			else
 				return;
-			controller.enabled = false;
-			rigid.useGravity = true;
+			// controller.enabled = false;
+			// rigid.useGravity = true;
 		}
 		
 		void Jump ()
 		{
-			yVel += jumpSpeed * Time.deltaTime;
-			move.y = yVel;
+			move.y += jumpSpeed * Time.deltaTime;
 		}
 
 		void OnCollisionEnter (Collision coll)

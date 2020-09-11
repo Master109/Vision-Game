@@ -836,6 +836,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Opaque Red Wall (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8061301040664565581, guid: ebadf9f894b138e439079a8e35242518,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8061301040664565583, guid: ebadf9f894b138e439079a8e35242518,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1996,7 +2001,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 977222530, guid: 51b3a7c81ff3af647b9b549bcd7da981, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -299.99997
+      value: -300.00003
       objectReference: {fileID: 0}
     - target: {fileID: 4780438776160938162, guid: 51b3a7c81ff3af647b9b549bcd7da981,
         type: 3}
@@ -3250,6 +3255,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693605404398695075, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 94
       objectReference: {fileID: 0}
     - target: {fileID: 9155544840629027228, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
         type: 3}
