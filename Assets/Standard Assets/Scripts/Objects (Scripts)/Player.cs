@@ -109,10 +109,6 @@ namespace VisionGame
 			leftHandPosition = leftHandTrs.position;
 			rightHandPosition = rightHandTrs.position;
 			HandleHandOrientation ();
-			move.x = 0;
-			move.z = 0;
-			if (controller.isGrounded)
-				timeLastGrounded = Time.time;
 			turnInput = InputManager.TurnInput;
 			HandleFacing ();
 			leftGrabInput = InputManager.LeftGrabInput;
@@ -122,13 +118,12 @@ namespace VisionGame
 			HandleGrabbing ();
 			HandleAiming ();
 			HandleThrowing ();
-			HandleRotating ();
+			HandleRotatingGrabbedObjects ();
 			jumpInput = InputManager.JumpInput;
-			HandleVelocity ();
 			leftReplaceInput = InputManager.LeftReplaceInput;
 			rightReplaceInput = InputManager.RightReplaceInput;
 			HandleReplacement ();
-			controller.Move(move * Time.deltaTime);
+			HandleVelocity ();
 			previousLeftReplaceInput = leftReplaceInput;
 			previousRightReplaceInput = rightReplaceInput;
 			previousTurnInput = turnInput;
@@ -165,9 +160,14 @@ namespace VisionGame
 
 		void HandleVelocity ()
 		{
+			move.x = 0;
+			move.z = 0;
+			if (controller.isGrounded)
+				timeLastGrounded = Time.time;
 			Move ();
 			HandleGravity ();
 			HandleJump ();
+			controller.Move(move * Time.deltaTime);
 		}
 
 		void HandleHandOrientation ()
@@ -347,13 +347,13 @@ namespace VisionGame
 			}
 		}
 
-		void HandleRotating ()
+		void HandleRotatingGrabbedObjects ()
 		{
-			HandleRotating (InputManager.LeftRotateInput, ref leftCanThrow, leftGrabbedPhysicsObject);
-			HandleRotating (InputManager.RightRotateInput, ref rightCanThrow, rightGrabbedPhysicsObject);
+			HandleRotatingGrabbedObject (InputManager.LeftRotateInput, ref leftCanThrow, leftGrabbedPhysicsObject);
+			HandleRotatingGrabbedObject (InputManager.RightRotateInput, ref rightCanThrow, rightGrabbedPhysicsObject);
 		}
 
-		void HandleRotating (bool rotateInput, ref bool canThrow, PhysicsObject grabbedPhysicsObject)
+		void HandleRotatingGrabbedObject (bool rotateInput, ref bool canThrow, PhysicsObject grabbedPhysicsObject)
 		{
 			bool _canThrow = canThrow;
 			if (grabbedPhysicsObject == null)
@@ -429,7 +429,7 @@ namespace VisionGame
 				move.y = 0;
 		}
 
-		void HandleCollisions ()
+		void HandleSlopes ()
 		{
 			// foreach (Collision coll in goCollisions.Values)
 			// {
@@ -467,6 +467,23 @@ namespace VisionGame
 			controller.enabled = false;
 			rigid.useGravity = true;
 		}
+
+		void HandleBeingPushed (Collision coll)
+		{
+			// if (coll.rigidbody == null)
+			// 	return;
+			// move += coll.rigidbody.velocity;
+			PistonComponent pistonComponent = coll.gameObject.GetComponent<PistonComponent>();
+			if (pistonComponent != null)
+			{
+				Piston piston = pistonComponent.piston;
+				if (piston.moveTowardsEnd)
+					move = piston.trs.forward * piston.moveSpeed;
+				else
+					move = -piston.trs.forward * piston.moveSpeed;
+				controller.Move(move * Time.deltaTime);
+			}
+		}
 		
 		void Jump ()
 		{
@@ -477,13 +494,15 @@ namespace VisionGame
 		{
 			// goCollisions.Remove(coll.gameObject);
 			// goCollisions.Add(coll.gameObject, coll);
-			HandleCollisions ();
+			HandleBeingPushed (coll);
+			HandleSlopes ();
 		}
 
 		void OnCollisionStay (Collision coll)
 		{
 			// goCollisions[coll.gameObject] = coll;
-			HandleCollisions ();
+			HandleBeingPushed (coll);
+			HandleSlopes ();
 		}
 
 		// void OnCollisionExit (Collision coll)

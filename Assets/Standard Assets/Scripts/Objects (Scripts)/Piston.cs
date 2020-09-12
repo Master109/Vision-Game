@@ -28,9 +28,10 @@ namespace VisionGame
 		public float moveDistance;
 		public float moveSpeed;
 		public bool repeat;
+		[HideInInspector]
+		public bool moveTowardsEnd = true;
 		float distanceAlongLineSegment;
 		LineSegment3D lineSegment;
-		bool moveTowardsEnd = true;
 
 		void Awake ()
 		{
@@ -57,6 +58,7 @@ namespace VisionGame
 			yield return new WaitForEndOfFrame();
 			yield return new WaitForEndOfFrame();
 			axelTrs.SetParent(axelParent);
+			rigid.isKinematic = false;
 		}
 
 #if UNITY_EDITOR
@@ -79,8 +81,8 @@ namespace VisionGame
 
 		public void DoUpdate ()
 		{
-			// axelTrs.position = lineSegment.ClosestPoint(axelTrs.position);
-			// if (axelTrs.position == lineSegment.start || axelTrs.position == lineSegment.end)
+			// axelParent.position = lineSegment.ClosestPoint(axelParent.position);
+			// if (axelParent.position == lineSegment.start || axelParent.position == lineSegment.end)
 			// {
 			// 	if (repeat)
 			// 		moveTowardsEnd = !moveTowardsEnd;
