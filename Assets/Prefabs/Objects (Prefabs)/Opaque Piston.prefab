@@ -164,8 +164,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5309009152495794485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.0000002, z: -0.0000011920929}
-  m_LocalScale: {x: 10, y: 1.9999995, z: 9.999997}
+  m_LocalPosition: {x: 0, y: 3.0000005, z: -0.00000023841858}
+  m_LocalScale: {x: 10, y: 1.9999995, z: 0.99999976}
   m_Children: []
   m_Father: {fileID: 4210606523057941051}
   m_RootOrder: 0
@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 5739859321951333593}
   - component: {fileID: 3527215440278763670}
   - component: {fileID: 8693605404398695075}
+  - component: {fileID: 7903776783355851911}
   m_Layer: 8
   m_Name: Axel
   m_TagString: Untagged
@@ -199,8 +200,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5429812694192903159}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.5}
-  m_LocalScale: {x: 0.1, y: 0.5, z: 0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.5, z: 1}
   m_Children:
   - {fileID: 7636759551802685483}
   m_Father: {fileID: 9155544840629027228}
@@ -299,6 +300,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &7903776783355851911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5429812694192903159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab73ed5919906d344a3a03e56e36fb52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trs: {fileID: 4210606523057941051}
+  prefabIndex: 0
+  childrenParent: {fileID: 7636759551802685483}
+  rigid: {fileID: 8693605404398695075}
+  collider: {fileID: 5739859321951333593}
+  velocity: {x: 0, y: 0, z: 0}
+  angularVelocity: {x: 0, y: 0, z: 0}
+  overlapAmountToGetStuck: 0.1
+  isStuck: 0
+  frameIWasEnabled: 0
 --- !u!1 &6103762589404078290
 GameObject:
   m_ObjectHideFlags: 0

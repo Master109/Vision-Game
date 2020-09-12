@@ -29,18 +29,19 @@ namespace VisionGame
 		public bool repeat;
 		float distanceAlongLineSegment;
 		LineSegment3D lineSegment;
-		bool moveTowardsEnd;
+		bool moveTowardsEnd = true;
+		bool initialized;
 
-		void Awake ()
-		{
-			for (int i = 0; i < ignoreCollisionEntries.Length; i ++)
-			{
-				IgnoreCollisionEntry ignoreCollisionEntry = ignoreCollisionEntries[i];
-				Physics.IgnoreCollision(ignoreCollisionEntry.collider, ignoreCollisionEntry.otherCollider);
-			}
-			lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + axelTrs.forward * (moveDistance - axelOffset - extendAxel));
-			// lineSegment = new LineSegment3D(trs.position + (trs.forward * (-.5f - moveDistance + axelOffset)), trs.position + (trs.forward * (.5f + extendAxel + axelOffset)));
-		}
+		// void Awake ()
+		// {
+		// 	for (int i = 0; i < ignoreCollisionEntries.Length; i ++)
+		// 	{
+		// 		IgnoreCollisionEntry ignoreCollisionEntry = ignoreCollisionEntries[i];
+		// 		Physics.IgnoreCollision(ignoreCollisionEntry.collider, ignoreCollisionEntry.otherCollider);
+		// 	}
+		// 	lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + axelTrs.forward * (moveDistance - axelOffset - extendAxel));
+		// 	// lineSegment = new LineSegment3D(trs.position + (trs.forward * (-.5f - moveDistance + axelOffset)), trs.position + (trs.forward * (.5f + extendAxel + axelOffset)));
+		// }
 
 		void OnEnable ()
 		{
@@ -48,6 +49,16 @@ namespace VisionGame
 			if (!Application.isPlaying)
 				return;
 #endif
+			if (!initialized)
+			{
+				initialized = true;
+				for (int i = 0; i < ignoreCollisionEntries.Length; i ++)
+				{
+					IgnoreCollisionEntry ignoreCollisionEntry = ignoreCollisionEntries[i];
+					Physics.IgnoreCollision(ignoreCollisionEntry.collider, ignoreCollisionEntry.otherCollider);
+				}
+				lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + axelTrs.forward * (moveDistance - axelOffset - extendAxel));
+			}
 			GameManager.updatables = GameManager.updatables.Add(this);
 		}
 

@@ -85,9 +85,6 @@ namespace VisionGame
 		float mouseScrollWheelInput;
 		bool jumpInput;
 		bool previousJumpInput;
-		bool previousIsGrounded;
-		bool previousIsGrounded2;
-		bool previousIsGrounded3;
 
 		void OnEnable ()
 		{
@@ -112,7 +109,6 @@ namespace VisionGame
 			leftHandPosition = leftHandTrs.position;
 			rightHandPosition = rightHandTrs.position;
 			HandleHandOrientation ();
-			// move = Vector3.zero;
 			move.x = 0;
 			move.z = 0;
 			if (controller.isGrounded)
@@ -146,9 +142,6 @@ namespace VisionGame
 			previousLeftGrabInput = leftGrabInput;
 			previousRightGrabInput = rightGrabInput;
 			previousJumpInput = jumpInput;
-			previousIsGrounded3 = previousIsGrounded2;
-			previousIsGrounded2 = previousIsGrounded;
-			previousIsGrounded = controller.isGrounded;
 		}
 
 		void OnDisable ()
@@ -396,11 +389,7 @@ namespace VisionGame
 		void HandleGravity ()
 		{
 			if (!controller.isGrounded)
-			{
 				move.y -= gravity * Time.deltaTime;
-				// if (previousIsGrounded3)
-				// 	move.y = 0;
-			}
 			else
 				move.y = controller.velocity.y;
 		}
@@ -422,7 +411,7 @@ namespace VisionGame
 		
 		void Move ()
 		{
-			if (controller.isGrounded)
+			if (controller.enabled && controller.isGrounded)
 				move += GetMoveInput() * moveSpeed;
 			else
 				move = previousMoveInput.SetY(move.y);
@@ -465,16 +454,18 @@ namespace VisionGame
 				float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
 				if (slopeAngle <= controller.slopeLimit)
 				{
-					// controller.enabled = true;
-					// rigid.useGravity = false;
-					// rigid.velocity = Vector3.zero;
+					controller.enabled = true;
+					rigid.useGravity = false;
+					rigid.velocity = Vector3.zero;
 					return;
 				}
 			}
 			else
 				return;
-			// controller.enabled = false;
-			// rigid.useGravity = true;
+			if (controller.enabled)
+				rigid.velocity = controller.velocity;
+			controller.enabled = false;
+			rigid.useGravity = true;
 		}
 		
 		void Jump ()

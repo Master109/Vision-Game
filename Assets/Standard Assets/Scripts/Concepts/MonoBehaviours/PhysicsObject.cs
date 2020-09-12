@@ -57,7 +57,6 @@ namespace VisionGame
 				// 	rigid = gameObject.AddComponent<Rigidbody>();
 			}
 			rigid.velocity = trs.TransformDirection(velocity);
-			print(rigid.velocity);
 			rigid.angularVelocity = trs.TransformDirection(angularVelocity);
 		}
 
@@ -80,19 +79,21 @@ namespace VisionGame
 					{
 						stuckRigidbodies.Add(rigid);
 						rigid.isKinematic = true;
-						// Destroy(rigid);
 						trs.SetParent(coll.transform);
 					}
-					else if (!stuckRigidbodies.Contains(coll.rigidbody))
+					else
 					{
-						stuckRigidbodies.Add(coll.rigidbody);
-						stuckRigidbodies.Add(rigid);
-						rigid.isKinematic = true;
-						coll.rigidbody.isKinematic = true;
-						// Destroy(rigid);
-						// Destroy(coll.rigidbody);
-						PhysicsObject physicsObject = GameManager.GetSingleton<ObjectPool>().SpawnComponent<PhysicsObject> (prefabIndex, default(Vector3), default(Quaternion), trs.parent);
-						trs.SetParent(physicsObject.childrenParent);
+						if (coll.gameObject == GameManager.GetSingleton<Player>().gameObject)
+							Destroy(coll.gameObject);
+						else if (!stuckRigidbodies.Contains(coll.rigidbody))
+						{
+							stuckRigidbodies.Add(coll.rigidbody);
+							stuckRigidbodies.Add(rigid);
+							rigid.isKinematic = true;
+							coll.rigidbody.isKinematic = true;
+							PhysicsObject physicsObject = GameManager.GetSingleton<ObjectPool>().SpawnComponent<PhysicsObject> (prefabIndex, default(Vector3), default(Quaternion), trs.parent);
+							trs.SetParent(physicsObject.childrenParent);
+						}
 					}
 					return;
 				}

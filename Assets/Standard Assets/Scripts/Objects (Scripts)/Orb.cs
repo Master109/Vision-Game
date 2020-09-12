@@ -86,7 +86,6 @@ namespace VisionGame
 					if (physicsObject != null)
 					{
 						physicsObject.velocity = physicsObject.trs.InverseTransformDirection(physicsObject.rigid.velocity);
-						print(physicsObject.velocity);
 						physicsObject.angularVelocity = physicsObject.trs.InverseTransformDirection(physicsObject.rigid.angularVelocity);
 						physicsObject.trs.SetParent(capturedObjectsParent);
 					}
