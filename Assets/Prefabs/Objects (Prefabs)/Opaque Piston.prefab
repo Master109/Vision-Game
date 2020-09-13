@@ -57,14 +57,15 @@ MonoBehaviour:
   childObjectsParent: {fileID: 7636759551802685483}
   ignoreCollisionEntries:
   - collider: {fileID: 8108363363806545281}
-    otherCollider: {fileID: 5739859321951333593}
-  - collider: {fileID: 5739859321951333593}
+    otherCollider: {fileID: 3527215440278763670}
+  - collider: {fileID: 3527215440278763670}
     otherCollider: {fileID: 0}
   rigid: {fileID: 8693605404398695075}
   moveDistance: 1
   moveSpeed: 1
   repeat: 1
   moveTowardsEnd: 1
+  distanceToAxelEnd: 0
 --- !u!65 &8108363363806545281
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -183,11 +184,9 @@ GameObject:
   - component: {fileID: 4210606523057941051}
   - component: {fileID: 8108154657511886783}
   - component: {fileID: 208184231274181217}
-  - component: {fileID: 5739859321951333593}
   - component: {fileID: 3527215440278763670}
   - component: {fileID: 8693605404398695075}
   - component: {fileID: 7903776783355851911}
-  - component: {fileID: 2067160629337019787}
   m_Layer: 8
   m_Name: Axel
   m_TagString: Untagged
@@ -259,20 +258,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &5739859321951333593
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5429812694192903159}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.25
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!64 &3527215440278763670
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -319,25 +304,12 @@ MonoBehaviour:
   prefabIndex: 0
   childrenParent: {fileID: 7636759551802685483}
   rigid: {fileID: 8693605404398695075}
-  collider: {fileID: 5739859321951333593}
+  collider: {fileID: 3527215440278763670}
   velocity: {x: 0, y: 0, z: 0}
   angularVelocity: {x: 0, y: 0, z: 0}
   overlapAmountToGetStuck: 0.1
   isStuck: 0
   frameIWasEnabled: 0
---- !u!114 &2067160629337019787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5429812694192903159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ce760caf07079a48a6024071f903d13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  piston: {fileID: 930546999370169151}
 --- !u!1 &6103762589404078290
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,7 +30,9 @@ namespace VisionGame
 		public bool repeat;
 		[HideInInspector]
 		public bool moveTowardsEnd = true;
-		float distanceAlongLineSegment;
+#if UNITY_EDITOR
+		public float distanceToAxelEnd;
+#endif
 		LineSegment3D lineSegment;
 
 		void Awake ()
@@ -38,10 +40,9 @@ namespace VisionGame
 			for (int i = 0; i < ignoreCollisionEntries.Length; i ++)
 			{
 				IgnoreCollisionEntry ignoreCollisionEntry = ignoreCollisionEntries[i];
-				Physics.IgnoreCollision(ignoreCollisionEntry.collider, ignoreCollisionEntry.otherCollider);
+				Physics.IgnoreCollision(ignoreCollisionEntry.collider, ignoreCollisionEntry.otherCollider, true);
 			}
 			lineSegment = new LineSegment3D(axelParent.position, axelParent.position + (axelParent.forward * moveDistance));
-			// lineSegment = new LineSegment3D(trs.position + (trs.forward * (-.5f - moveDistance + axelOffset)), trs.position + (trs.forward * (.5f + extendAxel + axelOffset)));
 		}
 
 		void OnEnable ()
@@ -64,54 +65,31 @@ namespace VisionGame
 #if UNITY_EDITOR
 		void OnValidate ()
 		{
-			// lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + axelTrs.forward * (moveDistance - axelOffset - extendAxel));
-			lineSegment = new LineSegment3D(trs.position + (trs.forward * (-moveDistance / 2 - axelOffset - extendAxel / 2)), trs.position + trs.forward * (moveDistance / 2 - axelOffset + extendAxel / 2));
-			// lineSegment = new LineSegment3D(trs.position + (trs.forward * (-moveDistance + axelOffset)), trs.position + (trs.forward * (.5f + extendAxel + axelOffset)));
-			// lineSegment.DrawGizmos(Color.green);
+			lineSegment = new LineSegment3D(trs.position + (trs.forward * (-Mathf.Abs(moveDistance) / 2 - axelOffset - extendAxel / 2 + distanceToAxelEnd)), trs.position + trs.forward * (Mathf.Abs(moveDistance) / 2 - axelOffset + extendAxel / 2 + distanceToAxelEnd));
 			axelParent.position = lineSegment.start;
 			axelParent.localScale = axelParent.localScale.SetZ(lineSegment.GetLength());
-			childObjectsParent.position = trs.position + (lineSegment.GetDirection() * (childObjectsOffset + extendAxel));
+			childObjectsParent.position = trs.position + (lineSegment.GetDirection() * (childObjectsOffset + extendAxel + distanceToAxelEnd));
 			childObjectsParent.SetWorldScale(Vector3.one);
-			// Vector3 lineSegmentOffset = Vector3.right;
-			// lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + axelTrs.forward * (moveDistance - axelOffset - extendAxel));
-			// lineSegment = lineSegment.Move(lineSegmentOffset);
-			// lineSegment.DrawGizmos(Color.black);
 		}
 #endif
 
 		public void DoUpdate ()
 		{
-			// axelParent.position = lineSegment.ClosestPoint(axelParent.position);
-			// if (axelParent.position == lineSegment.start || axelParent.position == lineSegment.end)
-			// {
-			// 	if (repeat)
-			// 		moveTowardsEnd = !moveTowardsEnd;
-			// 	else
-			// 	{
-			// 		GameManager.updatables = GameManager.updatables.Remove(this);
-			// 		return;
-			// 	}
-			// }
-			// if (moveTowardsEnd)
-			// 	rigid.velocity = lineSegment.GetDirection() * moveSpeed;
-			// else
-			// 	rigid.velocity = -lineSegment.GetDirection() * moveSpeed;
-			if (moveTowardsEnd)
-				distanceAlongLineSegment += moveSpeed * Time.deltaTime;
-			else
-				distanceAlongLineSegment -= moveSpeed * Time.deltaTime;
-			distanceAlongLineSegment = Mathf.Clamp(distanceAlongLineSegment, 0, lineSegment.GetLength());
-			axelParent.position = lineSegment.GetPointWithDirectedDistance(distanceAlongLineSegment);
-			Physics.Simulate(float.Epsilon);
-			distanceAlongLineSegment = lineSegment.GetDirectedDistanceAlongParallel(axelParent.position);
-			distanceAlongLineSegment = Mathf.Clamp(distanceAlongLineSegment, 0, lineSegment.GetLength());
-			if (distanceAlongLineSegment == 0 || distanceAlongLineSegment == lineSegment.GetLength())
+			axelTrs.position = lineSegment.ClosestPoint(axelTrs.position);
+			if (axelTrs.position == lineSegment.start || axelTrs.position == lineSegment.end)
 			{
 				if (repeat)
 					moveTowardsEnd = !moveTowardsEnd;
-				else if (distanceAlongLineSegment == lineSegment.GetLength())
+				else
+				{
 					GameManager.updatables = GameManager.updatables.Remove(this);
+					return;
+				}
 			}
+			if (moveTowardsEnd)
+				rigid.velocity = lineSegment.GetDirection() * moveSpeed;
+			else
+				rigid.velocity = -lineSegment.GetDirection() * moveSpeed;
 		}
 
 		void OnDisable ()

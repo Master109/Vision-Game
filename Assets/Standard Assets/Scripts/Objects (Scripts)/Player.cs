@@ -44,6 +44,8 @@ namespace VisionGame
 		public FloatRange throwSpeedRange;
 		public float throwSpeedChangeRate;
 		public LayerMask whatICollideWith;
+		public float groundCheckDistance;
+		Vector3 extraVelocity;
 		[SerializeField]
 		[HideInInspector]
 		Vector3 initLeftHandLocalPosition;
@@ -77,6 +79,8 @@ namespace VisionGame
 		float timeLastGrounded;
 		bool turnInput;
 		bool previousTurnInput;
+		Dictionary<Rigidbody, Vector3> rigidsPushingMe = new Dictionary<Rigidbody, Vector3>();
+		Dictionary<string, Vector3> namesOfRigidsPushingMe = new Dictionary<string, Vector3>();
 		// Dictionary<GameObject, Collision> goCollisions = new Dictionary<GameObject, Collision>();
 		List<PhysicsObject> physicsObjectsTouchingLeftHand = new List<PhysicsObject>();
 		List<PhysicsObject> physicsObjectsTouchingRightHand = new List<PhysicsObject>();
@@ -85,6 +89,7 @@ namespace VisionGame
 		float mouseScrollWheelInput;
 		bool jumpInput;
 		bool previousJumpInput;
+		bool isGrounded;
 
 		void OnEnable ()
 		{
@@ -148,26 +153,33 @@ namespace VisionGame
 			GameManager.updatables = GameManager.updatables.Remove(this);
 		}
 
-		void OnDestroy ()
-		{
-#if UNITY_EDITOR
-			if (!Application.isPlaying)
-				return;
-#endif
-			if (!invulnerable)
-				GameManager.GetSingleton<GameManager>().ReloadActiveScene ();
-		}
-
 		void HandleVelocity ()
 		{
 			move.x = 0;
 			move.z = 0;
-			if (controller.isGrounded)
+			isGrounded = controller.isGrounded;
+			if (!isGrounded)
+			{
+				RaycastHit hit;
+				if (Physics.Raycast(trs.position, Vector3.down, out hit, groundCheckDistance, whatICollideWith))
+				{
+					isGrounded = true;
+					if (hit.rigidbody != null)
+						extraVelocity = hit.rigidbody.velocity;
+				}
+			}
+			if (isGrounded)
 				timeLastGrounded = Time.time;
 			Move ();
 			HandleGravity ();
 			HandleJump ();
-			controller.Move(move * Time.deltaTime);
+			if (controller.enabled)
+			{
+				rigid.velocity = Vector3.zero;
+				controller.Move((move + extraVelocity * 1) * Time.deltaTime);
+			}
+			else
+				rigid.velocity = move + extraVelocity * 1;
 		}
 
 		void HandleHandOrientation ()
@@ -388,10 +400,15 @@ namespace VisionGame
 		
 		void HandleGravity ()
 		{
-			if (!controller.isGrounded)
+			if (!isGrounded)
 				move.y -= gravity * Time.deltaTime;
 			else
-				move.y = controller.velocity.y;
+			{
+				if (controller.enabled)
+					move.y = controller.velocity.y;
+				else
+					move.y = rigid.velocity.y;
+			}
 		}
 	
 		Vector3 GetMoveInput ()
@@ -411,7 +428,7 @@ namespace VisionGame
 		
 		void Move ()
 		{
-			if (controller.enabled && controller.isGrounded)
+			if (isGrounded)
 				move += GetMoveInput() * moveSpeed;
 			else
 				move = previousMoveInput.SetY(move.y);
@@ -422,7 +439,12 @@ namespace VisionGame
 			if (jumpInput && Time.time - timeLastGrounded < jumpDuration)
 			{
 				if (!previousJumpInput)
-					move.y = controller.velocity.y;
+				{
+					if (controller.enabled)
+						move.y = controller.velocity.y;
+					else
+						move.y = rigid.velocity.y;
+				}
 				Jump ();
 			}
 			else if (move.y > 0)
@@ -456,9 +478,13 @@ namespace VisionGame
 				{
 					controller.enabled = true;
 					rigid.useGravity = false;
-					rigid.velocity = Vector3.zero;
+					rigid.velocity = Vector2.zero;
+					// if (hit.rigidbody != null)
+					// 	extraVelocity = hit.rigidbody.velocity;
 					return;
 				}
+				// else
+				// 	return;
 			}
 			else
 				return;
@@ -468,47 +494,64 @@ namespace VisionGame
 			rigid.useGravity = true;
 		}
 
-		void HandleBeingPushed (Collision coll)
+		void HandleBeingPushed (Rigidbody rigid)
 		{
-			// if (coll.rigidbody == null)
-			// 	return;
-			// move += coll.rigidbody.velocity;
-			PistonComponent pistonComponent = coll.gameObject.GetComponent<PistonComponent>();
-			if (pistonComponent != null)
-			{
-				Piston piston = pistonComponent.piston;
-				if (piston.moveTowardsEnd)
-					move = piston.trs.forward * piston.moveSpeed;
-				else
-					move = -piston.trs.forward * piston.moveSpeed;
-				controller.Move(move * Time.deltaTime);
-			}
+			extraVelocity = rigid.velocity;
+			// if (controller.enabled)
+				// controller.SimpleMove(extraVelocity);
+				// controller.Move(extraVelocity * Time.deltaTime);
+			// else
+			// 	rigid.velocity = extraVelocity;
 		}
 		
 		void Jump ()
 		{
-			move.y += jumpSpeed * Time.deltaTime;
+			// if (!previousJumpInput)
+				move.y = jumpSpeed;
 		}
 
 		void OnCollisionEnter (Collision coll)
 		{
 			// goCollisions.Remove(coll.gameObject);
 			// goCollisions.Add(coll.gameObject, coll);
-			HandleBeingPushed (coll);
+			if (coll.rigidbody != null)
+			{
+				HandleBeingPushed (coll.rigidbody);
+				if (!namesOfRigidsPushingMe.ContainsKey(coll.rigidbody.name))
+					namesOfRigidsPushingMe.Add(coll.rigidbody.name, coll.rigidbody.velocity);
+				// trs.SetParent(coll.transform);
+			}
 			HandleSlopes ();
 		}
 
 		void OnCollisionStay (Collision coll)
 		{
 			// goCollisions[coll.gameObject] = coll;
-			HandleBeingPushed (coll);
+			if (coll.rigidbody != null)
+			{
+				HandleBeingPushed (coll.rigidbody);
+				namesOfRigidsPushingMe[coll.rigidbody.name] = coll.rigidbody.velocity;
+			}
 			HandleSlopes ();
 		}
 
-		// void OnCollisionExit (Collision coll)
-		// {
+		void OnCollisionExit (Collision coll)
+		{
 		// 	goCollisions.Remove(coll.gameObject);
-		// }
+			// if (coll.rigidbody != null)
+			if (coll.rigidbody != null && namesOfRigidsPushingMe.ContainsKey(coll.rigidbody.name))
+			{
+				// extraVelocity -= namesOfRigidsPushingMe[coll.rigidbody.name];
+				namesOfRigidsPushingMe.Remove(coll.rigidbody.name);
+			}
+			// trs.SetParent(null);
+		}
+
+		void OnControllerColliderHit (ControllerColliderHit hit)
+		{
+			if (hit.rigidbody != null)
+				extraVelocity = hit.rigidbody.velocity;
+		}
 
 		void OnTriggerEnter (Collider other)
 		{
@@ -544,13 +587,13 @@ namespace VisionGame
 			}
 		}
 
-		void OnTransformParentChanged ()
-		{
-#if UNITY_EDITOR
-			if (!Application.isPlaying)
-				return;
-#endif
-			Destroy(gameObject);
-		}
+// 		void OnTransformParentChanged ()
+// 		{
+// #if UNITY_EDITOR
+// 			if (!Application.isPlaying)
+// 				return;
+// #endif
+// 			Destroy(gameObject);
+// 		}
 	}
 }

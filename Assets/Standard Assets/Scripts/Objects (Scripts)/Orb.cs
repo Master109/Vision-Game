@@ -76,7 +76,7 @@ namespace VisionGame
 					continue;
 				else if (hitGo == GameManager.GetSingleton<Player>().gameObject)
 				{
-					Destroy (GameManager.GetSingleton<Player>().gameObject);
+					GameManager.GetSingleton<GameManager>().ReloadActiveScene ();
 					return;
 				}
 				IStorable storable = hitGo.GetComponentInParent<IStorable>();
