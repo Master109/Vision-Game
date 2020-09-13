@@ -7,7 +7,7 @@ namespace VisionGame
 		void OnCollisionEnter (Collision coll)
 		{
 			if (coll.gameObject == GameManager.GetSingleton<Player>().gameObject)
-				Destroy(coll.gameObject);
+				GameManager.GetSingleton<GameManager>().ReloadActiveScene ();
 		}
 	}
 }

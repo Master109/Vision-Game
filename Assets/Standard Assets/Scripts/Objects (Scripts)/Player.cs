@@ -279,12 +279,23 @@ namespace VisionGame
 			Vector3 grabPosition = physicsObject.trs.position;
 			Vector3 closestPointOnMe = collider.ClosestPoint(grabPosition);
 			Vector3 previousGrabPosition = grabPosition;
-			while (Physics.ClosestPoint(closestPointOnMe, physicsObject.collider, grabPosition, physicsObject.trs.rotation) != closestPointOnMe)
+			if (Physics.ClosestPoint(closestPointOnMe, physicsObject.collider, grabPosition, physicsObject.trs.rotation) != closestPointOnMe)
 			{
-				previousGrabPosition = grabPosition;
-				grabPosition += (closestPointOnMe - grabPosition).normalized * Physics.defaultContactOffset;
+				do
+				{
+					previousGrabPosition = grabPosition;
+					grabPosition += (closestPointOnMe - grabPosition).normalized * Physics.defaultContactOffset;
+				} while (Physics.ClosestPoint(closestPointOnMe, physicsObject.collider, grabPosition, physicsObject.trs.rotation) != closestPointOnMe);
+				grabPosition = previousGrabPosition;
 			}
-			return previousGrabPosition;
+			else
+			{
+				do
+				{
+					grabPosition -= (closestPointOnMe - grabPosition).normalized * Physics.defaultContactOffset;
+				} while (Physics.ClosestPoint(closestPointOnMe, physicsObject.collider, grabPosition, physicsObject.trs.rotation) == closestPointOnMe);
+			}
+			return grabPosition;
 		}
 
 		void HandleAiming ()
@@ -514,11 +525,11 @@ namespace VisionGame
 			HandleSlopes ();
 		}
 
-		void OnControllerColliderHit (ControllerColliderHit hit)
-		{
-			if (hit.rigidbody != null)
-				HandleBeingPushed (hit.rigidbody);
-		}
+		// void OnControllerColliderHit (ControllerColliderHit hit)
+		// {
+		// 	if (hit.rigidbody != null)
+		// 		HandleBeingPushed (hit.rigidbody);
+		// }
 
 		void OnTriggerEnter (Collider other)
 		{
