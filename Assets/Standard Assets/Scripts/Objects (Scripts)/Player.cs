@@ -45,6 +45,9 @@ namespace VisionGame
 		public float throwSpeedChangeRate;
 		public LayerMask whatICollideWith;
 		public float groundCheckDistance;
+		public float extraVelocityDrag;
+		public float timeTillApplyExtraVelocityDrag;
+		float timeExtraVelocityWasSet;
 		Vector3 extraVelocity;
 		[SerializeField]
 		[HideInInspector]
@@ -79,9 +82,6 @@ namespace VisionGame
 		float timeLastGrounded;
 		bool turnInput;
 		bool previousTurnInput;
-		Dictionary<Rigidbody, Vector3> rigidsPushingMe = new Dictionary<Rigidbody, Vector3>();
-		Dictionary<string, Vector3> namesOfRigidsPushingMe = new Dictionary<string, Vector3>();
-		// Dictionary<GameObject, Collision> goCollisions = new Dictionary<GameObject, Collision>();
 		List<PhysicsObject> physicsObjectsTouchingLeftHand = new List<PhysicsObject>();
 		List<PhysicsObject> physicsObjectsTouchingRightHand = new List<PhysicsObject>();
 		bool leftCanThrow;
@@ -124,10 +124,11 @@ namespace VisionGame
 			HandleAiming ();
 			HandleThrowing ();
 			HandleRotatingGrabbedObjects ();
-			jumpInput = InputManager.JumpInput;
+			HandleOrbViewing ();
 			leftReplaceInput = InputManager.LeftReplaceInput;
 			rightReplaceInput = InputManager.RightReplaceInput;
 			HandleReplacement ();
+			jumpInput = InputManager.JumpInput;
 			HandleVelocity ();
 			previousLeftReplaceInput = leftReplaceInput;
 			previousRightReplaceInput = rightReplaceInput;
@@ -165,7 +166,7 @@ namespace VisionGame
 				{
 					isGrounded = true;
 					if (hit.rigidbody != null)
-						extraVelocity = hit.rigidbody.velocity;
+						HandleBeingPushed (hit.rigidbody);
 				}
 			}
 			if (isGrounded)
@@ -176,10 +177,12 @@ namespace VisionGame
 			if (controller.enabled)
 			{
 				rigid.velocity = Vector3.zero;
-				controller.Move((move + extraVelocity * 1) * Time.deltaTime);
+				controller.Move((move + extraVelocity) * Time.deltaTime);
 			}
 			else
-				rigid.velocity = move + extraVelocity * 1;
+				rigid.velocity = move + extraVelocity;
+			if (Time.time - timeExtraVelocityWasSet >= timeTillApplyExtraVelocityDrag)
+				extraVelocity *= (1f - Time.deltaTime * extraVelocityDrag);
 		}
 
 		void HandleHandOrientation ()
@@ -235,11 +238,11 @@ namespace VisionGame
 						PhysicsObject physicsObject = touchingPhysicsObjects[i];
 						if (!physicsObject.Equals(grabbedPhysicsObject) && !physicsObject.Equals(otherGrabbedPhysicsObject))
 						{
-							Physics.IgnoreCollision(physicsObject.collider, collider, true);
-							Physics.IgnoreCollision(physicsObject.collider, controller, true);
+							// Physics.IgnoreCollision(physicsObject.collider, collider, true);
+							// Physics.IgnoreCollision(physicsObject.collider, controller, true);
 							physicsObject.trs.SetParent(handTrs);
 							grabbedPhysicsObject = physicsObject;
-							physicsObject.trs.localPosition = GetClosestVectorFromPhysicsObject(grabbedPhysicsObject);
+							physicsObject.trs.position = GetGrabPosition(grabbedPhysicsObject);
 							grabbedPhysicsObject.rigid.isKinematic = true;
 							Orb orb = physicsObject.GetComponent<Orb>();
 							if (orb != null && GameManager.GetSingleton<Level>().orbs.Length == 2)
@@ -265,17 +268,23 @@ namespace VisionGame
 				grabbedPhysicsObject.rigid.isKinematic = false;
 				grabbedPhysicsObject.rigid.velocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
 				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
-				Physics.IgnoreCollision(grabbedPhysicsObject.collider, collider, false);
-				Physics.IgnoreCollision(grabbedPhysicsObject.collider, controller, false);
+				// Physics.IgnoreCollision(grabbedPhysicsObject.collider, collider, false);
+				// Physics.IgnoreCollision(grabbedPhysicsObject.collider, controller, false);
 				grabbedPhysicsObject = null;
 			}
 		}
 
-		Vector3 GetClosestVectorFromPhysicsObject (PhysicsObject physicsObject)
+		Vector3 GetGrabPosition (PhysicsObject physicsObject)
 		{
-			Vector3 closestPointOnPhysicsObject = physicsObject.collider.ClosestPoint(trs.position);
-			Vector3 closestPointOnMe = collider.ClosestPoint(physicsObject.trs.position);
-			return closestPointOnMe - closestPointOnPhysicsObject;
+			Vector3 grabPosition = physicsObject.trs.position;
+			Vector3 closestPointOnMe = collider.ClosestPoint(grabPosition);
+			Vector3 previousGrabPosition = grabPosition;
+			while (Physics.ClosestPoint(closestPointOnMe, physicsObject.collider, grabPosition, physicsObject.trs.rotation) != closestPointOnMe)
+			{
+				previousGrabPosition = grabPosition;
+				grabPosition += (closestPointOnMe - grabPosition).normalized * Physics.defaultContactOffset;
+			}
+			return previousGrabPosition;
 		}
 
 		void HandleAiming ()
@@ -387,15 +396,19 @@ namespace VisionGame
 		{
 			if (InputManager.LeftOrbViewInput)
 			{
-				GameManager.GetSingleton<Level>().leftOrb.camera.depth = 1;
+				// GameManager.GetSingleton<Level>().leftOrb.camera.depth = 1;
+				GameManager.GetSingleton<Level>().leftOrb.camera.enabled = true;
 				return;
 			}
 			else
-				GameManager.GetSingleton<Level>().leftOrb.camera.depth = -1;
+				// GameManager.GetSingleton<Level>().leftOrb.camera.depth = -1;
+				GameManager.GetSingleton<Level>().leftOrb.camera.enabled = false;
 			if (InputManager.RightOrbViewInput)
-				GameManager.GetSingleton<Level>().rightOrb.camera.depth = 1;
+				// GameManager.GetSingleton<Level>().rightOrb.camera.depth = 1;
+				GameManager.GetSingleton<Level>().rightOrb.camera.enabled = true;
 			else
-				GameManager.GetSingleton<Level>().rightOrb.camera.depth = -1;
+				// GameManager.GetSingleton<Level>().rightOrb.camera.depth = -1;
+				GameManager.GetSingleton<Level>().rightOrb.camera.enabled = false;
 		}
 		
 		void HandleGravity ()
@@ -453,23 +466,6 @@ namespace VisionGame
 
 		void HandleSlopes ()
 		{
-			// foreach (Collision coll in goCollisions.Values)
-			// {
-			// 	for (int i = 0; i < coll.contactCount; i ++)
-			// 	{
-			// 		ContactPoint contactPoint = coll.GetContact(i);
-			// 		float slopeAngle = Vector3.Angle(contactPoint.normal, Vector3.up);
-			// 		if (slopeAngle <= controller.slopeLimit)
-			// 		{
-			// 			controller.enabled = true;
-			// 			rigid.useGravity = false;
-			// 			rigid.velocity = Vector3.zero;
-			// 			return;
-			// 		}
-			// 		else if (Mathf.Approximately(slopeAngle, 90))
-			// 			return;
-			// 	}
-			// }
 			RaycastHit hit;
 			if (Physics.Raycast(collider.bounds.center + Vector3.down * collider.bounds.extents.y, Vector3.down, out hit, 1, whatICollideWith))
 			{
@@ -479,8 +475,6 @@ namespace VisionGame
 					controller.enabled = true;
 					rigid.useGravity = false;
 					rigid.velocity = Vector2.zero;
-					// if (hit.rigidbody != null)
-					// 	extraVelocity = hit.rigidbody.velocity;
 					return;
 				}
 				// else
@@ -497,11 +491,7 @@ namespace VisionGame
 		void HandleBeingPushed (Rigidbody rigid)
 		{
 			extraVelocity = rigid.velocity;
-			// if (controller.enabled)
-				// controller.SimpleMove(extraVelocity);
-				// controller.Move(extraVelocity * Time.deltaTime);
-			// else
-			// 	rigid.velocity = extraVelocity;
+			timeExtraVelocityWasSet = Time.time;
 		}
 		
 		void Jump ()
@@ -512,45 +502,22 @@ namespace VisionGame
 
 		void OnCollisionEnter (Collision coll)
 		{
-			// goCollisions.Remove(coll.gameObject);
-			// goCollisions.Add(coll.gameObject, coll);
 			if (coll.rigidbody != null)
-			{
 				HandleBeingPushed (coll.rigidbody);
-				if (!namesOfRigidsPushingMe.ContainsKey(coll.rigidbody.name))
-					namesOfRigidsPushingMe.Add(coll.rigidbody.name, coll.rigidbody.velocity);
-				// trs.SetParent(coll.transform);
-			}
 			HandleSlopes ();
 		}
 
 		void OnCollisionStay (Collision coll)
 		{
-			// goCollisions[coll.gameObject] = coll;
 			if (coll.rigidbody != null)
-			{
 				HandleBeingPushed (coll.rigidbody);
-				namesOfRigidsPushingMe[coll.rigidbody.name] = coll.rigidbody.velocity;
-			}
 			HandleSlopes ();
-		}
-
-		void OnCollisionExit (Collision coll)
-		{
-		// 	goCollisions.Remove(coll.gameObject);
-			// if (coll.rigidbody != null)
-			if (coll.rigidbody != null && namesOfRigidsPushingMe.ContainsKey(coll.rigidbody.name))
-			{
-				// extraVelocity -= namesOfRigidsPushingMe[coll.rigidbody.name];
-				namesOfRigidsPushingMe.Remove(coll.rigidbody.name);
-			}
-			// trs.SetParent(null);
 		}
 
 		void OnControllerColliderHit (ControllerColliderHit hit)
 		{
 			if (hit.rigidbody != null)
-				extraVelocity = hit.rigidbody.velocity;
+				HandleBeingPushed (hit.rigidbody);
 		}
 
 		void OnTriggerEnter (Collider other)
@@ -586,14 +553,5 @@ namespace VisionGame
 				}
 			}
 		}
-
-// 		void OnTransformParentChanged ()
-// 		{
-// #if UNITY_EDITOR
-// 			if (!Application.isPlaying)
-// 				return;
-// #endif
-// 			Destroy(gameObject);
-// 		}
 	}
 }

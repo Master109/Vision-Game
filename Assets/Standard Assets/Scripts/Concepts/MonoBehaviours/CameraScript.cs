@@ -28,6 +28,7 @@ namespace VisionGame
 		public virtual void DoUpdate ()
 		{
 			HandlePosition ();
+			// camera.Render();
 		}
 		
 		public virtual void HandlePosition ()

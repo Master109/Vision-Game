@@ -197,6 +197,8 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   angularVelocity: {x: 0, y: 0, z: 0}
   overlapAmountToGetStuck: 0.1
+  isStuck: 0
+  frameIWasEnabled: 0
   cameraTrs: {fileID: 7262338014741275244}
   camera: {fileID: 7262338014739770806}
   checksPerUnit: 3
@@ -355,7 +357,7 @@ PrefabInstance:
     - target: {fileID: 1846276062800252322, guid: 9d156174f4b44ee4d836e11e39e720b8,
         type: 3}
       propertyPath: m_Depth
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1846276062800252322, guid: 9d156174f4b44ee4d836e11e39e720b8,
         type: 3}
@@ -366,6 +368,11 @@ PrefabInstance:
         type: 3}
       propertyPath: near clip plane
       value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846276062800252322, guid: 9d156174f4b44ee4d836e11e39e720b8,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1846276062801731160, guid: 9d156174f4b44ee4d836e11e39e720b8,
         type: 3}

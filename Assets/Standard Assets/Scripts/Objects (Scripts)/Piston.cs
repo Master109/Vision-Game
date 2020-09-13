@@ -33,7 +33,9 @@ namespace VisionGame
 #if UNITY_EDITOR
 		public float distanceToAxelEnd;
 #endif
+		public float stopDistance;
 		LineSegment3D lineSegment;
+		RigidbodyConstraints rigidConstraints;
 
 		void Awake ()
 		{
@@ -42,7 +44,9 @@ namespace VisionGame
 				IgnoreCollisionEntry ignoreCollisionEntry = ignoreCollisionEntries[i];
 				Physics.IgnoreCollision(ignoreCollisionEntry.collider, ignoreCollisionEntry.otherCollider, true);
 			}
-			lineSegment = new LineSegment3D(axelParent.position, axelParent.position + (axelParent.forward * moveDistance));
+			rigidConstraints = rigid.constraints;
+			rigid.constraints = RigidbodyConstraints.FreezeAll;
+			lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + (axelParent.forward * moveDistance));
 		}
 
 		void OnEnable ()
@@ -51,15 +55,8 @@ namespace VisionGame
 			if (!Application.isPlaying)
 				return;
 #endif
+			rigid.constraints = rigidConstraints;
 			GameManager.updatables = GameManager.updatables.Add(this);
-		}
-
-		IEnumerator Start ()
-		{
-			yield return new WaitForEndOfFrame();
-			yield return new WaitForEndOfFrame();
-			axelTrs.SetParent(axelParent);
-			rigid.isKinematic = false;
 		}
 
 #if UNITY_EDITOR
@@ -76,7 +73,9 @@ namespace VisionGame
 		public void DoUpdate ()
 		{
 			axelTrs.position = lineSegment.ClosestPoint(axelTrs.position);
-			if (axelTrs.position == lineSegment.start || axelTrs.position == lineSegment.end)
+			float directedDistanceAlongParallel = lineSegment.GetDirectedDistanceAlongParallel(axelTrs.position);
+			if (directedDistanceAlongParallel <= stopDistance || directedDistanceAlongParallel >= lineSegment.GetLength() - stopDistance)
+			// if (axelTrs.position == lineSegment.start || axelTrs.position == lineSegment.end)
 			{
 				if (repeat)
 					moveTowardsEnd = !moveTowardsEnd;
@@ -98,6 +97,7 @@ namespace VisionGame
 		if (!Application.isPlaying)
 			return;
 #endif
+			rigid.constraints = RigidbodyConstraints.FreezeAll;
 			GameManager.updatables = GameManager.updatables.Remove(this);
 		}
 

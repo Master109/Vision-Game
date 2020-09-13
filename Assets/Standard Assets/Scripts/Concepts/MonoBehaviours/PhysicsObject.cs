@@ -44,7 +44,6 @@ namespace VisionGame
 				return;
 			}
 			frameIWasEnabled = GameManager.framesSinceLoadedScene;
-			Physics.Simulate(float.Epsilon);
 			if (isStuck)
 			{
 				return;
@@ -53,8 +52,6 @@ namespace VisionGame
 			{
 				rigid.isKinematic = false;
 				stuckRigidbodies.Remove(rigid);
-				// if (rigid == null)
-				// 	rigid = gameObject.AddComponent<Rigidbody>();
 			}
 			rigid.velocity = trs.TransformDirection(velocity);
 			rigid.angularVelocity = trs.TransformDirection(angularVelocity);

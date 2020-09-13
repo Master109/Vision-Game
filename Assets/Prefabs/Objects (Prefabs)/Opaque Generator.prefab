@@ -132,6 +132,7 @@ MonoBehaviour:
   whatBlocksTransmission:
     serializedVersion: 2
     m_Bits: 7936
+  rangeSphereCollider: {fileID: 3133488308707807811}
 --- !u!54 &4343245973737439691
 Rigidbody:
   m_ObjectHideFlags: 0

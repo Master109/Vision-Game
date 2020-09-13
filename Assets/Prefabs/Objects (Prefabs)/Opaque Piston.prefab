@@ -66,6 +66,7 @@ MonoBehaviour:
   repeat: 1
   moveTowardsEnd: 1
   distanceToAxelEnd: 0
+  stopDistance: 0.1
 --- !u!65 &8108363363806545281
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ namespace VisionGame
 		public Transform trs;
 		public MonoBehaviour[] triggerables = new MonoBehaviour[0];
 		public LayerMask whatBlocksTransmission;
+		public SphereCollider rangeSphereCollider;
 		List<WirelessTransmitter> currentlyReceivingTransmitters = new List<WirelessTransmitter>();
 
 		void OnTriggerEnter (Collider other)
@@ -22,7 +23,7 @@ namespace VisionGame
 				Vector3 rayEnd = trs.position;
 				rayStart += (rayEnd - rayStart).normalized * Physics.defaultContactOffset;
 				Vector3 rayVector = rayEnd - rayStart;
-				if (Physics.Raycast(rayStart, rayVector, out hit, rayVector.magnitude, whatBlocksTransmission) && hit.collider.gameObject == gameObject)
+				if (Physics.Raycast(rayStart, rayVector, out hit, rangeSphereCollider.bounds.extents.x, whatBlocksTransmission) && hit.collider.gameObject == gameObject)
 				{
 					currentlyReceivingTransmitters.Add(wirelessTransmitter);
 					foreach (MonoBehaviour triggerable in triggerables)
@@ -43,7 +44,7 @@ namespace VisionGame
 				Vector3 rayVector = rayEnd - rayStart;
 				if (!currentlyReceivingTransmitters.Contains(wirelessTransmitter))
 				{
-					if (Physics.Raycast(rayStart, rayVector, out hit, rayVector.magnitude, whatBlocksTransmission) && hit.collider.gameObject == gameObject)
+					if (Physics.Raycast(rayStart, rayVector, out hit, rangeSphereCollider.bounds.extents.x, whatBlocksTransmission) && hit.collider.gameObject == gameObject)
 					{
 						currentlyReceivingTransmitters.Add(wirelessTransmitter);
 						foreach (MonoBehaviour triggerable in triggerables)
@@ -52,7 +53,7 @@ namespace VisionGame
 				}
 				else
 				{
-					if (Physics.Raycast(rayStart, rayVector, out hit, rayVector.magnitude, whatBlocksTransmission) && hit.collider.gameObject != gameObject)
+					if (Physics.Raycast(rayStart, rayVector, out hit, rangeSphereCollider.bounds.extents.x, whatBlocksTransmission) && hit.collider.gameObject != gameObject)
 					{
 						currentlyReceivingTransmitters.Remove(wirelessTransmitter);
 						if (currentlyReceivingTransmitters.Count == 0)
