@@ -478,7 +478,7 @@ namespace VisionGame
 		void HandleSlopes ()
 		{
 			RaycastHit hit;
-			if (Physics.Raycast(collider.bounds.center + Vector3.down * collider.bounds.extents.y, Vector3.down, out hit, 1, whatICollideWith))
+			if (Physics.Raycast(collider.bounds.center + Vector3.down * collider.bounds.extents.y, Vector3.down, out hit, groundCheckDistance, whatICollideWith))
 			{
 				float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
 				if (slopeAngle <= controller.slopeLimit)
@@ -525,11 +525,12 @@ namespace VisionGame
 			HandleSlopes ();
 		}
 
-		// void OnControllerColliderHit (ControllerColliderHit hit)
-		// {
-		// 	if (hit.rigidbody != null)
-		// 		HandleBeingPushed (hit.rigidbody);
-		// }
+		void OnControllerColliderHit (ControllerColliderHit hit)
+		{
+			if (hit.rigidbody != null)
+				HandleBeingPushed (hit.rigidbody);
+			HandleSlopes ();
+		}
 
 		void OnTriggerEnter (Collider other)
 		{

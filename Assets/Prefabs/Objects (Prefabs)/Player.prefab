@@ -143,14 +143,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246663748089817272}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 1}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0.5, y: -0.053, z: 0.949}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4780438776161075520}
   m_Father: {fileID: 4780438776161039506}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!120 &1388642439339493007
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -523,7 +523,7 @@ MonoBehaviour:
   rotateRate: {x: 100, y: -100}
   rollRate: 10
   invulnerable: 0
-  maxHandDistance: 6.25
+  maxHandDistance: 1.5
   leftAimer: {fileID: 6367818312437764565}
   rightAimer: {fileID: 1388642439339493007}
   maxAimerDistanceSqr: 10000
@@ -537,11 +537,11 @@ MonoBehaviour:
   whatICollideWith:
     serializedVersion: 2
     m_Bits: 6912
-  groundCheckDistance: 1.1
-  extraVelocityDrag: 1
+  groundCheckDistance: 1.4
+  extraVelocityDrag: 10
   timeTillApplyExtraVelocityDrag: 1
-  initLeftHandLocalPosition: {x: -0.5, y: 0, z: 1}
-  initRightHandLocalPosition: {x: 0.5, y: 0, z: 1}
+  initLeftHandLocalPosition: {x: -0.5, y: -0.053000003, z: 0.949}
+  initRightHandLocalPosition: {x: 0.5, y: -0.053, z: 0.949}
 --- !u!114 &4780438776155413846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,7 +616,7 @@ CharacterController:
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 1
-  m_SkinWidth: 0.0001
+  m_SkinWidth: 0.1
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5692036685778637831
@@ -655,7 +655,7 @@ Rigidbody:
   m_GameObject: {fileID: 4780438776160938162}
   serializedVersion: 2
   m_Mass: 1.6
-  m_Drag: 5
+  m_Drag: 10
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -687,14 +687,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5620335876363739058}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 1}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: -0.5, y: -0.053000003, z: 0.949}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4780438776161088836}
   m_Father: {fileID: 4780438776161039506}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!120 &6367818312437764565
 LineRenderer:
   m_ObjectHideFlags: 0
