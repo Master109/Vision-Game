@@ -4,7 +4,7 @@ using Extensions;
 
 namespace VisionGame
 {
-	public class Orb : PhysicsObject
+	public class Orb : SpherePhysicsObject
 	{
 		public Transform cameraTrs;
 		public new Camera camera;

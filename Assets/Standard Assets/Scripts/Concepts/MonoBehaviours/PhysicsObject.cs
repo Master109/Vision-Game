@@ -20,6 +20,7 @@ namespace VisionGame
 		public bool isStuck;
 		[HideInInspector]
 		public int frameIWasEnabled;
+		public bool isGrabbable;
 
 		public virtual void OnEnable ()
 		{
@@ -45,9 +46,7 @@ namespace VisionGame
 			}
 			frameIWasEnabled = GameManager.framesSinceLoadedScene;
 			if (isStuck)
-			{
 				return;
-			}
 			else
 			{
 				rigid.isKinematic = false;
@@ -60,9 +59,10 @@ namespace VisionGame
 		public virtual void OnDisable ()
 		{
 			isStuck = false;
+			rigid.isKinematic = false;
 		}
 
-		void OnCollisionEnter (Collision coll)
+		public virtual void OnCollisionEnter (Collision coll)
 		{
 			if (GameManager.framesSinceLoadedScene > frameIWasEnabled)
 				return;

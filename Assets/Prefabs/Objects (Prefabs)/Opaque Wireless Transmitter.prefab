@@ -95,6 +95,13 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   angularVelocity: {x: 0, y: 0, z: 0}
   overlapAmountToGetStuck: 0.1
+  isStuck: 0
+  frameIWasEnabled: 0
+  isGrabbable: 1
+  whatICollideWith:
+    serializedVersion: 2
+    m_Bits: 7936
+  collisionCheckDistance: 0.1
   receiverIds: 
 --- !u!114 &7833878919439437363
 MonoBehaviour:

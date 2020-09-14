@@ -223,44 +223,49 @@ namespace VisionGame
 
 		void HandleGrabbing ()
 		{
-			HandleGrabbing (leftGrabInput, previousLeftGrabInput, leftThrowInput, leftHandTrs, physicsObjectsTouchingLeftHand.ToArray(), ref leftGrabbedPhysicsObject, rightGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
-			HandleGrabbing (rightGrabInput, previousRightGrabInput, rightThrowInput, rightHandTrs, physicsObjectsTouchingRightHand.ToArray(), ref rightGrabbedPhysicsObject, leftGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
+			HandleGrabbing (leftGrabInput, previousLeftGrabInput, leftHandTrs, physicsObjectsTouchingLeftHand.ToArray(), ref leftGrabbedPhysicsObject, rightGrabbedPhysicsObject, previousLeftHandPosition, previousLeftHandEulerAngles);
+			HandleGrabbing (rightGrabInput, previousRightGrabInput, rightHandTrs, physicsObjectsTouchingRightHand.ToArray(), ref rightGrabbedPhysicsObject, leftGrabbedPhysicsObject, previousRightHandPosition, previousRightHandEulerAngles);
 		}
 
-		void HandleGrabbing (bool grabInput, bool previousGrabInput, bool throwInput, Transform handTrs, PhysicsObject[] touchingPhysicsObjects, ref PhysicsObject grabbedPhysicsObject, PhysicsObject otherGrabbedPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
+		void HandleGrabbing (bool grabInput, bool previousGrabInput, Transform handTrs, PhysicsObject[] touchingPhysicsObjects, ref PhysicsObject grabbedPhysicsObject, PhysicsObject otherGrabbedPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
 		{
 			if (grabInput)
 			{
-				if (!previousGrabInput && !throwInput && grabbedPhysicsObject == null)
+				if (!previousGrabInput)
 				{
-					for (int i = 0; i < touchingPhysicsObjects.Length; i ++)
+					if (grabbedPhysicsObject == null)
 					{
-						PhysicsObject physicsObject = touchingPhysicsObjects[i];
-						if (!physicsObject.Equals(grabbedPhysicsObject) && !physicsObject.Equals(otherGrabbedPhysicsObject))
+						for (int i = 0; i < touchingPhysicsObjects.Length; i ++)
 						{
-							// Physics.IgnoreCollision(physicsObject.collider, collider, true);
-							// Physics.IgnoreCollision(physicsObject.collider, controller, true);
-							physicsObject.trs.SetParent(handTrs);
-							grabbedPhysicsObject = physicsObject;
-							physicsObject.trs.position = GetGrabPosition(grabbedPhysicsObject);
-							grabbedPhysicsObject.rigid.isKinematic = true;
-							Orb orb = physicsObject.GetComponent<Orb>();
-							if (orb != null && GameManager.GetSingleton<Level>().orbs.Length == 2)
+							PhysicsObject physicsObject = touchingPhysicsObjects[i];
+							if (physicsObject.isGrabbable && !physicsObject.Equals(grabbedPhysicsObject) && !physicsObject.Equals(otherGrabbedPhysicsObject))
 							{
-								if ((orb == GameManager.GetSingleton<Level>().orbs[0]) == (handTrs == leftHandTrs))
+								Physics.IgnoreCollision(physicsObject.collider, collider, true);
+								Physics.IgnoreCollision(physicsObject.collider, controller, true);
+								physicsObject.trs.SetParent(handTrs);
+								grabbedPhysicsObject = physicsObject;
+								physicsObject.trs.position = GetGrabPosition(grabbedPhysicsObject);
+								grabbedPhysicsObject.rigid.isKinematic = true;
+								Orb orb = physicsObject.GetComponent<Orb>();
+								if (orb != null && GameManager.GetSingleton<Level>().orbs.Length == 2)
 								{
-									GameManager.GetSingleton<Level>().leftOrb = orb;
-									GameManager.GetSingleton<Level>().rightOrb = GameManager.GetSingleton<Level>().orbs[1];
-								}
-								else
-								{
-									GameManager.GetSingleton<Level>().leftOrb = GameManager.GetSingleton<Level>().orbs[1];
-									GameManager.GetSingleton<Level>().rightOrb = orb;
+									if ((orb == GameManager.GetSingleton<Level>().orbs[0]) == (handTrs == leftHandTrs))
+									{
+										GameManager.GetSingleton<Level>().leftOrb = orb;
+										GameManager.GetSingleton<Level>().rightOrb = GameManager.GetSingleton<Level>().orbs[1];
+									}
+									else
+									{
+										GameManager.GetSingleton<Level>().leftOrb = GameManager.GetSingleton<Level>().orbs[1];
+										GameManager.GetSingleton<Level>().rightOrb = orb;
+									}
 								}
 							}
 						}
 					}
 				}
+				else if (grabbedPhysicsObject != null)
+					grabbedPhysicsObject.trs.position = GetGrabPosition(grabbedPhysicsObject);
 			}
 			else if (grabbedPhysicsObject != null)
 			{
@@ -268,8 +273,8 @@ namespace VisionGame
 				grabbedPhysicsObject.rigid.isKinematic = false;
 				grabbedPhysicsObject.rigid.velocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
 				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
-				// Physics.IgnoreCollision(grabbedPhysicsObject.collider, collider, false);
-				// Physics.IgnoreCollision(grabbedPhysicsObject.collider, controller, false);
+				Physics.IgnoreCollision(grabbedPhysicsObject.collider, collider, false);
+				Physics.IgnoreCollision(grabbedPhysicsObject.collider, controller, false);
 				grabbedPhysicsObject = null;
 			}
 		}
@@ -277,6 +282,7 @@ namespace VisionGame
 		Vector3 GetGrabPosition (PhysicsObject physicsObject)
 		{
 			Vector3 grabPosition = physicsObject.trs.position;
+			// Vector3 grabPosition = physicsObject.collider.ClosestPoint(trs.position);
 			Vector3 closestPointOnMe = collider.ClosestPoint(grabPosition);
 			Vector3 previousGrabPosition = grabPosition;
 			if (Physics.ClosestPoint(closestPointOnMe, physicsObject.collider, grabPosition, physicsObject.trs.rotation) != closestPointOnMe)
