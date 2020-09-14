@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
+[ExecuteInEditMode]
 public class GizmosManager : MonoBehaviour
 {
 	public static List<GizmosEntry> gizmosEntries = new List<GizmosEntry>();

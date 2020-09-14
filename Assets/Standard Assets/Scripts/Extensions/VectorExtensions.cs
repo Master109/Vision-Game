@@ -235,35 +235,75 @@ namespace Extensions
 			return new Vector2(v.x, y);
 		}
 
-        public static Vector3 SetZ (this Vector2 v, float z)
-        {
-            return new Vector3(v.x, v.y, z);
-        }
+		public static Vector3 SetZ (this Vector2 v, float z)
+		{
+			return new Vector3(v.x, v.y, z);
+		}
 
-        public static Vector3Int SetZ (this Vector3Int v, int z)
-        {
-            return new Vector3Int(v.x, v.y, z);
-        }
+		public static Vector3Int SetZ (this Vector3Int v, int z)
+		{
+			return new Vector3Int(v.x, v.y, z);
+		}
 
-        public static Vector2 SetToMinComponents (this Vector2 v, Vector2 v2)
-        {
-	        return new Vector2(Mathf.Min(v.x, v2.x), Mathf.Min(v.y, v2.y));
-        }
+		public static Vector2 GetMinComponents (Vector2 v, Vector2 v2)
+		{
+			return new Vector2(Mathf.Min(v.x, v2.x), Mathf.Min(v.y, v2.y));
+		}
 
-        public static Vector2 SetToMaxComponents (this Vector2 v, Vector2 v2)
-        {
-	        return new Vector2(Mathf.Max(v.x, v2.x), Mathf.Max(v.y, v2.y));
-        }
+		public static Vector2 GetMaxComponents (Vector2 v, Vector2 v2)
+		{
+			return new Vector2(Mathf.Max(v.x, v2.x), Mathf.Max(v.y, v2.y));
+		}
 
-        public static Vector2Int SetToMinComponents (this Vector2Int v, Vector2Int v2)
-        {
-	        return new Vector2Int(Mathf.Min(v.x, v2.x), Mathf.Min(v.y, v2.y));
-        }
+		public static Vector2Int GetMinComponents (Vector2Int v, Vector2Int v2)
+		{
+			return new Vector2Int(Mathf.Min(v.x, v2.x), Mathf.Min(v.y, v2.y));
+		}
 
-        public static Vector2Int SetToMaxComponents (this Vector2Int v, Vector2Int v2)
-        {
-	        return new Vector2Int(Mathf.Max(v.x, v2.x), Mathf.Max(v.y, v2.y));
-        }
+		public static Vector2Int GetMaxComponents (Vector2Int v, Vector2Int v2)
+		{
+			return new Vector2Int(Mathf.Max(v.x, v2.x), Mathf.Max(v.y, v2.y));
+		}
+
+		public static float GetMinComponent (this Vector2 v)
+		{
+			return Mathf.Min(v.x, v.y);
+		}
+
+		public static float GetMaxComponent (this Vector2 v)
+		{
+			return Mathf.Max(v.x, v.y);
+		}
+
+		public static int GetMinComponent (this Vector2Int v)
+		{
+			return Mathf.Min(v.x, v.y);
+		}
+
+		public static int GetMaxComponent (this Vector2Int v)
+		{
+			return Mathf.Max(v.x, v.y);
+		}
+
+		public static float GetMinComponent (this Vector3 v)
+		{
+			return Mathf.Min(v.x, v.y, v.z);
+		}
+
+		public static float GetMaxComponent (this Vector3 v)
+		{
+			return Mathf.Max(v.x, v.y, v.z);
+		}
+
+		public static int GetMinComponent (this Vector3Int v)
+		{
+			return Mathf.Min(v.x, v.y, v.z);
+		}
+
+		public static int GetMaxComponent (this Vector3Int v)
+		{
+			return Mathf.Max(v.x, v.y, v.z);
+		}
 		
 		public static Vector2 FromFacingAngle (float angle)
 		{
@@ -325,15 +365,15 @@ namespace Extensions
 			return new Vector2(control.x.ReadValue(), control.y.ReadValue());
 		}
 
-        public static Vector3 GetXZ (this Vector3 v)
-        {
-            return new Vector3(v.x, 0, v.z);
-        }
+		public static Vector3 GetXZ (this Vector3 v)
+		{
+			return new Vector3(v.x, 0, v.z);
+		}
 
-        public static Vector2Int GetXZ (this Vector3Int v)
-        {
-            return new Vector2Int(v.x, v.z);
-        }
+		public static Vector2Int GetXZ (this Vector3Int v)
+		{
+			return new Vector2Int(v.x, v.z);
+		}
 		
 		public static Vector3 XYToXZ (this Vector2 v)
 		{
@@ -443,5 +483,5 @@ namespace Extensions
 			}
 			return distanceToClosestPointSqr;
 		}
-    }
+	}
 }

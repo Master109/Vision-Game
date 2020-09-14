@@ -180,8 +180,8 @@ namespace Extensions
 
 		public static Rect GrowToPoint (this Rect rect, Vector2 point)
 		{
-			rect.min = rect.min.SetToMinComponents(point);
-			rect.max = rect.max.SetToMaxComponents(point);
+			rect.min = VectorExtensions.GetMinComponents(rect.min, point);
+			rect.max = VectorExtensions.GetMaxComponents(rect.max, point);
 			return rect;
 		}
 
