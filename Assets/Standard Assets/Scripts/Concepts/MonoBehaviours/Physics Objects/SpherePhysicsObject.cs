@@ -15,9 +15,8 @@ namespace VisionGame
 
 		void OnCollisionStay (Collision coll)
 		{
-			Vector3 velocity = -rigid.velocity;
-			velocity.y = rigid.velocity.y;
-			if (Physics.Raycast(trs.position + (velocity.normalized * collider.bounds.extents.x), velocity, collisionCheckDistance, whatICollideWith))
+			Vector3 velocity = -coll.relativeVelocity;
+			if (Physics.Raycast(trs.position + (velocity.normalized * (collider.bounds.extents.x + Physics.defaultContactOffset)), velocity, collisionCheckDistance, whatICollideWith))
 				rigid.freezeRotation = true;
 		}
 

@@ -179,6 +179,7 @@ namespace VisionGame
 		{
 			initialized = true;
 		}
+		
 		public IEnumerator OnGameSceneLoadedRoutine ()
 		{
 			gameModifierDict.Clear();

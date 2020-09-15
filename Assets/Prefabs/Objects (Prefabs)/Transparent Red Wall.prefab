@@ -62,16 +62,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 685160968234170305, guid: 38c21e975ca4cec4b8bbb6af7e9b5a7b,
+        type: 3}
+      propertyPath: m_Mass
+      value: 39.938023
+      objectReference: {fileID: 0}
     - target: {fileID: 685160968234170306, guid: 38c21e975ca4cec4b8bbb6af7e9b5a7b,
         type: 3}
       propertyPath: m_Name
-      value: Transparent Red Wall Variant
+      value: Transparent Red Wall
       objectReference: {fileID: 0}
     - target: {fileID: 685160968234170307, guid: 38c21e975ca4cec4b8bbb6af7e9b5a7b,
         type: 3}
       propertyPath: collider
       value: 
-      objectReference: {fileID: 8658403841403285494}
+      objectReference: {fileID: 0}
     - target: {fileID: 3694617480449043441, guid: 38c21e975ca4cec4b8bbb6af7e9b5a7b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -81,9 +86,3 @@ PrefabInstance:
     - {fileID: 6793516461278794868, guid: 38c21e975ca4cec4b8bbb6af7e9b5a7b, type: 3}
     - {fileID: 3541609117032603626, guid: 38c21e975ca4cec4b8bbb6af7e9b5a7b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 38c21e975ca4cec4b8bbb6af7e9b5a7b, type: 3}
---- !u!65 &8658403841403285494 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 9034294507572838161, guid: 38c21e975ca4cec4b8bbb6af7e9b5a7b,
-    type: 3}
-  m_PrefabInstance: {fileID: 380719740586053863}
-  m_PrefabAsset: {fileID: 0}

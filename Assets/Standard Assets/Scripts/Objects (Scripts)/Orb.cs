@@ -27,6 +27,10 @@ namespace VisionGame
 				checkerCanvas.planeDistance = distance;
 				checkerCanvas.enabled = false;
 				checkerCanvas.enabled = true;
+				// Vector3[] corners = new Vector3[4];
+				// checkerRectTrs.GetWorldCorners(corners);
+				// for (int i = 0; i < 4; i ++)
+				// 	DebugExtensions.DrawPoint(corners[i], 1, Color.black, 10);
 				Collider[] _hitColliders = Physics.OverlapBox(checkerRectTrs.position, (checkerRectTrs.sizeDelta * checkerRectTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerRectTrs.rotation, opaqueLayermask);
 				for (int i = 0; i < _hitColliders.Length; i ++)
 				{

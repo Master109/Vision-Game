@@ -32,10 +32,6 @@ namespace VisionGame
 				if (rigid == null)
 					rigid = GetComponent<Rigidbody>();
 				velocity = Vector3.zero;
-				childrenParent.localScale = Vector3.one.Divide(trs.lossyScale);
-				BoxCollider boxCollider = collider as BoxCollider;
-				if (boxCollider != null)
-					boxCollider.size = trs.lossyScale;
 				return;
 			}
 #endif

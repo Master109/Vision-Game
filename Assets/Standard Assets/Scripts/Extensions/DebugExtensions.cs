@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using VisionGame;
-using System;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace Extensions
 {
@@ -25,7 +21,11 @@ namespace Extensions
 			Debug.DrawLine(new Vector2(rect.xMax, rect.yMin), rect.min, color, duration);
 		}
 
-		// public static void DrawText (string text)
+		// public static void DrawBox (Vector3 center, Vector3 size, Quaternion rotation, Color color, float duration)
+		// {
+		// }
+
+		// public static void DrawText (string text, Color color, float duration)
 		// {
 		// }
 

@@ -66,6 +66,7 @@ MonoBehaviour:
   repeat: 1
   moveTowardsEnd: 1
   distanceToAxelEnd: 0
+  physicsObject: {fileID: 7903776783355851911}
   stopDistance: 0.1
 --- !u!65 &8108363363806545281
 BoxCollider:
@@ -143,7 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hotkeys: []
   trs: {fileID: 930546999370169150}
-  smallValue: 0.000001
+  smallValue: 0.0001
 --- !u!1 &5309009152495794485
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,14 +282,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5429812694192903159}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.010500006
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &7903776783355851911
 MonoBehaviour:
   m_ObjectHideFlags: 0

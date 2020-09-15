@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VisionGame
 {
-	public class End : PhysicsObject
+	public class End : BoxPhysicsObject
 	{
 	}
 }

@@ -32,6 +32,7 @@ namespace VisionGame
 		public bool moveTowardsEnd = true;
 #if UNITY_EDITOR
 		public float distanceToAxelEnd;
+		public PhysicsObject physicsObject;
 #endif
 		public float stopDistance;
 		LineSegment3D lineSegment;
@@ -53,7 +54,10 @@ namespace VisionGame
 		{
 #if UNITY_EDITOR
 			if (!Application.isPlaying)
+			{
+				SetMass ();
 				return;
+			}
 #endif
 			rigid.constraints = rigidConstraints;
 			GameManager.updatables = GameManager.updatables.Add(this);
@@ -67,6 +71,24 @@ namespace VisionGame
 			axelParent.localScale = axelParent.localScale.SetZ(lineSegment.GetLength());
 			childObjectsParent.position = trs.position + (lineSegment.GetDirection() * (childObjectsOffset + extendAxel + distanceToAxelEnd));
 			childObjectsParent.SetWorldScale(Vector3.one);
+			SetMass ();
+		}
+
+		public void SetMass ()
+		{
+			rigid.mass = axelTrs.lossyScale.x * axelTrs.lossyScale.y * axelTrs.lossyScale.z;
+			for (int i = 0; i < physicsObject.childrenParent.childCount; i ++)
+			{
+				Transform child = physicsObject.childrenParent.GetChild(i);
+				Piston piston = child.GetComponent<Piston>();
+				if (piston != null)
+				{
+					piston.SetMass ();
+					rigid.mass += piston.rigid.mass;
+				}
+				else
+					rigid.mass += child.lossyScale.x * child.lossyScale.y * child.lossyScale.z;
+			}
 		}
 #endif
 
