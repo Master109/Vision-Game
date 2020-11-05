@@ -45,7 +45,7 @@ public static class EditorUtilities
 		{
 			childCount = trs.childCount;
 			for (int i = 0; i < childCount; i ++)
-				GameManager._DestroyImmediate(trs.GetChild(0).gameObject);
+				GameManager._DestroyImmediate (trs.GetChild(0).gameObject);
 		}
 	}
 }

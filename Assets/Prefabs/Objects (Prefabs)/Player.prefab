@@ -525,7 +525,7 @@ MonoBehaviour:
   rotateRate: {x: 100, y: -100}
   rollRate: 10
   invulnerable: 0
-  maxHandDistance: 1.5
+  maxHandDistance: 2
   leftAimer: {fileID: 6367818312437764565}
   rightAimer: {fileID: 1388642439339493007}
   maxAimerDistanceSqr: 10000

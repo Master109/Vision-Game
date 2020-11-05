@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: a3781008d8304224db30b193804795fe, type: 2}
-  inputDevice: 1
+  inputDevice: 0
