@@ -26,7 +26,7 @@ namespace VisionGame
 		public void DoUpdate ()
 		{
 			if (InputManager.RestartInput)
-				GameManager.GetSingleton<GameManager>().ReloadActiveScene ();
+				GameManager.Instance.ReloadActiveScene ();
 		}
 
 		void OnDisable ()

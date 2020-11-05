@@ -15,12 +15,12 @@ namespace VisionGame
 
 		public virtual void Do ()
 		{
-			GameManager.GetSingleton<GameManager>().StartCoroutine(DoRoutine ());
+			GameManager.Instance.StartCoroutine(DoRoutine ());
 		}
 
 		public virtual void Stop ()
 		{
-			GameManager.GetSingleton<GameManager>().StopCoroutine(DoRoutine ());
+			GameManager.Instance.StopCoroutine(DoRoutine ());
 		}
 		
 		public virtual IEnumerator DoRoutine ()

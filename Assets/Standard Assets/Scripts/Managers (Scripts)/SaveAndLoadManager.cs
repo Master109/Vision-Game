@@ -146,9 +146,9 @@ namespace VisionGame
 
 		public virtual void OnLoaded ()
 		{
-			GameManager.GetSingleton<GameManager>().SetGosActive ();
+			GameManager.Instance.SetGosActive ();
 			// GameManager.GetSingleton<AudioManager>().Awake ();
-			// GameManager.GetSingleton<Player>().trs.position = GameManager.GetSingleton<Player>().spawnPosition;
+			// Player.Instance.trs.position = Player.Instance.spawnPosition;
 			// GameManager.GetSingleton<GameCamera>().Awake ();
 			// GameManager.GetSingleton<Survival>().highscoreText.text.text = "Highscore: " + GameManager.GetSingleton<Survival>().highscore;
 		}

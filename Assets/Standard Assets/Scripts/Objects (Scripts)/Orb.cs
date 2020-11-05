@@ -74,9 +74,9 @@ namespace VisionGame
 				GameObject hitGo = hitGos[i];
 				if (hitGo == gameObject)
 					continue;
-				else if (hitGo == GameManager.GetSingleton<Player>().gameObject)
+				else if (hitGo == Player.Instance.gameObject)
 				{
-					GameManager.GetSingleton<GameManager>().ReloadActiveScene ();
+					GameManager.Instance.ReloadActiveScene ();
 					return;
 				}
 				IStorable storable = hitGo.GetComponentInParent<IStorable>();

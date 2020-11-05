@@ -64,7 +64,7 @@ namespace Extensions
 
 		public static void DelayedLog (float delay, bool realtime = true, string elementSeperator = ", ", LogType logType = LogType.Info, params object[] data)
 		{
-			GameManager.GetSingleton<GameManager>().StartCoroutine(DelayedLogRoutine (delay, realtime, elementSeperator, logType, data));
+			GameManager.Instance.StartCoroutine(DelayedLogRoutine (delay, realtime, elementSeperator, logType, data));
 		}
 
 		public static IEnumerator DelayedLogRoutine (float delay, bool realtime = true, string elementSeperator = ", ", LogType logType = LogType.Info, params object[] data)
@@ -78,7 +78,7 @@ namespace Extensions
 
 		public static void DelayedLog<T> (float delay, bool realtime = true, string elementSeperator = ", ", LogType logType = LogType.Info, params Data<T>[] data)
 		{
-			GameManager.GetSingleton<GameManager>().StartCoroutine(DelayedLogRoutine (delay, realtime, elementSeperator, logType, data));
+			GameManager.Instance.StartCoroutine(DelayedLogRoutine (delay, realtime, elementSeperator, logType, data));
 		}
 
 		public static IEnumerator DelayedLogRoutine<T> (float delay, bool realtime = true, string elementSeperator = ", ", LogType logType = LogType.Info, params Data<T>[] data)

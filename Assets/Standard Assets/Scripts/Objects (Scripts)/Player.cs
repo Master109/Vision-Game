@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 namespace VisionGame
 {
 	[ExecuteInEditMode]
-	public class Player : MonoBehaviour, IUpdatable
+	public class Player : SingletonMonoBehaviour<Player>, IUpdatable
 	{
 		public bool PauseWhileUnfocused
 		{
@@ -536,6 +536,8 @@ namespace VisionGame
 			if (coll.rigidbody != null)
 				HandleBeingPushed (coll.rigidbody);
 			HandleSlopes ();
+			if (coll.gameObject.GetComponent<Spikes>() != null)
+				GameManager.Instance.ReloadActiveScene ();
 		}
 
 		void OnCollisionStay (Collision coll)
@@ -550,6 +552,8 @@ namespace VisionGame
 			if (hit.rigidbody != null)
 				HandleBeingPushed (hit.rigidbody);
 			HandleSlopes ();
+			if (hit.gameObject.GetComponent<Spikes>() != null)
+				GameManager.Instance.ReloadActiveScene ();
 		}
 
 		void OnTriggerEnter (Collider other)
