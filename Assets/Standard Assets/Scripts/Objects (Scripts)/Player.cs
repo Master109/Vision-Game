@@ -201,7 +201,7 @@ namespace VisionGame
 			}
 			else
 			{
-				handTrs.SetParent(GameManager.GetSingleton<GameCamera>().trs);
+				handTrs.SetParent(GameCamera.Instance.trs);
 				handTrs.localPosition = initLocalPosition;
 				handTrs.localRotation = Quaternion.identity;
 			}
@@ -218,7 +218,7 @@ namespace VisionGame
 		void HandleFacing ()
 		{
 			if (turnInput && !previousTurnInput)
-				trs.forward = GameManager.GetSingleton<GameCamera>().trs.forward.SetY(0);
+				trs.forward = GameCamera.Instance.trs.forward.SetY(0);
 		}
 
 		void HandleGrabbing ()
@@ -465,7 +465,7 @@ namespace VisionGame
 			if (moveInput != Vector3.zero)
 				moveInput = moveInput.XYToXZ();
 			moveInput = Vector3.ClampMagnitude(moveInput, 1);
-			moveInput = Quaternion.Euler(Vector3.up * GameManager.GetSingleton<GameCamera>().trs.eulerAngles.y) * moveInput;
+			moveInput = Quaternion.Euler(Vector3.up * GameCamera.Instance.trs.eulerAngles.y) * moveInput;
 			moveInput.y = 0;
 			return moveInput;
 		}

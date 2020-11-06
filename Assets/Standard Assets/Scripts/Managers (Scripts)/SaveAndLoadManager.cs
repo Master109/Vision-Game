@@ -149,7 +149,7 @@ namespace VisionGame
 			GameManager.Instance.SetGosActive ();
 			// GameManager.GetSingleton<AudioManager>().Awake ();
 			// Player.Instance.trs.position = Player.Instance.spawnPosition;
-			// GameManager.GetSingleton<GameCamera>().Awake ();
+			// GameCamera.Instance.Awake ();
 			// GameManager.GetSingleton<Survival>().highscoreText.text.text = "Highscore: " + GameManager.GetSingleton<Survival>().highscore;
 		}
 

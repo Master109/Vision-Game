@@ -6,7 +6,7 @@ namespace VisionGame
 	//[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
 	[DisallowMultipleComponent]
-	public class CameraScript : MonoBehaviour
+	public class CameraScript : SingletonMonoBehaviour<CameraScript>
 	{
 		public Transform trs;
 		public new Camera camera;
@@ -16,8 +16,9 @@ namespace VisionGame
 		[HideInInspector]
 		public Rect viewRect;
 		
-		public virtual void Awake ()
+		public override void Awake ()
 		{
+			base.Awake ();
 			trs.SetParent(null);
 			trs.localScale = Vector3.one;
 			viewRect.size = viewSize;

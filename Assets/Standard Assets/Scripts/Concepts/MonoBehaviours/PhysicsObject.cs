@@ -55,7 +55,8 @@ namespace VisionGame
 		public virtual void OnDisable ()
 		{
 			isStuck = false;
-			rigid.isKinematic = false;
+			if (rigid != null)
+				rigid.isKinematic = false;
 		}
 
 		public virtual void OnCollisionEnter (Collision coll)
