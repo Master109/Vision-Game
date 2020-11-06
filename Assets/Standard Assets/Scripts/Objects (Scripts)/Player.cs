@@ -204,13 +204,13 @@ namespace VisionGame
 		{
 			if (oculusTouchController != null)
 			{
-				handTrs.SetParent(trs);
+				// handTrs.SetParent(trs);
 				handTrs.localPosition = Vector3.ClampMagnitude(oculusTouchController.devicePosition.ReadValue(), maxHandDistance);
 				handTrs.localRotation = oculusTouchController.deviceRotation.ReadValue();
 			}
 			else
 			{
-				handTrs.SetParent(GameCamera.Instance.trs);
+				// handTrs.SetParent(GameCamera.Instance.trs);
 				handTrs.localPosition = initLocalPosition;
 				handTrs.localRotation = Quaternion.identity;
 			}
