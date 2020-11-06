@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1023724895461546157}
   - component: {fileID: 1335693853801819366}
+  - component: {fileID: 7591353493630772916}
   m_Layer: 10
   m_Name: Right Hand
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_Children:
   - {fileID: 4780438776161075520}
   m_Father: {fileID: 710399238731745507}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!135 &1335693853801819366
 SphereCollider:
@@ -44,6 +45,19 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.45
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &7591353493630772916
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246663748089817272}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.12
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4780438776160929002
 GameObject:
@@ -466,8 +480,8 @@ MonoBehaviour:
   gravity: 25
   move: {x: 0, y: 0, z: 0}
   moveSpeed: 10
-  leftHandSphereCollider: {fileID: 6075677361182081644}
-  rightHandSphereCollider: {fileID: 1335693853801819366}
+  leftHandSphereSensorCollider: {fileID: 6075677361182081644}
+  rightHandSphereSensorCollider: {fileID: 1335693853801819366}
   whatIsGrabbable:
     serializedVersion: 2
     m_Bits: 6912
@@ -498,6 +512,8 @@ MonoBehaviour:
   headTrs: {fileID: 8148586841573431190}
   maxHeadDistance: 1
   headSphereCollider: {fileID: 5060147861051251745}
+  leftHandSphereCollider: {fileID: 2231373898985516562}
+  rightHandSphereCollider: {fileID: 7591353493630772916}
   initLeftHandLocalPosition: {x: -0.5, y: -1, z: 1}
   initRightHandLocalPosition: {x: 0.5, y: -1, z: 1}
 --- !u!114 &4780438776155413846
@@ -679,6 +695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3142074764428097995}
   - component: {fileID: 6075677361182081644}
+  - component: {fileID: 2231373898985516562}
   m_Layer: 10
   m_Name: Left Hand
   m_TagString: Untagged
@@ -699,7 +716,7 @@ Transform:
   m_Children:
   - {fileID: 4780438776161088836}
   m_Father: {fileID: 710399238731745507}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!135 &6075677361182081644
 SphereCollider:
@@ -713,6 +730,19 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.45
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &2231373898985516562
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5620335876363739058}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.12
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6776499597322377768
 GameObject:
@@ -741,8 +771,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1023724895461546157}
   - {fileID: 3142074764428097995}
+  - {fileID: 1023724895461546157}
   - {fileID: 8148586841573431190}
   m_Father: {fileID: 4780438776161039506}
   m_RootOrder: 1

@@ -30,8 +30,8 @@ namespace VisionGame
 		[HideInInspector]
 		public Vector3 move;
 		public float moveSpeed;
-		public SphereCollider leftHandSphereCollider;
-		public SphereCollider rightHandSphereCollider;
+		public SphereCollider leftHandSphereSensorCollider;
+		public SphereCollider rightHandSphereSensorCollider;
 		public LayerMask whatIsGrabbable;
 		public Vector2 rotateRate;
 		public float rollRate;
@@ -52,6 +52,8 @@ namespace VisionGame
 		public Transform headTrs;
 		public float maxHeadDistance;
 		public SphereCollider headSphereCollider;
+		public SphereCollider leftHandSphereCollider;
+		public SphereCollider rightHandSphereCollider;
 		Vector3 extraVelocity;
 		[SerializeField]
 		[HideInInspector]
@@ -231,7 +233,7 @@ namespace VisionGame
 			else
 			{
 				Vector3 newHeadLocalPosition = Vector3.ClampMagnitude(InputManager.hmd.devicePosition.ReadValue(), maxHeadDistance);
-				if (!Physics.CheckSphere(headTrs.TransformPoint(newHeadLocalPosition), headSphereCollider.radius, whatICollideWith))
+				if (!Physics.CheckSphere(headTrs.TransformPoint(newHeadLocalPosition), headSphereCollider.bounds.extents.x, whatICollideWith))
 					headTrs.localPosition = newHeadLocalPosition;
 				headTrs.localRotation = InputManager.hmd.deviceRotation.ReadValue();
 			}
@@ -270,12 +272,10 @@ namespace VisionGame
 							PhysicsObject physicsObject = touchingPhysicsObjects[i];
 							if (physicsObject.isGrabbable && !physicsObject.Equals(grabbedPhysicsObject) && !physicsObject.Equals(otherGrabbedPhysicsObject))
 							{
-								Physics.IgnoreCollision(physicsObject.collider, collider, true);
-								Physics.IgnoreCollision(physicsObject.collider, controller, true);
-								Physics.IgnoreCollision(physicsObject.collider, headSphereCollider, true);
+								IgnoreCollision (physicsObject.collider, true);
 								physicsObject.trs.SetParent(handTrs);
 								grabbedPhysicsObject = physicsObject;
-								grabbedPhysicsObject.trs.position = GetGrabPosition(grabbedPhysicsObject, handTrs);
+								SetGrabPosition (grabbedPhysicsObject);
 								grabbedPhysicsObject.rigid.isKinematic = true;
 								Orb orb = physicsObject.GetComponent<Orb>();
 								if (orb != null && Level.Instance.orbs.Length == 2)
@@ -295,7 +295,7 @@ namespace VisionGame
 						}
 					}
 					else
-						grabbedPhysicsObject.trs.position = GetGrabPosition(grabbedPhysicsObject, handTrs);
+						SetGrabPosition (grabbedPhysicsObject);
 				}
 			}
 			else
@@ -306,66 +306,44 @@ namespace VisionGame
 					grabbedPhysicsObject.trs.SetParent(null);
 					grabbedPhysicsObject.rigid.velocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
 					grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
-					Physics.IgnoreCollision(grabbedPhysicsObject.collider, collider, false);
-					Physics.IgnoreCollision(grabbedPhysicsObject.collider, controller, false);
-					Physics.IgnoreCollision(grabbedPhysicsObject.collider, headSphereCollider, false);
+					IgnoreCollision (grabbedPhysicsObject.collider, false);
 					grabbedPhysicsObject.rigid.isKinematic = false;
 					grabbedPhysicsObject = null;
 				}
 			}
 		}
 
-		Vector3 GetGrabPosition (PhysicsObject physicsObject, Transform handTrs)
+		void SetGrabPosition (PhysicsObject physicsObject)
 		{
-			// Vector3 grabPosition = physicsObject.trs.position;
-			Collider[] overlappedColliders = physicsObject.OverlapCollider();
-			if (overlappedColliders.Length > 0)
+			List<Collider> overlappedColliders = new List<Collider>(physicsObject.OverlapCollider());
+			overlappedColliders.Remove(collider);
+			overlappedColliders.Remove(controller);
+			overlappedColliders.Remove(headSphereCollider);
+			overlappedColliders.Remove(leftHandSphereCollider);
+			overlappedColliders.Remove(rightHandSphereCollider);
+			if (overlappedColliders.Count > 0)
 			{
-				physicsObject.trs.SetParent(null);
 				physicsObject.rigid.useGravity = false;
 				physicsObject.rigid.isKinematic = false;
 				physicsObject.rigid.WakeUp();
-				Physics.Simulate(.01f);
+				Physics.Simulate(Time.fixedDeltaTime);
 				physicsObject.rigid.isKinematic = true;
 				physicsObject.rigid.useGravity = true;
-				physicsObject.trs.SetParent(handTrs);
 			}
-			return physicsObject.trs.position;
-			// if (overlappedColliders.Contains(collider))
-			// {
-				
-			// }
-			// if (physicsObject is SpherePhysicsObject)
-			// {
-				
-			// }
-			// else if (physicsObject is BoxPhysicsObject)
-			// {
-			// }
-			// else
-			// {
-				// Vector3 closestPointOnMe = collider.ClosestPoint(grabPosition);
-				// Vector3 previousGrabPosition = grabPosition;
-			// while (Physics.ClosestPoint(closestPointOnMe, physicsObject.collider, grabPosition, physicsObject.trs.rotation) == closestPointOnMe)
-			// 	grabPosition -= (closestPointOnMe - grabPosition).normalized * Physics.defaultContactOffset;
-				// if (Physics.ClosestPoint(closestPointOnMe, physicsObject.collider, grabPosition, physicsObject.trs.rotation) != closestPointOnMe)
-				// {
-					// do
-					// {
-					// 	previousGrabPosition = grabPosition;
-					// 	grabPosition += (closestPointOnMe - grabPosition).normalized * Physics.defaultContactOffset;
-					// } while (Physics.ClosestPoint(closestPointOnMe, physicsObject.collider, grabPosition, physicsObject.trs.rotation) != closestPointOnMe);
-					// grabPosition = previousGrabPosition;
-				// }
-				// else
-				// {
-				// 	do
-				// 	{
-				// 		grabPosition -= (closestPointOnMe - grabPosition).normalized * Physics.defaultContactOffset;
-				// 	} while (Physics.ClosestPoint(closestPointOnMe, physicsObject.collider, grabPosition, physicsObject.trs.rotation) == closestPointOnMe);
-				// }
-			// }
-			// return grabPosition;
+			else
+			{
+				physicsObject.trs.localPosition = Vector3.zero;
+				overlappedColliders = new List<Collider>(physicsObject.OverlapCollider());
+				if (overlappedColliders.Count > 0)
+				{
+					physicsObject.rigid.useGravity = false;
+					physicsObject.rigid.isKinematic = false;
+					physicsObject.rigid.WakeUp();
+					Physics.Simulate(Time.fixedDeltaTime);
+					physicsObject.rigid.isKinematic = true;
+					physicsObject.rigid.useGravity = true;
+				}
+			}
 		}
 
 		void HandleAiming ()
@@ -443,9 +421,7 @@ namespace VisionGame
 					throwVelocity += handTrs.forward * currentThrowSpeed;
 				grabbedPhysicsObject.rigid.velocity = throwVelocity;
 				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
-				Physics.IgnoreCollision(grabbedPhysicsObject.collider, collider, false);
-				Physics.IgnoreCollision(grabbedPhysicsObject.collider, controller, false);
-				Physics.IgnoreCollision(grabbedPhysicsObject.collider, headSphereCollider, false);
+				IgnoreCollision (grabbedPhysicsObject.collider, false);
 				grabbedPhysicsObject.rigid.isKinematic = false;
 				grabbedPhysicsObject = null;
 			}
@@ -612,7 +588,7 @@ namespace VisionGame
 			PhysicsObject physicsObject = other.GetComponentInParent<PhysicsObject>();
 			if (physicsObject != null)
 			{
-				Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereCollider.radius, whatIsGrabbable);
+				Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereSensorCollider.bounds.extents.x, whatIsGrabbable);
 				if (hits.Contains(physicsObject.collider))
 				{
 					if (!physicsObjectsTouchingLeftHand.Contains(physicsObject))
@@ -628,7 +604,7 @@ namespace VisionGame
 		// 	PhysicsObject physicsObject = other.GetComponentInParent<PhysicsObject>();
 		// 	if (physicsObject != null)
 		// 	{
-		// 		Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereCollider.radius, whatIsGrabbable);
+		// 		Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereCollider.bounds.extents.x, whatIsGrabbable);
 		// 		if (hits.Contains(physicsObject.collider))
 		// 		{
 		// 			if (!physicsObjectsTouchingLeftHand.Contains(physicsObject))
@@ -644,17 +620,26 @@ namespace VisionGame
 			PhysicsObject physicsObject = other.GetComponentInParent<PhysicsObject>();
 			if (physicsObject != null)
 			{
-				Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereCollider.radius, whatIsGrabbable);
+				Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereSensorCollider.bounds.extents.x, whatIsGrabbable);
 				if (hits.Contains(physicsObject.collider))
 					physicsObjectsTouchingRightHand.Remove(physicsObject);
 				else
 				{
 					physicsObjectsTouchingLeftHand.Remove(physicsObject);
-					hits = Physics.OverlapSphere(rightHandTrs.position, rightHandSphereCollider.radius, whatIsGrabbable);
+					hits = Physics.OverlapSphere(rightHandTrs.position, rightHandSphereSensorCollider.bounds.extents.x, whatIsGrabbable);
 					if (!hits.Contains(physicsObject.collider))
 						physicsObjectsTouchingRightHand.Remove(physicsObject);
 				}
 			}
+		}
+
+		void IgnoreCollision (Collider collider, bool ignore)
+		{
+			Physics.IgnoreCollision(collider, collider, ignore);
+			Physics.IgnoreCollision(collider, controller, ignore);
+			Physics.IgnoreCollision(collider, headSphereCollider, ignore);
+			Physics.IgnoreCollision(collider, leftHandSphereCollider, ignore);
+			Physics.IgnoreCollision(collider, rightHandSphereCollider, ignore);
 		}
 	}
 }

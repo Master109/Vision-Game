@@ -313,6 +313,9 @@ MonoBehaviour:
   isStuck: 0
   frameIWasEnabled: 0
   isGrabbable: 0
+  whatICollideWith:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &6103762589404078290
 GameObject:
   m_ObjectHideFlags: 0
