@@ -66,7 +66,7 @@ public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 			makeLineRenderer = false;
 			MakeLineRenderer ();
 		}
-		colliderSize = collider.GetUnrotatedSize(trs);
+		colliderSize = collider.GetUnrotatedBounds(trs).size;
 #endif
 	}
 
@@ -93,7 +93,7 @@ public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 				fromPreviousPosition = wayPoints[0].position - wayPoints[1].position;
 			else
 				fromPreviousPosition = wayPoints[i].position - wayPoints[i - 1].position;
-			lineRenderer.SetPosition(i, wayPoints[i].position + (collider.GetUnrotatedSize(trs) / 2).Multiply(fromPreviousPosition.normalized));
+			lineRenderer.SetPosition(i, wayPoints[i].position + (collider.GetUnrotatedBounds(trs).size / 2).Multiply(fromPreviousPosition.normalized));
 		}
 	}
 	
@@ -109,7 +109,7 @@ public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 				fromPreviousPosition = wayPoints[0].position - wayPoints[1].position;
 			else
 				fromPreviousPosition = wayPoints[i].position - wayPoints[i - 1].position;
-			lineRenderer.SetPosition(i, wayPoints[i].position + (collider.GetUnrotatedSize(trs) / 2).Multiply(fromPreviousPosition.normalized));
+			lineRenderer.SetPosition(i, wayPoints[i].position + (collider.GetUnrotatedBounds(trs).size / 2).Multiply(fromPreviousPosition.normalized));
 		}
 		lineRenderer.material = path.material;
 		lineRenderer.startColor = path.color;
@@ -119,15 +119,15 @@ public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 		{
 			if (wayPoints[0].position.y != wayPoints[1].position.y)
 			{
-				lineWidth = Mathf.Max(collider.GetUnrotatedSize(trs).x, collider.GetUnrotatedSize(trs).y);
+				lineWidth = Mathf.Max(collider.GetUnrotatedBounds(trs).size.x, collider.GetUnrotatedBounds(trs).size.y);
 			}
 			else
 			{
-				lineWidth = collider.GetUnrotatedSize(trs).y;
+				lineWidth = collider.GetUnrotatedBounds(trs).size.y;
 			}
 		}
 		else
-			lineWidth = collider.GetUnrotatedSize().x;
+			lineWidth = collider.GetUnrotatedBounds(trs).size.x;
 		lineRenderer.startWidth = lineWidth;
 		lineRenderer.endWidth = lineWidth;
 		lineRenderer.sortingLayerName = path.sortingLayerName;

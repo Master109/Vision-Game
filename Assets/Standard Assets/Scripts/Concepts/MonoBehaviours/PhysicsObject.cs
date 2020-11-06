@@ -21,6 +21,7 @@ namespace VisionGame
 		[HideInInspector]
 		public int frameIWasEnabled;
 		public bool isGrabbable;
+		public LayerMask whatICollideWith;
 
 		public virtual void OnEnable ()
 		{
@@ -92,6 +93,22 @@ namespace VisionGame
 					return;
 				}
 			}
+		}
+
+		public virtual Collider[] OverlapCollider ()
+		{
+			List<Collider> output = new List<Collider>();
+			SphereCollider sphereCollider = collider as SphereCollider;
+			if (sphereCollider != null)
+				output = new List<Collider>(Physics.OverlapSphere(sphereCollider.bounds.center, sphereCollider.bounds.extents.x, whatICollideWith));
+			else
+			{
+				BoxCollider boxCollider = collider as BoxCollider;
+				if (boxCollider != null)
+					output = new List<Collider>(Physics.OverlapBox(boxCollider.bounds.center, boxCollider.size / 2, trs.rotation, whatICollideWith));
+			}
+			output.Remove(collider);
+			return output.ToArray();
 		}
 	}
 }

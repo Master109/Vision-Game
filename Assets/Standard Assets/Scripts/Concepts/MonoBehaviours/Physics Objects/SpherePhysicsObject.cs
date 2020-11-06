@@ -4,7 +4,6 @@ namespace VisionGame
 {
 	public class SpherePhysicsObject : PhysicsObject
 	{
-		public LayerMask whatICollideWith;
 		public float collisionCheckDistance;
 
 		public override void OnCollisionEnter (Collision coll)

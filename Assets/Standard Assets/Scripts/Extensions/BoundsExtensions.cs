@@ -52,5 +52,13 @@ namespace Extensions
 			b2.Expand(expandB2);
 			return b1.Intersects(b2);
 		}
+
+		public static Bounds SetToPositiveSize (this Bounds bounds)
+		{
+			Bounds output = bounds;
+			output.size = new Vector3(Mathf.Abs(output.size.x), Mathf.Abs(output.size.y), Mathf.Abs(output.size.z));
+			output.center = bounds.center;
+			return output;
+		}
 	}
 }
