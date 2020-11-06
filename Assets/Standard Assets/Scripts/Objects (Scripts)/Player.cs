@@ -46,8 +46,12 @@ namespace VisionGame
 		public LayerMask whatICollideWith;
 		public float groundCheckDistance;
 		public float extraVelocityDrag;
+		public Vector2 headRotationSensitivity;
+		public FloatRange headYRotationRange;
 		public float timeTillApplyExtraVelocityDrag;
-		float timeExtraVelocityWasSet;
+		public Transform headTrs;
+		public float maxHeadDistance;
+		public SphereCollider headSphereCollider;
 		Vector3 extraVelocity;
 		[SerializeField]
 		[HideInInspector]
@@ -55,6 +59,7 @@ namespace VisionGame
 		[SerializeField]
 		[HideInInspector]
 		Vector3 initRightHandLocalPosition;
+		float timeExtraVelocityWasSet;
 		float currentThrowSpeed;
 		Vector3 previousMoveInput;
 		Vector3 leftHandPosition;
@@ -90,6 +95,8 @@ namespace VisionGame
 		bool jumpInput;
 		bool previousJumpInput;
 		bool isGrounded;
+		float headRotationY;
+		Vector2 mouseMovement;
 
 		void OnEnable ()
 		{
@@ -113,7 +120,9 @@ namespace VisionGame
 			InputManager.rightTouchController = (OculusTouchController) OculusTouchController.rightHand;
 			leftHandPosition = leftHandTrs.position;
 			rightHandPosition = rightHandTrs.position;
+			mouseMovement = InputManager.MouseMovement;
 			HandleHandOrientation ();
+			HandleHeadOrientation ();
 			turnInput = InputManager.TurnInput;
 			HandleFacing ();
 			leftThrowInput = InputManager.LeftThrowInput;
@@ -207,12 +216,35 @@ namespace VisionGame
 			}
 		}
 
+		void HandleHeadOrientation ()
+		{
+			InputManager.hmd = InputSystem.GetDevice<OculusHMD>();
+			if (InputManager.hmd == null || InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
+			{
+				headTrs.localPosition = Vector3.zero;
+				if (!InputManager.RightRotateInput && !InputManager.LeftRotateInput)
+				{
+					float headRotationX = headTrs.localEulerAngles.y + mouseMovement.x * headRotationSensitivity.x;
+					headRotationY += mouseMovement.y * headRotationSensitivity.y;
+					headRotationY = Mathf.Clamp(headRotationY, headYRotationRange.min, headYRotationRange.max);
+					headTrs.localEulerAngles = new Vector3(-headRotationY, headRotationX, 0);
+				}
+			}
+			else
+			{
+				Vector3 newHeadLocalPosition = Vector3.ClampMagnitude(InputManager.hmd.devicePosition.ReadValue(), maxHeadDistance);
+				if (!Physics.CheckSphere(newHeadLocalPosition, headSphereCollider.radius, whatICollideWith))
+					headTrs.localPosition = newHeadLocalPosition;
+				headTrs.localRotation = InputManager.hmd.deviceRotation.ReadValue();
+			}
+		}
+
 		void HandleReplacement ()
 		{
 			if (leftReplaceInput && !previousLeftReplaceInput)
-				GameManager.GetSingleton<Level>().leftOrb.ReplaceObjects ();
+				Level.Instance.leftOrb.ReplaceObjects ();
 			if (rightReplaceInput && !previousRightReplaceInput)
-				GameManager.GetSingleton<Level>().rightOrb.ReplaceObjects ();
+				Level.Instance.rightOrb.ReplaceObjects ();
 		}
 
 		void HandleFacing ()
@@ -247,17 +279,17 @@ namespace VisionGame
 								physicsObject.trs.position = GetGrabPosition(grabbedPhysicsObject);
 								grabbedPhysicsObject.rigid.isKinematic = true;
 								Orb orb = physicsObject.GetComponent<Orb>();
-								if (orb != null && GameManager.GetSingleton<Level>().orbs.Length == 2)
+								if (orb != null && Level.Instance.orbs.Length == 2)
 								{
-									if ((orb == GameManager.GetSingleton<Level>().orbs[0]) == (handTrs == leftHandTrs))
+									if ((orb == Level.Instance.orbs[0]) == (handTrs == leftHandTrs))
 									{
-										GameManager.GetSingleton<Level>().leftOrb = orb;
-										GameManager.GetSingleton<Level>().rightOrb = GameManager.GetSingleton<Level>().orbs[1];
+										Level.Instance.leftOrb = orb;
+										Level.Instance.rightOrb = Level.Instance.orbs[1];
 									}
 									else
 									{
-										GameManager.GetSingleton<Level>().leftOrb = GameManager.GetSingleton<Level>().orbs[1];
-										GameManager.GetSingleton<Level>().rightOrb = orb;
+										Level.Instance.leftOrb = Level.Instance.orbs[1];
+										Level.Instance.rightOrb = orb;
 									}
 								}
 							}
@@ -415,7 +447,6 @@ namespace VisionGame
 			if (rotateInput)
 			{
 				canThrow = false;
-				Vector2 mouseMovement = InputManager.MouseMovement;
 				grabbedPhysicsObject.trs.localEulerAngles += new Vector3(-mouseMovement.y * rotateRate.x, mouseMovement.x * rotateRate.y) * Time.deltaTime;
 				grabbedPhysicsObject.trs.RotateAround(grabbedPhysicsObject.trs.position, grabbedPhysicsObject.trs.forward, mouseScrollWheelInput * rollRate * Time.deltaTime);
 			}
@@ -427,19 +458,19 @@ namespace VisionGame
 		{
 			if (InputManager.LeftOrbViewInput)
 			{
-				// GameManager.GetSingleton<Level>().leftOrb.camera.depth = 1;
-				GameManager.GetSingleton<Level>().leftOrb.camera.enabled = true;
+				// Level.Instance.leftOrb.camera.depth = 1;
+				Level.Instance.leftOrb.camera.enabled = true;
 				return;
 			}
 			else
-				// GameManager.GetSingleton<Level>().leftOrb.camera.depth = -1;
-				GameManager.GetSingleton<Level>().leftOrb.camera.enabled = false;
+				// Level.Instance.leftOrb.camera.depth = -1;
+				Level.Instance.leftOrb.camera.enabled = false;
 			if (InputManager.RightOrbViewInput)
-				// GameManager.GetSingleton<Level>().rightOrb.camera.depth = 1;
-				GameManager.GetSingleton<Level>().rightOrb.camera.enabled = true;
+				// Level.Instance.rightOrb.camera.depth = 1;
+				Level.Instance.rightOrb.camera.enabled = true;
 			else
-				// GameManager.GetSingleton<Level>().rightOrb.camera.depth = -1;
-				GameManager.GetSingleton<Level>().rightOrb.camera.enabled = false;
+				// Level.Instance.rightOrb.camera.depth = -1;
+				Level.Instance.rightOrb.camera.enabled = false;
 		}
 		
 		void HandleGravity ()

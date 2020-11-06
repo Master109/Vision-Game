@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 653260038}
   - component: {fileID: 653260036}
   m_Layer: 0
-  m_Name: Post-process Volume
+  m_Name: Global Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -555,7 +555,7 @@ PrefabInstance:
     - target: {fileID: 2619344561615791772, guid: 0ef0c1d966a165c4bad0e08fca8625cf,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -300.0001
+      value: -300.00024
       objectReference: {fileID: 0}
     - target: {fileID: 2619344561726487268, guid: 0ef0c1d966a165c4bad0e08fca8625cf,
         type: 3}

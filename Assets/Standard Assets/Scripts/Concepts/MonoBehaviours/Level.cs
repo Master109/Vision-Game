@@ -5,7 +5,7 @@ using Extensions;
 
 namespace VisionGame
 {
-	public class Level : MonoBehaviour, IUpdatable
+	public class Level : SingletonMonoBehaviour<Level>, IUpdatable
 	{
 		public bool PauseWhileUnfocused
 		{

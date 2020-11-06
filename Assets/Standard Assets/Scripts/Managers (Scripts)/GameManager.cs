@@ -221,7 +221,7 @@ namespace VisionGame
 					updatable.DoUpdate ();
 				Physics.Simulate(Time.deltaTime);
 				GetSingleton<ObjectPool>().DoUpdate ();
-				GetSingleton<GameCamera>().DoUpdate ();
+				// GetSingleton<GameCamera>().DoUpdate ();
 				framesSinceLoadedScene ++;
 				previousMousePosition = InputManager.MousePosition;
 			// }
