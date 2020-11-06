@@ -233,7 +233,7 @@ namespace VisionGame
 			else
 			{
 				Vector3 newHeadLocalPosition = Vector3.ClampMagnitude(InputManager.hmd.devicePosition.ReadValue(), maxHeadDistance);
-				if (!Physics.CheckSphere(newHeadLocalPosition, headSphereCollider.radius, whatICollideWith))
+				if (!Physics.CheckSphere(headTrs.TransformPoint(newHeadLocalPosition), headSphereCollider.radius, whatICollideWith))
 					headTrs.localPosition = newHeadLocalPosition;
 				headTrs.localRotation = InputManager.hmd.deviceRotation.ReadValue();
 			}
