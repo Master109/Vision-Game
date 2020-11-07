@@ -54,6 +54,7 @@ namespace VisionGame
 		public SphereCollider headSphereCollider;
 		public SphereCollider leftHandSphereCollider;
 		public SphereCollider rightHandSphereCollider;
+		public float spikeCheckDistance;
 		Vector3 extraVelocity;
 		[SerializeField]
 		[HideInInspector]
@@ -516,6 +517,9 @@ namespace VisionGame
 					else
 						move.y = rigid.velocity.y;
 				}
+				RaycastHit hit;
+				if (Physics.Raycast(collider.bounds.center + Vector3.down * collider.bounds.extents.y, Vector3.down, out hit, spikeCheckDistance, whatICollideWith) && hit.collider.GetComponent<Spikes>() != null)
+					GameManager.Instance.ReloadActiveScene ();
 				Jump ();
 			}
 			else if (move.y > 0)
@@ -598,22 +602,6 @@ namespace VisionGame
 					physicsObjectsTouchingRightHand.Add(physicsObject);
 			}
 		}
-
-		// void OnTriggerStay (Collider other)
-		// {
-		// 	PhysicsObject physicsObject = other.GetComponentInParent<PhysicsObject>();
-		// 	if (physicsObject != null)
-		// 	{
-		// 		Collider[] hits = Physics.OverlapSphere(leftHandTrs.position, leftHandSphereCollider.bounds.extents.x, whatIsGrabbable);
-		// 		if (hits.Contains(physicsObject.collider))
-		// 		{
-		// 			if (!physicsObjectsTouchingLeftHand.Contains(physicsObject))
-		// 				physicsObjectsTouchingLeftHand.Add(physicsObject);
-		// 		}
-		// 		else if (!physicsObjectsTouchingRightHand.Contains(physicsObject))
-		// 			physicsObjectsTouchingRightHand.Add(physicsObject);
-		// 	}
-		// }
 
 		void OnTriggerExit (Collider other)
 		{
