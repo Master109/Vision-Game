@@ -100,6 +100,9 @@ MonoBehaviour:
   isStuck: 0
   frameIWasEnabled: 0
   isGrabbable: 1
+  whatICollideWith:
+    serializedVersion: 2
+    m_Bits: 7936
   autoSetMass: 1
 --- !u!65 &6276333853413823122
 BoxCollider:

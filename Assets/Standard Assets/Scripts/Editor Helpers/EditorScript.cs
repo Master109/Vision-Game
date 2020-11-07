@@ -107,7 +107,7 @@ public class EditorScript : MonoBehaviour
 	}
 
 	[Serializable]
-	public class Hotkey
+	public struct Hotkey
 	{
 		public string name;
 		public Button[] buttons;
@@ -135,12 +135,12 @@ public class EditorScript : MonoBehaviour
 		}
 	}
 
-	public class InputEvent
+	public struct InputEvent
 	{
 		public Vector2Int mousePosition;
 		public EventType type;
-		public KeyCode[] keys = new KeyCode[0];
-		public KeyCode[] previousKeys = new KeyCode[0];
+		public KeyCode[] keys;
+		public KeyCode[] previousKeys;
 	}
 }
 

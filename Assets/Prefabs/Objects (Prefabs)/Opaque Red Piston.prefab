@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8721998661673588287}
   - component: {fileID: 2649347823527808878}
   m_Layer: 8
-  m_Name: Opaque Piston
+  m_Name: Opaque Red Piston
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -289,7 +289,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
-  m_CollisionDetection: 2
+  m_CollisionDetection: 3
 --- !u!114 &7903776783355851911
 MonoBehaviour:
   m_ObjectHideFlags: 0

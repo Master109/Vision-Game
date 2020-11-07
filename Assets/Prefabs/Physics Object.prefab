@@ -102,3 +102,6 @@ MonoBehaviour:
   isStuck: 0
   frameIWasEnabled: 0
   isGrabbable: 1
+  whatICollideWith:
+    serializedVersion: 2
+    m_Bits: 0
