@@ -3,17 +3,18 @@ using UnityEngine;
 using UnityEditor;
 using Extensions;
 
+[ExecuteInEditMode]
 public class MakeSphereGizmo : MonoBehaviour
 {
     public Transform trs;
     public Color color = Color.white;
 
-    void Update ()
+    void OnEnable ()
     {
         DrawGizmos (color);
     }
 
-	public virtual void DrawGizmos (Color color)
+	void DrawGizmos (Color color)
 	{
 		GizmosManager.GizmosEntry gizmosEntry = new GizmosManager.GizmosEntry();
 		gizmosEntry.setColor = true;
@@ -22,9 +23,9 @@ public class MakeSphereGizmo : MonoBehaviour
 		GizmosManager.gizmosEntries.Add(gizmosEntry);
 	}
 
-	public virtual void DrawGizmos (params object[] args)
+	void DrawGizmos (params object[] args)
 	{
-		Gizmos.DrawSphere(trs.position, trs.lossyScale.GetMaxComponent());
+		Gizmos.DrawSphere(trs.position, trs.lossyScale.GetMaxComponent() / 2);
 	}
 }
 #endif

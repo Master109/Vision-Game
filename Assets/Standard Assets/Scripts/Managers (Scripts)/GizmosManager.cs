@@ -7,7 +7,7 @@ public class GizmosManager : MonoBehaviour
 {
 	public static List<GizmosEntry> gizmosEntries = new List<GizmosEntry>();
 
-	public virtual void OnDrawGizmos ()
+	void OnDrawGizmos ()
 	{
 		GizmosEntry gizmosEntry;
 		for (int i = 0; i < gizmosEntries.Count; i ++)
@@ -21,7 +21,12 @@ public class GizmosManager : MonoBehaviour
 		}
 	}
 
-	public class GizmosEntry
+	void OnDestroy ()
+	{
+		gizmosEntries.Clear();
+	}
+
+	public struct GizmosEntry
 	{
 		public Action<object[]> onDrawGizmos;
 		public object[] args;
