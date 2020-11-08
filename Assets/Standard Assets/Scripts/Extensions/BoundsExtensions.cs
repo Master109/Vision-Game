@@ -60,5 +60,12 @@ namespace Extensions
 			output.center = bounds.center;
 			return output;
 		}
+
+		public static Bounds AnchorToPoint (this Bounds bounds, Vector3 point, Vector3 anchorPoint)
+		{
+			Bounds output = bounds;
+			output.min = point - (output.size.Multiply(anchorPoint));
+			return output;
+		}
 	}
 }

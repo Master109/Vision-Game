@@ -154,7 +154,7 @@ namespace Extensions
 		public static Rect AnchorToPoint (this Rect rect, Vector2 point, Vector2 anchorPoint)
 		{
 			Rect output = rect;
-			output.position = point - (output.size * anchorPoint);
+			output.position = point - (output.size.Multiply(anchorPoint));
 			return output;
 		}
 
