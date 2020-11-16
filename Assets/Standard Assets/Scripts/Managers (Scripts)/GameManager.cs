@@ -221,7 +221,7 @@ namespace VisionGame
 				foreach (IUpdatable updatable in updatables)
 					updatable.DoUpdate ();
 				Physics.Simulate(Time.deltaTime);
-				GetSingleton<ObjectPool>().DoUpdate ();
+				ObjectPool.Instance.DoUpdate ();
 				// GetSingleton<GameCamera>().DoUpdate ();
 				framesSinceLoadedScene ++;
 				previousMousePosition = InputManager.MousePosition;
@@ -398,9 +398,9 @@ namespace VisionGame
 
 		public virtual void LoadScene (string name)
 		{
-			if (GetSingleton<GameManager>() != this)
+			if (GameManager.Instance != this)
 			{
-				GetSingleton<GameManager>().LoadScene (name);
+				GameManager.Instance.LoadScene (name);
 				return;
 			}
 			framesSinceLoadedScene = 0;
@@ -409,9 +409,9 @@ namespace VisionGame
 
 		public virtual void LoadSceneAdditive (string name)
 		{
-			if (GetSingleton<GameManager>() != this)
+			if (GameManager.Instance != this)
 			{
-				GetSingleton<GameManager>().LoadSceneAdditive (name);
+				GameManager.Instance.LoadSceneAdditive (name);
 				return;
 			}
 			SceneManager.LoadScene(name, LoadSceneMode.Additive);
@@ -420,9 +420,9 @@ namespace VisionGame
 		public virtual void LoadScene (int index)
 		{
 			// LoadScene (SceneManager.GetSceneByBuildIndex(index).name);
-			if (GetSingleton<GameManager>() != this)
+			if (GameManager.Instance != this)
 			{
-				GetSingleton<GameManager>().LoadScene (index);
+				GameManager.Instance.LoadScene (index);
 				return;
 			}
 			framesSinceLoadedScene = 0;
@@ -447,9 +447,9 @@ namespace VisionGame
 
 		public virtual void LoadGameScenes ()
 		{
-			if (GetSingleton<GameManager>() != this)
+			if (GameManager.Instance != this)
 			{
-				GetSingleton<GameManager>().LoadGameScenes ();
+				GameManager.Instance.LoadGameScenes ();
 				return;
 			}
 			initialized = false;
@@ -526,9 +526,9 @@ namespace VisionGame
 
 		public virtual void SetGosActive ()
 		{
-			if (GetSingleton<GameManager>() != this)
+			if (GameManager.Instance != this)
 			{
-				GetSingleton<GameManager>().SetGosActive ();
+				GameManager.Instance.SetGosActive ();
 				return;
 			}
 			string[] stringSeperators = { STRING_SEPERATOR };
@@ -599,7 +599,7 @@ namespace VisionGame
 			if (!Application.isPlaying)
 				return;
 #endif
-			if (GetSingleton<GameManager>() != this)
+			if (GameManager.Instance != this)
 				return;
 			StopAllCoroutines();
 			for (int i = 0; i < Timer.runningInstances.Length; i ++)

@@ -72,7 +72,7 @@ namespace VisionGame
 			axelParent.position = lineSegment.start;
 			axelParent.localScale = axelParent.localScale.SetZ(lineSegment.GetLength());
 			childObjectsParent.position = trs.position + (lineSegment.GetDirection() * (childObjectsOffset + extendAxel + distanceToAxelEnd));
-			childObjectsParent.SetWorldScale(Vector3.one);
+			childObjectsParent.SetWorldScale (Vector3.one);
 			SetMass ();
 		}
 

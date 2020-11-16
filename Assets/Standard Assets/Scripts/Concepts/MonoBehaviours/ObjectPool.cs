@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace VisionGame
 {
-	public class ObjectPool : MonoBehaviour
+	public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
 	{
 		public bool preloadOnAwake = true;
 		public Transform trs;
@@ -15,10 +15,10 @@ namespace VisionGame
 		public DelayedDespawn[] delayedDespawns = new DelayedDespawn[0];
 		public RangedDespawn[] rangedDespawns = new RangedDespawn[0];
 		
-		public virtual void Awake ()
+		public override void Awake ()
 		{
-			GameManager.singletons.Remove(GetType());
-			GameManager.singletons.Add(GetType(), this);
+			base.Awake ();
+			instance = this;
 			enabled = false;
 			gameObject.SetActive(false);
 			if (!preloadOnAwake)
