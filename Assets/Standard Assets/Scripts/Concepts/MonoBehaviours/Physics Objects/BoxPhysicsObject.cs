@@ -17,7 +17,7 @@ namespace VisionGame
 				childrenParent.localScale = Vector3.one.Divide(trs.lossyScale);
 				BoxCollider boxCollider = collider as BoxCollider;
 				boxCollider.size = trs.lossyScale;
-				if (autoSetMass)
+				if (autoSetMass && rigid != null)
 				{
 					rigid.mass = trs.lossyScale.x * trs.lossyScale.y * trs.lossyScale.z;
 					for (int i = 0; i < childrenParent.childCount; i ++)

@@ -132,6 +132,7 @@ namespace VisionGame
 		public static bool isFocused;
 		public GameObject textPanelGo;
 		public _Text textPanelText;
+		public float distanceScale = 1;
 
 		public override void Awake ()
 		{
@@ -246,119 +247,119 @@ namespace VisionGame
 		// 		Gizmos.DrawSphere(positionForTurn, gizmosRadius);
 		// }
 		
-		public Transform wallPrefab;
-		public Transform startTrs;
-		public Transform endTrs;
-		public Transform[] cornerTransforms = new Transform[0];
-		public Transform parent;
-		public Vector2 size = Vector2.one;
-		public Vector2 wallThickness = Vector2.one;
-		public int wallsPerCorner;
-		public WallMakeMode leftWallMakeMode;
-		public WallMakeMode rightWallMakeMode;
-		public WallMakeMode bottomWallMakeMode;
-		public WallMakeMode topWallMakeMode;
-		public Cap startCap;
-		public Cap endCap;
-		public Color gizmosMeshColor;
-		public Color gizmosStartColor;
-		public Color gizmosEndColor;
+		// public Transform wallPrefab;
+		// public Transform startTrs;
+		// public Transform endTrs;
+		// public Transform[] cornerTransforms = new Transform[0];
+		// public Transform parent;
+		// public Vector2 size = Vector2.one;
+		// public Vector2 wallThickness = Vector2.one;
+		// public int wallsPerCorner;
+		// public WallMakeMode leftWallMakeMode;
+		// public WallMakeMode rightWallMakeMode;
+		// public WallMakeMode bottomWallMakeMode;
+		// public WallMakeMode topWallMakeMode;
+		// public Cap startCap;
+		// public Cap endCap;
+		// public Color gizmosMeshColor;
+		// public Color gizmosStartColor;
+		// public Color gizmosEndColor;
 
-		void OnDrawGizmos ()
-		{
-			Vector3 currentPosition = startTrs.position;
-			List<Transform> nextTransforms = new List<Transform>(cornerTransforms);
-			nextTransforms.Add(endTrs);
-			do
-			{
-				Transform nextTrs = nextTransforms[0];
-				Vector3 _currentPosition = currentPosition;
-				Vector3 nextPosition = nextTrs.position;
-				Vector3 _nextPosition = nextPosition;
-				Vector3 toNextTrs = nextPosition - currentPosition;
-				Vector3 position = nextPosition - (toNextTrs / 2);
-				Quaternion rotation = Quaternion.LookRotation(toNextTrs);
-				Vector3 localScale = new Vector3(size.x + wallThickness.x * 2, wallThickness.y, toNextTrs.magnitude);
-				Gizmos.color = gizmosMeshColor;
+		// void OnDrawGizmos ()
+		// {
+		// 	Vector3 currentPosition = startTrs.position;
+		// 	List<Transform> nextTransforms = new List<Transform>(cornerTransforms);
+		// 	nextTransforms.Add(endTrs);
+		// 	do
+		// 	{
+		// 		Transform nextTrs = nextTransforms[0];
+		// 		Vector3 _currentPosition = currentPosition;
+		// 		Vector3 nextPosition = nextTrs.position;
+		// 		Vector3 _nextPosition = nextPosition;
+		// 		Vector3 toNextTrs = nextPosition - currentPosition;
+		// 		Vector3 position = nextPosition - (toNextTrs / 2);
+		// 		Quaternion rotation = Quaternion.LookRotation(toNextTrs);
+		// 		Vector3 localScale = new Vector3(size.x + wallThickness.x * 2, wallThickness.y, toNextTrs.magnitude);
+		// 		Gizmos.color = gizmosMeshColor;
 
-				// Transform topWall = Instantiate(wallPrefab, position, rotation, parent);
-				// topWall.position += topWall.up * (size.y / 2 + wallThickness.y / 2);
-				// topWall.localScale = localScale;
-				// Gizmos.DrawMesh(topWall.GetComponent<MeshFilter>().sharedMesh, topWall.position, rotation, localScale);
-				// DestroyImmediate(topWall.gameObject);
+		// 		// Transform topWall = Instantiate(wallPrefab, position, rotation, parent);
+		// 		// topWall.position += topWall.up * (size.y / 2 + wallThickness.y / 2);
+		// 		// topWall.localScale = localScale;
+		// 		// Gizmos.DrawMesh(topWall.GetComponent<MeshFilter>().sharedMesh, topWall.position, rotation, localScale);
+		// 		// DestroyImmediate(topWall.gameObject);
 				
-				// Transform bottomWall = Instantiate(wallPrefab, position, rotation, parent);
-				// bottomWall.position -= bottomWall.up * (size.y / 2 + wallThickness.y / 2);
-				// bottomWall.localScale = localScale;
-				// Gizmos.DrawMesh(bottomWall.GetComponent<MeshFilter>().sharedMesh, bottomWall.position, rotation, localScale);
-				// DestroyImmediate(bottomWall.gameObject);
+		// 		// Transform bottomWall = Instantiate(wallPrefab, position, rotation, parent);
+		// 		// bottomWall.position -= bottomWall.up * (size.y / 2 + wallThickness.y / 2);
+		// 		// bottomWall.localScale = localScale;
+		// 		// Gizmos.DrawMesh(bottomWall.GetComponent<MeshFilter>().sharedMesh, bottomWall.position, rotation, localScale);
+		// 		// DestroyImmediate(bottomWall.gameObject);
 
-				localScale = new Vector3(wallThickness.x, size.y + wallThickness.y * 2, toNextTrs.magnitude);
+		// 		localScale = new Vector3(wallThickness.x, size.y + wallThickness.y * 2, toNextTrs.magnitude);
 
-				Transform rightWall = Instantiate(wallPrefab, position, rotation, parent);
-				rightWall.position += rightWall.right * (size.x / 2 + wallThickness.x / 2);
-				rightWall.localScale = localScale;
-				Gizmos.DrawMesh(rightWall.GetComponent<MeshFilter>().sharedMesh, rightWall.position, rotation, localScale);
-				DestroyImmediate(rightWall.gameObject);
+		// 		Transform rightWall = Instantiate(wallPrefab, position, rotation, parent);
+		// 		rightWall.position += rightWall.right * (size.x / 2 + wallThickness.x / 2);
+		// 		rightWall.localScale = localScale;
+		// 		Gizmos.DrawMesh(rightWall.GetComponent<MeshFilter>().sharedMesh, rightWall.position, rotation, localScale);
+		// 		DestroyImmediate(rightWall.gameObject);
 				
-				Transform leftWall = Instantiate(wallPrefab, position, rotation, parent);
-				leftWall.position -= leftWall.right * (size.x / 2 + wallThickness.x / 2);
-				leftWall.localScale = localScale;
-				Gizmos.DrawMesh(leftWall.GetComponent<MeshFilter>().sharedMesh, leftWall.position, rotation, localScale);
-				DestroyImmediate(leftWall.gameObject);
+		// 		Transform leftWall = Instantiate(wallPrefab, position, rotation, parent);
+		// 		leftWall.position -= leftWall.right * (size.x / 2 + wallThickness.x / 2);
+		// 		leftWall.localScale = localScale;
+		// 		Gizmos.DrawMesh(leftWall.GetComponent<MeshFilter>().sharedMesh, leftWall.position, rotation, localScale);
+		// 		DestroyImmediate(leftWall.gameObject);
 
-				currentPosition = nextPosition;
-				nextTransforms.RemoveAt(0);
-				if (nextTransforms.Count > 0)
-				{
-					nextTrs = nextTransforms[0];
-					nextPosition = nextTrs.position;
-					Gizmos.color = gizmosStartColor;
-					Debug.DrawLine(_currentPosition, _nextPosition);
-					Gizmos.color = gizmosEndColor;
-					Debug.DrawLine(currentPosition, nextPosition);
-					Vector3[] movementsForTurn = VectorExtensions.GetMovementsForTurn(toNextTrs, nextPosition - currentPosition, wallsPerCorner, size.x / 2 + wallThickness.x / 2);
-					for (int i = 0; i < wallsPerCorner; i ++)
-					{
-						Vector3 movementForTurn = movementsForTurn[i];
-						position = currentPosition;
-						rotation = Quaternion.LookRotation(movementForTurn);
-						localScale = new Vector3(wallThickness.x, size.y + wallThickness.y * 2, size.x);
-						Gizmos.color = gizmosMeshColor;
+		// 		currentPosition = nextPosition;
+		// 		nextTransforms.RemoveAt(0);
+		// 		if (nextTransforms.Count > 0)
+		// 		{
+		// 			nextTrs = nextTransforms[0];
+		// 			nextPosition = nextTrs.position;
+		// 			Gizmos.color = gizmosStartColor;
+		// 			Debug.DrawLine(_currentPosition, _nextPosition);
+		// 			Gizmos.color = gizmosEndColor;
+		// 			Debug.DrawLine(currentPosition, nextPosition);
+		// 			Vector3[] movementsForTurn = VectorExtensions.GetMovementsForTurn(toNextTrs, nextPosition - currentPosition, wallsPerCorner, size.x / 2 + wallThickness.x / 2);
+		// 			for (int i = 0; i < wallsPerCorner; i ++)
+		// 			{
+		// 				Vector3 movementForTurn = movementsForTurn[i];
+		// 				position = currentPosition;
+		// 				rotation = Quaternion.LookRotation(movementForTurn);
+		// 				localScale = new Vector3(wallThickness.x, size.y + wallThickness.y * 2, size.x);
+		// 				Gizmos.color = gizmosMeshColor;
 						
-						Transform cornerWall = Instantiate(wallPrefab, position, rotation, parent);
-						cornerWall.position += cornerWall.right * (size.x / 2 + wallThickness.x / 2);
-						cornerWall.localScale = localScale;
-						Gizmos.DrawMesh(cornerWall.GetComponent<MeshFilter>().sharedMesh, cornerWall.position, rotation, localScale);
-						DestroyImmediate(cornerWall.gameObject);
+		// 				Transform cornerWall = Instantiate(wallPrefab, position, rotation, parent);
+		// 				cornerWall.position += cornerWall.right * (size.x / 2 + wallThickness.x / 2);
+		// 				cornerWall.localScale = localScale;
+		// 				Gizmos.DrawMesh(cornerWall.GetComponent<MeshFilter>().sharedMesh, cornerWall.position, rotation, localScale);
+		// 				DestroyImmediate(cornerWall.gameObject);
 
-						cornerWall = Instantiate(wallPrefab, position, rotation, parent);
-						cornerWall.position -= cornerWall.right * (size.x / 2 + wallThickness.x / 2);
-						cornerWall.localScale = localScale;
-						Gizmos.DrawMesh(cornerWall.GetComponent<MeshFilter>().sharedMesh, cornerWall.position, rotation, localScale);
-						DestroyImmediate(cornerWall.gameObject);
-					}
-				}
-			} while (nextTransforms.Count > 0);
-		}
+		// 				cornerWall = Instantiate(wallPrefab, position, rotation, parent);
+		// 				cornerWall.position -= cornerWall.right * (size.x / 2 + wallThickness.x / 2);
+		// 				cornerWall.localScale = localScale;
+		// 				Gizmos.DrawMesh(cornerWall.GetComponent<MeshFilter>().sharedMesh, cornerWall.position, rotation, localScale);
+		// 				DestroyImmediate(cornerWall.gameObject);
+		// 			}
+		// 		}
+		// 	} while (nextTransforms.Count > 0);
+		// }
 
-		public enum WallMakeMode
-		{
-			DoesNotExtendFully = 0,
-			ExtendsFullyInPositiveDirectionOnly = 1,
-			ExtendsFullyInNegativeDirectionOnly = -1,
-			ExtendsFullyInBothDirections = 0
-		}
+		// public enum WallMakeMode
+		// {
+		// 	DoesNotExtendFully = 0,
+		// 	ExtendsFullyInPositiveDirectionOnly = 1,
+		// 	ExtendsFullyInNegativeDirectionOnly = -1,
+		// 	ExtendsFullyInBothDirections = 0
+		// }
 
-		[Serializable]
-		public struct Cap
-		{
-			public Transform capPrefab;
-			public bool extendsLeftFully;
-			public bool extendsRightFully;
-			public bool extendsDownFully;
-			public bool extendsUpFully;
-		}
+		// [Serializable]
+		// public struct Cap
+		// {
+		// 	public Transform capPrefab;
+		// 	public bool extendsLeftFully;
+		// 	public bool extendsRightFully;
+		// 	public bool extendsDownFully;
+		// 	public bool extendsUpFully;
+		// }
 
 		public virtual void InitCursor ()
 		{

@@ -66,7 +66,9 @@ namespace VisionGame
 #if UNITY_EDITOR
 		void OnValidate ()
 		{
-			lineSegment = new LineSegment3D(trs.position + (trs.forward * (-Mathf.Abs(moveDistance) / 2 - axelOffset - extendAxel / 2 + distanceToAxelEnd)), trs.position + trs.forward * (Mathf.Abs(moveDistance) / 2 - axelOffset + extendAxel / 2 + distanceToAxelEnd));
+			if (Application.isPlaying)
+				return;
+			lineSegment = new LineSegment3D(trs.position + (trs.forward * (-Mathf.Abs(moveDistance) / 2 - axelOffset - extendAxel / 2 + distanceToAxelEnd)), trs.position + (trs.forward * (Mathf.Abs(moveDistance) / 2 - axelOffset + extendAxel / 2 + distanceToAxelEnd)));
 			axelParent.position = lineSegment.start;
 			axelParent.localScale = axelParent.localScale.SetZ(lineSegment.GetLength());
 			childObjectsParent.position = trs.position + (lineSegment.GetDirection() * (childObjectsOffset + extendAxel + distanceToAxelEnd));
@@ -94,6 +96,7 @@ namespace VisionGame
 
 		public void DoUpdate ()
 		{
+			print(1);
 			axelTrs.position = lineSegment.ClosestPoint(axelTrs.position);
 			float directedDistanceAlongParallel = lineSegment.GetDirectedDistanceAlongParallel(axelTrs.position);
 			if (directedDistanceAlongParallel <= stopDistance || directedDistanceAlongParallel >= lineSegment.GetLength() - stopDistance)
@@ -124,7 +127,7 @@ namespace VisionGame
 		}
 
 		[Serializable]
-		public class IgnoreCollisionEntry
+		public struct IgnoreCollisionEntry
 		{
 			public Collider collider;
 			public Collider otherCollider;

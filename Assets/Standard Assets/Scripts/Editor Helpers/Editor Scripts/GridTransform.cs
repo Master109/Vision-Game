@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Extensions;
 using UnityEditor;
+using VisionGame;
 
 public class GridTransform : EditorScript
 {
@@ -38,7 +39,8 @@ public class GridTransform : EditorScript
 			offset.z = 0;
 		else
 			offset.z = -.5f + smallValue;
-		Vector3 newPosition = trs.position.Snap(Vector3.one) + offset;
+		offset *= GameManager.Instance.distanceScale;
+		Vector3 newPosition = trs.position.Snap(Vector3.one * GameManager.Instance.distanceScale) + offset;
 		if (newPosition != previousPosition)
 			Undo.RegisterCompleteObjectUndo(trs, "Snap " + name + " position");
 		trs.position = newPosition;
