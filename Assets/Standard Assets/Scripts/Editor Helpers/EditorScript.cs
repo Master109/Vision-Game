@@ -135,12 +135,12 @@ public class EditorScript : MonoBehaviour
 		}
 	}
 
-	public struct InputEvent
+	public class InputEvent
 	{
 		public Vector2Int mousePosition;
 		public EventType type;
-		public KeyCode[] keys;
-		public KeyCode[] previousKeys;
+		public KeyCode[] keys = new KeyCode[0];
+		public KeyCode[] previousKeys = new KeyCode[0];
 	}
 }
 

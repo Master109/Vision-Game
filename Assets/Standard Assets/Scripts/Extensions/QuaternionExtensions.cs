@@ -11,7 +11,7 @@ namespace Extensions
 		public static Vector3 GetAngularVelocity (Quaternion fromRotation, Quaternion toRotation)
 		{
 			Quaternion q = toRotation * Quaternion.Inverse(fromRotation);
-			if(Mathf.Abs(q.w) > 1023.5f / 1024.0f)
+			if (Mathf.Abs(q.w) > 1023.5f / 1024.0f)
 				return new Vector3(0 ,0, 0);
 			float gain;
 			if (q.w < 0.0f)
@@ -25,6 +25,18 @@ namespace Extensions
 				gain = 2.0f * angle / (Mathf.Sin(angle) * Time.deltaTime);
 			}
 			return new Vector3(q.x * gain, q.y * gain, q.z * gain);
+		}
+
+		public static Quaternion[] GetRotationsForTurn (Quaternion startRotation, Quaternion endRotation, int stepCount)
+		{
+			Quaternion[] rotations = new Quaternion[stepCount];
+			float angle = Quaternion.Angle(startRotation, endRotation);
+			for (int i = 0; i < stepCount; i ++)
+			{
+				Quaternion rotation = Quaternion.RotateTowards(startRotation, endRotation, angle / stepCount * (i + 1));
+				rotations[i] = rotation;
+			}
+			return rotations;
 		}
 	}
 }

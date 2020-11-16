@@ -67,5 +67,27 @@ namespace Extensions
 			output.min = point - (output.size.Multiply(anchorPoint));
 			return output;
 		}
+		
+		public static Bounds FromPoints (params Vector3[] points)
+		{
+			Bounds output = new Bounds(points[0], Vector3.zero);
+			for (int i = 1; i < points.Length; i ++)
+			{
+				Vector3 point = points[i];
+				if (point.x < output.min.x)
+					output.min = new Vector3(point.x, output.min.y, output.min.z);
+				if (point.y < output.min.y)
+					output.min = new Vector3(output.min.x, point.y, output.min.z);
+				if (point.z < output.min.z)
+					output.min = new Vector3(output.min.x, output.min.y, point.z);
+				if (point.x > output.max.x)
+					output.max = new Vector3(point.x, output.max.y, output.max.z);
+				if (point.y > output.max.y)
+					output.max = new Vector3(output.max.x, point.y, output.max.z);
+				if (point.z > output.max.z)
+					output.max = new Vector3(output.max.x, output.max.y, point.z);
+			}
+			return output;
+		}
 	}
 }

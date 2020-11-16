@@ -110,4 +110,31 @@ public class LineSegment3D
 	{
 		return new LineSegment3D(end, start);
 	}
+
+	public virtual bool DoIIntersectWithSphere (Sphere sphere)
+	{
+		return (ClosestPoint(sphere.center) - sphere.center).sqrMagnitude <= sphere.radius * sphere.radius;
+	}
+
+	public virtual bool DoIIntersectWithLineSegment (LineSegment3D other, bool shouldIncludeEndPoints)
+	{
+		bool output = false;
+		float denominator = (other.end.y - other.start.y) * (end.x - start.x) - (other.end.x - other.start.x) * (end.y - start.y);
+		if (denominator != 0f)
+		{
+			float u_a = ((other.end.x - other.start.x) * (start.y - other.start.y) - (other.end.y - other.start.y) * (start.x - other.start.x)) / denominator;
+			float u_b = ((end.x - start.x) * (start.y - other.start.y) - (end.y - start.y) * (start.x - other.start.x)) / denominator;
+			if (shouldIncludeEndPoints)
+			{
+				if (u_a >= 0f && u_a <= 1f && u_b >= 0f && u_b <= 1f)
+					output = true;
+			}
+			else
+			{
+				if (u_a > 0f && u_a < 1f && u_b > 0f && u_b < 1f)
+					output = true;
+			}
+		}
+		return output;
+	}
 }

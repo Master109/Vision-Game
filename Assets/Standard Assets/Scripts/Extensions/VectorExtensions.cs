@@ -483,5 +483,18 @@ namespace Extensions
 			}
 			return distanceToClosestPointSqr;
 		}
+
+		public static Vector3[] GetMovementsForTurn (Vector3 startDirection, Vector3 endDirection, int stepCount, float turnRadius)
+		{
+			Vector3[] positions = new Vector3[stepCount];
+			float angle = Vector3.Angle(startDirection, endDirection);
+			Vector3 currentDirection = startDirection;
+			for (int i = 0; i < stepCount; i ++)
+			{
+				currentDirection = Vector3.RotateTowards(currentDirection, endDirection, angle / stepCount * Mathf.Deg2Rad, Mathf.Infinity).normalized * turnRadius;
+				positions[i] = currentDirection;
+			}
+			return positions;
+		}
 	}
 }
