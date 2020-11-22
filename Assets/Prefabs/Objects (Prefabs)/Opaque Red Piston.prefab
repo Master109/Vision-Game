@@ -68,6 +68,7 @@ MonoBehaviour:
   distanceToAxelEnd: 0
   physicsObject: {fileID: 7903776783355851911}
   stopDistance: 0.1
+  rigidConstraints: 0
 --- !u!65 &8108363363806545281
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -289,7 +290,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
-  m_CollisionDetection: 3
+  m_CollisionDetection: 2
 --- !u!114 &7903776783355851911
 MonoBehaviour:
   m_ObjectHideFlags: 0

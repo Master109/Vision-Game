@@ -36,7 +36,8 @@ namespace VisionGame
 #endif
 		public float stopDistance;
 		LineSegment3D lineSegment;
-		RigidbodyConstraints rigidConstraints;
+		[HideInInspector]
+		public RigidbodyConstraints rigidConstraints;
 
 		void Awake ()
 		{

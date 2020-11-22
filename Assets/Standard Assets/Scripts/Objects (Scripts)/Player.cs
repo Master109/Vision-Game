@@ -296,7 +296,16 @@ namespace VisionGame
 						}
 					}
 					else
-						SetGrabPosition (grabbedPhysicsObject);
+					{
+						if (grabbedPhysicsObject.trs.parent == handTrs)
+							SetGrabPosition (grabbedPhysicsObject);
+						else
+						{
+							IgnoreCollision (grabbedPhysicsObject.collider, false);
+							grabbedPhysicsObject.rigid.isKinematic = false;
+							grabbedPhysicsObject = null;
+						}
+					}
 				}
 			}
 			else
@@ -304,9 +313,12 @@ namespace VisionGame
 				canThrow = true;
 				if (grabbedPhysicsObject != null)
 				{
-					grabbedPhysicsObject.trs.SetParent(null);
-					grabbedPhysicsObject.rigid.velocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
-					grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
+					if (grabbedPhysicsObject.trs.parent == handTrs)
+					{
+						grabbedPhysicsObject.trs.SetParent(null);
+						grabbedPhysicsObject.rigid.velocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
+						grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
+					}
 					IgnoreCollision (grabbedPhysicsObject.collider, false);
 					grabbedPhysicsObject.rigid.isKinematic = false;
 					grabbedPhysicsObject = null;
@@ -623,7 +635,7 @@ namespace VisionGame
 
 		void IgnoreCollision (Collider collider, bool ignore)
 		{
-			Physics.IgnoreCollision(collider, collider, ignore);
+			Physics.IgnoreCollision(collider, this.collider, ignore);
 			Physics.IgnoreCollision(collider, controller, ignore);
 			Physics.IgnoreCollision(collider, headSphereCollider, ignore);
 			Physics.IgnoreCollision(collider, leftHandSphereCollider, ignore);
