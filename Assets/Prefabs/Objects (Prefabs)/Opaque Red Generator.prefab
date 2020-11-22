@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1771865641527416164}
   - component: {fileID: 4343245973737439691}
   m_Layer: 8
-  m_Name: Opaque Generator
+  m_Name: Opaque Red Generator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!1 &8806573657771938126
 GameObject:
   m_ObjectHideFlags: 0

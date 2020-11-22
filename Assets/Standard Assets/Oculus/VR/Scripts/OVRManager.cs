@@ -1846,10 +1846,10 @@ public class OVRManager : MonoBehaviour
 		OVRHaptics.Process();
 	}
 
-	private void FixedUpdate()
-	{
-		OVRInput.FixedUpdate();
-	}
+	// private void FixedUpdate()
+	// {
+	// 	OVRInput.FixedUpdate();
+	// }
 
 	private void OnDestroy()
 	{

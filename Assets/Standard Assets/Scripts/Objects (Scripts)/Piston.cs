@@ -30,8 +30,8 @@ namespace VisionGame
 		public bool repeat;
 		[HideInInspector]
 		public bool moveTowardsEnd = true;
-#if UNITY_EDITOR
 		public float distanceToAxelEnd;
+#if UNITY_EDITOR
 		public PhysicsObject physicsObject;
 #endif
 		public float stopDistance;
@@ -47,7 +47,7 @@ namespace VisionGame
 			}
 			rigidConstraints = rigid.constraints;
 			rigid.constraints = RigidbodyConstraints.FreezeAll;
-			lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + (axelParent.forward * moveDistance));
+			lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + (axelParent.forward * moveDistance / 2));
 		}
 
 		void OnEnable ()
@@ -68,10 +68,10 @@ namespace VisionGame
 		{
 			if (Application.isPlaying)
 				return;
-			lineSegment = new LineSegment3D(trs.position + (trs.forward * (-Mathf.Abs(moveDistance) / 2 - axelOffset - extendAxel / 2 + distanceToAxelEnd)), trs.position + (trs.forward * (Mathf.Abs(moveDistance) / 2 - axelOffset + extendAxel / 2 + distanceToAxelEnd)));
-			axelParent.position = lineSegment.start;
-			axelParent.localScale = axelParent.localScale.SetZ(lineSegment.GetLength());
-			childObjectsParent.position = trs.position + (lineSegment.GetDirection() * (childObjectsOffset + extendAxel + distanceToAxelEnd));
+			lineSegment = new LineSegment3D(trs.position + (trs.forward * (-Mathf.Abs(moveDistance) / 2 - axelOffset + distanceToAxelEnd)), trs.position + (trs.forward * (Mathf.Abs(moveDistance) / 2 - axelOffset + distanceToAxelEnd)));
+			axelParent.position = lineSegment.start + lineSegment.GetDirection() * extendAxel / 2;
+			axelParent.localScale = axelParent.localScale.SetZ(lineSegment.GetLength() + extendAxel);
+			childObjectsParent.position = trs.position + (lineSegment.GetDirection() * (childObjectsOffset + distanceToAxelEnd));
 			childObjectsParent.SetWorldScale (Vector3.one);
 			SetMass ();
 		}
@@ -96,14 +96,16 @@ namespace VisionGame
 
 		public void DoUpdate ()
 		{
-			print(1);
 			axelTrs.position = lineSegment.ClosestPoint(axelTrs.position);
 			float directedDistanceAlongParallel = lineSegment.GetDirectedDistanceAlongParallel(axelTrs.position);
-			if (directedDistanceAlongParallel <= stopDistance || directedDistanceAlongParallel >= lineSegment.GetLength() - stopDistance)
+			bool isAtStart = directedDistanceAlongParallel <= stopDistance;
+			bool isAtEnd = directedDistanceAlongParallel >= lineSegment.GetLength() - stopDistance;
+			if (isAtStart || isAtEnd)
 			// if (axelTrs.position == lineSegment.start || axelTrs.position == lineSegment.end)
+			// if (directedDistanceAlongParallel <= stopDistance || directedDistanceAlongParallel >= lineSegment.GetLength() - stopDistance || axelTrs.position == lineSegment.start || axelTrs.position == lineSegment.end)
 			{
 				if (repeat)
-					moveTowardsEnd = !moveTowardsEnd;
+					moveTowardsEnd = isAtStart;
 				else
 				{
 					GameManager.updatables = GameManager.updatables.Remove(this);
