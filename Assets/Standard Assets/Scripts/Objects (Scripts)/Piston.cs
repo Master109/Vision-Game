@@ -46,7 +46,8 @@ namespace VisionGame
 				IgnoreCollisionEntry ignoreCollisionEntry = ignoreCollisionEntries[i];
 				Physics.IgnoreCollision(ignoreCollisionEntry.collider, ignoreCollisionEntry.otherCollider, true);
 			}
-			rigidConstraints = rigid.constraints;
+			if (rigidConstraints != RigidbodyConstraints.FreezeAll)
+				rigidConstraints = rigid.constraints;
 			rigid.constraints = RigidbodyConstraints.FreezeAll;
 			lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + (axelParent.forward * moveDistance / 2));
 		}
@@ -127,6 +128,11 @@ namespace VisionGame
 #endif
 			rigid.constraints = RigidbodyConstraints.FreezeAll;
 			GameManager.updatables = GameManager.updatables.Remove(this);
+		}
+
+		void OnApplicationQuit ()
+		{
+			rigid.constraints = rigidConstraints;
 		}
 
 		[Serializable]

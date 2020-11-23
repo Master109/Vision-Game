@@ -12882,6 +12882,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 772553424566556994, guid: b497db8ccb1fee543a61c074910827a8,
         type: 3}
+      propertyPath: checkDistances.Array.data[2597]
+      value: 666.0184
+      objectReference: {fileID: 0}
+    - target: {fileID: 772553424566556994, guid: b497db8ccb1fee543a61c074910827a8,
+        type: 3}
       propertyPath: checkDistances.Array.data[2601]
       value: 707.21466
       objectReference: {fileID: 0}
@@ -26412,6 +26417,66 @@ PrefabInstance:
     - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
         type: 3}
       propertyPath: trs
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: output.x
+      value: 0.99975634
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: output.y
+      value: -0.0009789781
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: output.z
+      value: -0.022051366
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: outputTrs
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: direction.x
+      value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: direction.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: directionTrs
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: gizmosRadius
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: planeNormal.x
+      value: 47.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: planeNormal.y
+      value: 357.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: planeNormal.z
+      value: 2146.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
+        type: 3}
+      propertyPath: planeNormalTrs
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
