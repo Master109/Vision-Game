@@ -514,7 +514,7 @@ MonoBehaviour:
   leftHandSphereCollider: {fileID: 2231373898985516562}
   rightHandSphereCollider: {fileID: 7591353493630772916}
   spikeCheckDistance: 0.4
-  unignoreCollisionDelay: 0.1
+  unignoreCollisionDelay: 0.2
   initLeftHandLocalPosition: {x: -0.5, y: -1, z: 1}
   initRightHandLocalPosition: {x: 0.5, y: -1, z: 1}
 --- !u!114 &4780438776155413846
