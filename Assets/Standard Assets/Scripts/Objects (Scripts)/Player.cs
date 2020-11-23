@@ -55,6 +55,7 @@ namespace VisionGame
 		public SphereCollider leftHandSphereCollider;
 		public SphereCollider rightHandSphereCollider;
 		public float spikeCheckDistance;
+		public float unignoreCollisionDelay;
 		Vector3 extraVelocity;
 		[SerializeField]
 		[HideInInspector]
@@ -301,7 +302,7 @@ namespace VisionGame
 							SetGrabPosition (grabbedPhysicsObject);
 						else
 						{
-							IgnoreCollision (grabbedPhysicsObject.collider, false);
+							StartCoroutine(UnignoreCollisionDelayRoutine (grabbedPhysicsObject.collider));
 							grabbedPhysicsObject.rigid.isKinematic = false;
 							grabbedPhysicsObject = null;
 						}
@@ -319,7 +320,7 @@ namespace VisionGame
 						grabbedPhysicsObject.rigid.velocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
 						grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
 					}
-					IgnoreCollision (grabbedPhysicsObject.collider, false);
+					StartCoroutine(UnignoreCollisionDelayRoutine (grabbedPhysicsObject.collider));
 					grabbedPhysicsObject.rigid.isKinematic = false;
 					grabbedPhysicsObject = null;
 				}
@@ -434,7 +435,7 @@ namespace VisionGame
 					throwVelocity += handTrs.forward * currentThrowSpeed;
 				grabbedPhysicsObject.rigid.velocity = throwVelocity;
 				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
-				IgnoreCollision (grabbedPhysicsObject.collider, false);
+				StartCoroutine(UnignoreCollisionDelayRoutine (grabbedPhysicsObject.collider));
 				grabbedPhysicsObject.rigid.isKinematic = false;
 				grabbedPhysicsObject = null;
 			}
@@ -631,6 +632,12 @@ namespace VisionGame
 						physicsObjectsTouchingRightHand.Remove(physicsObject);
 				}
 			}
+		}
+
+		IEnumerator UnignoreCollisionDelayRoutine (Collider collider)
+		{
+			yield return new WaitForSeconds(unignoreCollisionDelay);
+			IgnoreCollision (collider, false);
 		}
 
 		void IgnoreCollision (Collider collider, bool ignore)
