@@ -46,9 +46,11 @@ namespace VisionGame
 				IgnoreCollisionEntry ignoreCollisionEntry = ignoreCollisionEntries[i];
 				Physics.IgnoreCollision(ignoreCollisionEntry.collider, ignoreCollisionEntry.otherCollider, true);
 			}
-			if (rigidConstraints != RigidbodyConstraints.FreezeAll)
-				rigidConstraints = rigid.constraints;
-			rigid.constraints = RigidbodyConstraints.FreezeAll;
+#if UNITY_EDITOR
+			rigidConstraints = rigid.constraints;
+			if (Application.isPlaying)
+#endif
+				rigid.constraints = RigidbodyConstraints.FreezeAll;
 			lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + (axelParent.forward * moveDistance / 2));
 		}
 
