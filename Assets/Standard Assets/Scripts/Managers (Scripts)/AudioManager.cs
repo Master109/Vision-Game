@@ -64,12 +64,12 @@ namespace VisionGame
 		
 		public virtual SoundEffect PlaySoundEffect (SoundEffect.Settings settings, Vector2 position = new Vector2())
 		{
-			SoundEffect output = ObjectPool.Instance.SpawnComponent<SoundEffect>(soundEffectPrefab.prefabIndex, position);
+			SoundEffect output = ObjectPool.instance.SpawnComponent<SoundEffect>(soundEffectPrefab.prefabIndex, position);
 			output.audioSource.clip = settings.clip;
 			output.audioSource.volume = settings.volume;
 			output.audioSource.pitch = settings.pitch;
 			output.audioSource.Play();
-			ObjectPool.Instance.DelayDespawn (output.prefabIndex, output.gameObject, output.trs, settings.clip.length);
+			ObjectPool.instance.DelayDespawn (output.prefabIndex, output.gameObject, output.trs, settings.clip.length);
 			soundEffects = soundEffects.Add(output);
 			return output;
 		}

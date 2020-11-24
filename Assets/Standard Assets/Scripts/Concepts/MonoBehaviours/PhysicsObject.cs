@@ -86,7 +86,7 @@ namespace VisionGame
 							stuckRigidbodies.Add(rigid);
 							rigid.isKinematic = true;
 							coll.rigidbody.isKinematic = true;
-							PhysicsObject physicsObject = GameManager.GetSingleton<ObjectPool>().SpawnComponent<PhysicsObject> (prefabIndex, default(Vector3), default(Quaternion), trs.parent);
+							PhysicsObject physicsObject = ObjectPool.instance.SpawnComponent<PhysicsObject> (prefabIndex, default(Vector3), default(Quaternion), trs.parent);
 							trs.SetParent(physicsObject.childrenParent);
 						}
 					}

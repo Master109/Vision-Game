@@ -58,10 +58,8 @@ namespace VisionGame
 						hitGo = hit.collider.gameObject;
 						checkDistanceRemaining -= hit.distance;
 						if (!hitGos.Contains(hitGo))
-						{
 							hitGos.Add(hitGo);
-							HandleHitGo (hitGo, viewportRay.direction, hit, checkDistanceRemaining, ref hitGos);
-						}
+						HandleHitGo (hitGo, viewportRay.direction, hit, checkDistanceRemaining, ref hitGos);
 					}
 					RaycastHit[] hits = Physics.RaycastAll(viewportRay, checkDistanceRemaining, transparentLayermask);
 					for (int i = 0; i < hits.Length; i ++)
@@ -69,10 +67,8 @@ namespace VisionGame
 						hit = hits[i];
 						hitGo = hit.collider.gameObject;
 						if (!hitGos.Contains(hitGo))
-						{
 							hitGos.Add(hitGo);
-							HandleHitGo (hitGo, viewportRay.direction, hit, checkDistance - hit.distance, ref hitGos);
-						}
+						HandleHitGo (hitGo, viewportRay.direction, hit, checkDistance - hit.distance, ref hitGos);
 					}
 					currentIndex ++;
 				}
@@ -116,10 +112,8 @@ namespace VisionGame
 					hitGo = hit.collider.gameObject;
 					remainingDistance -= hit.distance;
 					if (!hitGos.Contains(hitGo))
-					{
 						hitGos.Add(hitGo);
-						HandleHitGo (hitGo, rayDirection, hit, remainingDistance, ref hitGos);
-					}
+					HandleHitGo (hitGo, rayDirection, hit, remainingDistance, ref hitGos);
 				}
 				RaycastHit[] hits = Physics.RaycastAll(ray, remainingDistance, transparentLayermask);
 				for (int i = 0; i < hits.Length; i ++)
@@ -127,10 +121,8 @@ namespace VisionGame
 					hit = hits[i];
 					hitGo = hit.collider.gameObject;
 					if (!hitGos.Contains(hitGo))
-					{
 						hitGos.Add(hitGo);
-						HandleHitGo (hitGo, rayDirection, hit, previousRemainingDistance - hit.distance, ref hitGos);
-					}
+					HandleHitGo (hitGo, rayDirection, hit, previousRemainingDistance - hit.distance, ref hitGos);
 				}
 			}
 		}
