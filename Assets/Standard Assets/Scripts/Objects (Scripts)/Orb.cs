@@ -8,9 +8,6 @@ namespace VisionGame
 	{
 		public Transform cameraTrs;
 		public new Camera camera;
-		// public float checksPerUnit;
-		// public RectTransform checkerRectTrs;
-		// public Canvas checkerCanvas;
 		public Transform capturedObjectsParent;
 		public Transform oldCapturedObjectsParent;
 		public LayerMask opaqueLayermask;
@@ -45,53 +42,6 @@ namespace VisionGame
 			for (int i = 0; i < storedObjectsCount; i ++)
 				capturedObjectsParent.GetChild(0).SetParent(oldCapturedObjectsParent, true);
 			List<GameObject> hitGos = new List<GameObject>();
-			// for (float distance = 0; distance <= camera.farClipPlane; distance += 1f / checksPerUnit)
-			// {
-			// 	checkerCanvas.planeDistance = distance;
-			// 	checkerCanvas.enabled = false;
-			// 	checkerCanvas.enabled = true;
-			// 	Collider[] _hitColliders = Physics.OverlapBox(checkerRectTrs.position, (checkerRectTrs.sizeDelta * checkerRectTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerRectTrs.rotation, opaqueLayermask);
-			// 	for (int i = 0; i < _hitColliders.Length; i ++)
-			// 	{
-			// 		Collider hitCollider = _hitColliders[i];
-			// 		if (!hitGos.Contains(hitCollider.gameObject))
-			// 		{
-			// 			RaycastHit hit;
-			// 			Vector3 toHitPosition = hitCollider.ClosestPoint(cameraTrs.position) - cameraTrs.position;
-			// 			if (Physics.Raycast(cameraTrs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueLayermask))
-			// 			{
-			// 				toHitPosition = hit.point - cameraTrs.position;
-			// 				if (!hitGos.Contains(hit.collider.gameObject))
-			// 					hitGos.Add(hit.collider.gameObject);
-			// 			}
-			// 			RaycastHit[] hits = Physics.RaycastAll(cameraTrs.position, toHitPosition, toHitPosition.magnitude, transparentLayermask);
-			// 			for (int i2 = 0; i2 < hits.Length; i2 ++)
-			// 			{
-			// 				RaycastHit hit2 = hits[i2];
-			// 				if (!hitGos.Contains(hit2.collider.gameObject))
-			// 					hitGos.Add(hit2.collider.gameObject);
-			// 			}
-			// 		}
-			// 	}
-			// 	_hitColliders = Physics.OverlapBox(checkerRectTrs.position, (checkerRectTrs.sizeDelta * checkerRectTrs.localScale.x).SetZ(Physics.defaultContactOffset), checkerRectTrs.rotation, transparentLayermask);
-			// 	for (int i = 0; i < _hitColliders.Length; i ++)
-			// 	{
-			// 		Collider hitCollider = _hitColliders[i];
-			// 		if (!hitGos.Contains(hitCollider.gameObject))
-			// 		{
-			// 			RaycastHit hit;
-			// 			Vector3 toHitPosition = hitCollider.ClosestPoint(cameraTrs.position) - cameraTrs.position;
-			// 			if (Physics.Raycast(cameraTrs.position, toHitPosition, out hit, toHitPosition.magnitude, opaqueLayermask))
-			// 			{
-			// 				toHitPosition = hit.point - cameraTrs.position;
-			// 				if (!hitGos.Contains(hit.collider.gameObject))
-			// 					hitGos.Add(hit.collider.gameObject);
-			// 			}
-			// 			else
-			// 				hitGos.Add(hitCollider.gameObject);
-			// 		}
-			// 	}
-			// }
 			int currentIndex = 0;
 			for (float x = 0; x <= 1f; x += 1f / checksPerViewportAxis.x)
 			{
@@ -100,31 +50,28 @@ namespace VisionGame
 					Vector2 viewportPoint = new Vector2(x, y);
 					Ray viewportRay = camera.ViewportPointToRay((Vector3) viewportPoint);
 					float checkDistance = checkDistances[currentIndex];
+					float checkDistanceRemaining = checkDistance;
 					RaycastHit hit;
 					GameObject hitGo;
-					if (Physics.Raycast(viewportRay, out hit, checkDistance, opaqueLayermask))
+					if (Physics.Raycast(viewportRay, out hit, checkDistanceRemaining, opaqueLayermask))
 					{
 						hitGo = hit.collider.gameObject;
+						checkDistanceRemaining -= hit.distance;
 						if (!hitGos.Contains(hitGo))
-							hitGos.Add(hitGo);
-						RaycastHit[] hits = Physics.RaycastAll(viewportRay, hit.distance, transparentLayermask);
-						for (int i = 0; i < hits.Length; i ++)
 						{
-							hit = hits[i];
-							hitGo = hit.collider.gameObject;
-							if (!hitGos.Contains(hitGo))
-								hitGos.Add(hitGo);
+							hitGos.Add(hitGo);
+							HandleHitGo (hitGo, viewportRay.direction, hit, checkDistanceRemaining, ref hitGos);
 						}
 					}
-					else
+					RaycastHit[] hits = Physics.RaycastAll(viewportRay, checkDistanceRemaining, transparentLayermask);
+					for (int i = 0; i < hits.Length; i ++)
 					{
-						RaycastHit[] hits = Physics.RaycastAll(viewportRay, checkDistance, transparentLayermask);
-						for (int i = 0; i < hits.Length; i ++)
+						hit = hits[i];
+						hitGo = hit.collider.gameObject;
+						if (!hitGos.Contains(hitGo))
 						{
-							hit = hits[i];
-							hitGo = hit.collider.gameObject;
-							if (!hitGos.Contains(hitGo))
-								hitGos.Add(hitGo);
+							hitGos.Add(hitGo);
+							HandleHitGo (hitGo, viewportRay.direction, hit, checkDistance - hit.distance, ref hitGos);
 						}
 					}
 					currentIndex ++;
@@ -153,6 +100,39 @@ namespace VisionGame
 				}
 			}
 			oldCapturedObjectsParent.DetachChildren();
+		}
+
+		void HandleHitGo (GameObject go, Vector3 rayDirection, RaycastHit hit, float remainingDistance, ref List<GameObject> hitGos)
+		{
+			Mirror mirror = go.GetComponentInParent<Mirror>();
+			if (mirror != null)
+			{
+				rayDirection = Vector3.Reflect(rayDirection, hit.normal);
+				Ray ray = new Ray(hit.point, rayDirection);
+				GameObject hitGo;
+				float previousRemainingDistance = remainingDistance;
+				if (Physics.Raycast(ray, out hit, remainingDistance, opaqueLayermask))
+				{
+					hitGo = hit.collider.gameObject;
+					remainingDistance -= hit.distance;
+					if (!hitGos.Contains(hitGo))
+					{
+						hitGos.Add(hitGo);
+						HandleHitGo (hitGo, rayDirection, hit, remainingDistance, ref hitGos);
+					}
+				}
+				RaycastHit[] hits = Physics.RaycastAll(ray, remainingDistance, transparentLayermask);
+				for (int i = 0; i < hits.Length; i ++)
+				{
+					hit = hits[i];
+					hitGo = hit.collider.gameObject;
+					if (!hitGos.Contains(hitGo))
+					{
+						hitGos.Add(hitGo);
+						HandleHitGo (hitGo, rayDirection, hit, previousRemainingDistance - hit.distance, ref hitGos);
+					}
+				}
+			}
 		}
 	}
 }
