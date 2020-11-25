@@ -137,7 +137,6 @@ namespace VisionGame
 			HandleRotatingGrabbedObjects ();
 			HandleAiming ();
 			HandleThrowing ();
-			HandleOrbViewing ();
 			leftReplaceInput = InputManager.LeftReplaceInput;
 			rightReplaceInput = InputManager.RightReplaceInput;
 			HandleReplacement ();
@@ -463,25 +462,6 @@ namespace VisionGame
 			else
 				canThrow = true;
 		}
-
-		void HandleOrbViewing ()
-		{
-			if (InputManager.LeftOrbViewInput)
-			{
-				// Level.Instance.leftOrb.camera.depth = 1;
-				Level.Instance.leftOrb.camera.enabled = true;
-				return;
-			}
-			else
-				// Level.Instance.leftOrb.camera.depth = -1;
-				Level.Instance.leftOrb.camera.enabled = false;
-			if (InputManager.RightOrbViewInput)
-				// Level.Instance.rightOrb.camera.depth = 1;
-				Level.Instance.rightOrb.camera.enabled = true;
-			else
-				// Level.Instance.rightOrb.camera.depth = -1;
-				Level.Instance.rightOrb.camera.enabled = false;
-		}
 		
 		void HandleGravity ()
 		{
@@ -549,6 +529,7 @@ namespace VisionGame
 				{
 					controller.enabled = true;
 					rigid.useGravity = false;
+					rigid.isKinematic = true;
 					rigid.velocity = Vector2.zero;
 					return;
 				}
@@ -557,10 +538,11 @@ namespace VisionGame
 			}
 			else
 				return;
+			rigid.useGravity = true;
+			rigid.isKinematic = false;
 			if (controller.enabled)
 				rigid.velocity = controller.velocity;
 			controller.enabled = false;
-			rigid.useGravity = true;
 		}
 
 		void HandleBeingPushed (Rigidbody rigid)

@@ -299,7 +299,7 @@ namespace VisionGame
 				return RestartInput;
 			}
 		}
-		public static bool LeftOrbViewInput
+		public static bool LeftGameplayMenuInput
 		{
 			get
 			{
@@ -310,29 +310,29 @@ namespace VisionGame
 				return false;
 			}
 		}
-		public bool _LeftOrbViewInput
+		public bool _LeftGameplayMenuInput
 		{
 			get
 			{
-				return LeftOrbViewInput;
+				return LeftGameplayMenuInput;
 			}
 		}
-		public static bool RightOrbViewInput
+		public static bool RightGameplayMenuInput
 		{
 			get
 			{
 				if (_InputDevice == InputDevice.OculusRift && rightTouchController != null && rightTouchController.secondaryButton.isPressed)
 					return true;
-				else if (Keyboard.current.digit3Key.isPressed)
+				else if (Keyboard.current.digit2Key.isPressed)
 					return true;
 				return false;
 			}
 		}
-		public bool _RightOrbViewInput
+		public bool _RightGameplayMenuInput
 		{
 			get
 			{
-				return RightOrbViewInput;
+				return RightGameplayMenuInput;
 			}
 		}
 		public static float MouseScrollWheelInput
