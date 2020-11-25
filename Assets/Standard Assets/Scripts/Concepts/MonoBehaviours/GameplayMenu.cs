@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using Extensions;
 using System;
@@ -18,6 +19,7 @@ namespace VisionGame
 		public Transform trs;
 		public SphereCollider centerOptionRange;
 		public Option centerOption;
+		public float optionSeperationFromCenterOption;
 		public Option[] options = new Option[0];
 		public Transform selectorTrs;
 		Option selectedOption;
@@ -25,6 +27,18 @@ namespace VisionGame
 		bool previousLeftGameplayMenuInput;
 		bool rightGameplayMenuInput;
 		bool previousRightGameplayMenuInput;
+
+#if UNITY_EDITOR
+		void OnValidate ()
+		{
+			int optionIndex = 0;
+			for (float angle = 0; angle < 360; angle += 360f / options.Length)
+			{
+				options[optionIndex].trs.position = centerOptionRange.bounds.center + (trs.rotation * VectorExtensions.FromFacingAngle(angle)) * (centerOptionRange.bounds.size.x + optionSeperationFromCenterOption);
+				optionIndex ++;
+			}
+		}
+#endif
 
 		void Awake ()
 		{
@@ -60,28 +74,27 @@ namespace VisionGame
 			}
 			else
 			{
-				
+				int optionIndex = 0;
+				for (float angle = 0; angle < 360; angle += 360f / options.Length)
+				{
+					if (Vector3.Angle(trs.rotation * (selectorTrs.position - centerOptionRange.bounds.center), trs.rotation * VectorExtensions.FromFacingAngle(angle)) <= 360f / options.Length / 2)
+						Select (options[optionIndex]);
+					optionIndex ++;
+				}
 			}
 		}
 
 		void HandleInteracting ()
 		{
-			if (!selectedOption.Equals(default(Option)))
+			if (!selectedOption.Equals(default(Option)) && selectedOption.isInteractive)
 			{
 				if (selectorTrs == Player.Instance.leftHandTrs)
 				{
 					if (leftGameplayMenuInput && !previousLeftGameplayMenuInput)
-					{
-
-					}
+						selectedOption.interactUnityEvent.Invoke();
 				}
-				else
-				{
-					if (rightGameplayMenuInput && !previousRightGameplayMenuInput)
-					{
-						
-					}
-				}
+				else if (rightGameplayMenuInput && !previousRightGameplayMenuInput)
+					selectedOption.interactUnityEvent.Invoke();
 			}
 		}
 
@@ -108,28 +121,32 @@ namespace VisionGame
 			}
 		}
 
-		// void HandleOrbViewing ()
-		// {
-		// 	if (InputManager.LeftOrbViewInput)
-		// 	{
-		// 		// Level.Instance.leftOrb.camera.depth = 1;
-		// 		Level.Instance.leftOrb.camera.enabled = true;
-		// 		return;
-		// 	}
-		// 	else
-		// 		// Level.Instance.leftOrb.camera.depth = -1;
-		// 		Level.Instance.leftOrb.camera.enabled = false;
-		// 	if (InputManager.RightOrbViewInput)
-		// 		// Level.Instance.rightOrb.camera.depth = 1;
-		// 		Level.Instance.rightOrb.camera.enabled = true;
-		// 	else
-		// 		// Level.Instance.rightOrb.camera.depth = -1;
-		// 		Level.Instance.rightOrb.camera.enabled = false;
-		// }
+		public void ViewOrbVision ()
+		{
+			if (selectorTrs == Player.Instance.leftHandTrs)
+				StartCoroutine(ViewOrbVisionRoutine (Level.Instance.leftOrb));
+			else
+				StartCoroutine(ViewOrbVisionRoutine (Level.Instance.rightOrb));
+		}
+
+		IEnumerator ViewOrbVisionRoutine (Orb orb)
+		{
+			orb.camera.enabled = true;
+			while (true)
+			{
+				if ((leftGameplayMenuInput && !previousLeftGameplayMenuInput) || (rightGameplayMenuInput && !previousRightGameplayMenuInput))
+					break;
+				yield return new WaitForEndOfFrame();
+			}
+			orb.camera.enabled = false;
+		} 
 
 		[Serializable]
 		public struct Option
 		{
+#if UNITY_EDITOR
+			public Transform trs;
+#endif
 			public GameObject selectedGo;
 			public GameObject deselectedGo;
 			public bool isInteractive;

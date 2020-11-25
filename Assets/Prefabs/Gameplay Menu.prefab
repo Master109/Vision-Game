@@ -42,6 +42,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8324649376408504398}
+  - {fileID: 7385703956904017451}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -62,10 +63,11 @@ MonoBehaviour:
   trs: {fileID: 8324649378454795714}
   centerOptionRange: {fileID: 2955841825768840138}
   centerOption:
+    trs: {fileID: 8324649376408504398}
     selectedGo: {fileID: 3971667953559989878}
     deselectedGo: {fileID: 4581161069938060961}
     isInteractive: 1
-    uninteractiveGo: {fileID: 0}
+    uninteractiveGo: {fileID: 7020488675714537460}
     interactUnityEvent:
       m_PersistentCalls:
         m_Calls:
@@ -81,7 +83,28 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  options: []
+  optionSeperationFromCenterOption: 0.5
+  options:
+  - trs: {fileID: 7385703956904017451}
+    selectedGo: {fileID: 2514803994137368595}
+    deselectedGo: {fileID: 3056782676283742404}
+    isInteractive: 1
+    uninteractiveGo: {fileID: 8400791515448369553}
+    interactUnityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8324649378454795725}
+          m_TargetAssemblyTypeName: VisionGame.GameplayMenu, Assembly-CSharp-firstpass
+          m_MethodName: ViewOrbVision
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   selectorTrs: {fileID: 0}
 --- !u!1001 &61684237984652243
 PrefabInstance:
@@ -100,6 +123,16 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 0.35
       objectReference: {fileID: 0}
+    - target: {fileID: 4018644127543342501, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566308913507097541, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_text
+      value: Close Menu
+      objectReference: {fileID: 0}
     - target: {fileID: 5131599385008589384, guid: f5daf36ddc926de44a695b7c44104917,
         type: 3}
       propertyPath: m_text
@@ -114,6 +147,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4278190080
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041074818284702759, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8312587166199927706, guid: f5daf36ddc926de44a695b7c44104917,
         type: 3}
@@ -200,4 +238,158 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4560080183785256306, guid: f5daf36ddc926de44a695b7c44104917,
     type: 3}
   m_PrefabInstance: {fileID: 61684237984652243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7020488675714537460 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7041074818284702759, guid: f5daf36ddc926de44a695b7c44104917,
+    type: 3}
+  m_PrefabInstance: {fileID: 61684237984652243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1523192363024166326
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8324649378454795714}
+    m_Modifications:
+    - target: {fileID: 3173139565228530564, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_text
+      value: View Orb Vision
+      objectReference: {fileID: 0}
+    - target: {fileID: 3173139565228530564, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4018644127543342501, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_Name
+      value: Selected View Orb Vision Option
+      objectReference: {fileID: 0}
+    - target: {fileID: 4018644127543342501, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560080183785256306, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_Name
+      value: Deselected View Orb Vision Option
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566308913507097541, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_text
+      value: View Orb Vision
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131599385008589384, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_text
+      value: View Orb Vision
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131599385008589384, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131599385008589384, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041074818284702759, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_Name
+      value: Uninteractive View Orb Vision Option
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041074818284702759, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927706, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_Name
+      value: View Orb Vision Option
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f5daf36ddc926de44a695b7c44104917, type: 3}
+--- !u!4 &7385703956904017451 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8312587166199927709, guid: f5daf36ddc926de44a695b7c44104917,
+    type: 3}
+  m_PrefabInstance: {fileID: 1523192363024166326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2514803994137368595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4018644127543342501, guid: f5daf36ddc926de44a695b7c44104917,
+    type: 3}
+  m_PrefabInstance: {fileID: 1523192363024166326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3056782676283742404 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4560080183785256306, guid: f5daf36ddc926de44a695b7c44104917,
+    type: 3}
+  m_PrefabInstance: {fileID: 1523192363024166326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8400791515448369553 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7041074818284702759, guid: f5daf36ddc926de44a695b7c44104917,
+    type: 3}
+  m_PrefabInstance: {fileID: 1523192363024166326}
   m_PrefabAsset: {fileID: 0}
