@@ -22,6 +22,8 @@ namespace VisionGame
 		public float optionSeperationFromCenterOption;
 		public Option[] options = new Option[0];
 		public Transform selectorTrs;
+		[HideInInspector]
+		public bool interactive;
 		Option selectedOption;
 		bool leftGameplayMenuInput;
 		bool previousLeftGameplayMenuInput;
@@ -48,6 +50,7 @@ namespace VisionGame
 
 		void OnEnable ()
 		{
+			instance = this;
 			GameManager.updatables = GameManager.updatables.Add(this);
 		}
 
@@ -68,7 +71,6 @@ namespace VisionGame
 
 		void HandleSelecting ()
 		{
-			print((selectorTrs.position - centerOptionRange.bounds.center).sqrMagnitude + " ," + (centerOptionRange.bounds.extents.x * centerOptionRange.bounds.extents.x));
 			if ((selectorTrs.position - centerOptionRange.bounds.center).sqrMagnitude <= centerOptionRange.bounds.extents.x * centerOptionRange.bounds.extents.x)
 				Select (centerOption);
 			else
@@ -89,10 +91,10 @@ namespace VisionGame
 			{
 				if (selectorTrs == Player.Instance.leftHandTrs)
 				{
-					if (leftGameplayMenuInput && !previousLeftGameplayMenuInput)
+					if (!leftGameplayMenuInput && previousLeftGameplayMenuInput)
 						selectedOption.interactUnityEvent.Invoke();
 				}
-				else if (rightGameplayMenuInput && !previousRightGameplayMenuInput)
+				else if (!rightGameplayMenuInput && previousRightGameplayMenuInput)
 					selectedOption.interactUnityEvent.Invoke();
 			}
 		}
@@ -101,7 +103,6 @@ namespace VisionGame
 		{
 			if (selectedOption.Equals(option))
 				return;
-			print("Selected " + option.trs.name);
 			if (!selectedOption.Equals(default(Option)))
 				Deselect (selectedOption);
 			if (option.isInteractive)
@@ -116,7 +117,6 @@ namespace VisionGame
 
 		void Deselect (Option option)
 		{
-			print("Deselected " + option.trs.name);
 			if (option.isInteractive)
 			{
 				option.selectedGo.SetActive(false);
@@ -126,10 +126,13 @@ namespace VisionGame
 
 		public void ViewOrbVision ()
 		{
+			gameObject.SetActive(false);
+			interactive = false;
+			StopAllCoroutines();
 			if (selectorTrs == Player.Instance.leftHandTrs)
-				StartCoroutine(ViewOrbVisionRoutine (Level.Instance.leftOrb));
+				GameManager.Instance.StartCoroutine(ViewOrbVisionRoutine (Level.Instance.leftOrb));
 			else
-				StartCoroutine(ViewOrbVisionRoutine (Level.Instance.rightOrb));
+				GameManager.Instance.StartCoroutine(ViewOrbVisionRoutine (Level.Instance.rightOrb));
 		}
 
 		IEnumerator ViewOrbVisionRoutine (Orb orb)
@@ -137,12 +140,17 @@ namespace VisionGame
 			orb.camera.enabled = true;
 			while (true)
 			{
+				leftGameplayMenuInput = InputManager.LeftGameplayMenuInput;
+				rightGameplayMenuInput = InputManager.RightGameplayMenuInput;
 				if ((leftGameplayMenuInput && !previousLeftGameplayMenuInput) || (rightGameplayMenuInput && !previousRightGameplayMenuInput))
 					break;
+				previousLeftGameplayMenuInput = leftGameplayMenuInput;
+				previousRightGameplayMenuInput = rightGameplayMenuInput;
 				yield return new WaitForEndOfFrame();
 			}
 			orb.camera.enabled = false;
-		} 
+			interactive = true;
+		}
 
 		[Serializable]
 		public struct Option

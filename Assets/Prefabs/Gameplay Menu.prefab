@@ -107,6 +107,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   selectorTrs: {fileID: 0}
+  interactive: 1
 --- !u!1001 &61684237984652243
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -375,9 +375,8 @@ namespace VisionGame
 
 		void HandleGameplayMenu ()
 		{
-			if (GameplayMenu.instance.gameObject.activeSelf)
+			if (GameplayMenu.instance.gameObject.activeSelf || !GameplayMenu.instance.interactive)
 				return;
-			bool shouldOpenGameplayMenu = false;
 			if (leftGameplayMenuInput && !previousLeftGameplayMenuInput)
 				GameplayMenu.instance.selectorTrs = Player.Instance.leftHandTrs;
 			else if (rightGameplayMenuInput && !previousRightGameplayMenuInput)
