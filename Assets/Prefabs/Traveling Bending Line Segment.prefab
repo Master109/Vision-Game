@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trs: {fileID: 1519090719271743365}
-  prefabIndex: 0
+  prefabIndex: 1
   moveSpeed: 3
   turnDegrees: 90
   whatICrashInto:

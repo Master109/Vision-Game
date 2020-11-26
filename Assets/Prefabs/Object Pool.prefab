@@ -43,11 +43,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf2cb82c45b71d4799d9d62b24043a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handleMultipleInstances: 0
+  persistant: 0
   preloadOnAwake: 1
   trs: {fileID: 5537936399488042830}
   spawnEntries:
   - prefab: {fileID: 8818453291387126705, guid: 99343b054b58b5a48884b69b4773e7e7,
       type: 3}
     trs: {fileID: 8818453291387126707, guid: 99343b054b58b5a48884b69b4773e7e7, type: 3}
+    prefabIndex: 0
+    preload: 0
+  - prefab: {fileID: 1519090719271743364, guid: 04a4e5f62767fbf4298af56c546a0275,
+      type: 3}
+    trs: {fileID: 1519090719271743365, guid: 04a4e5f62767fbf4298af56c546a0275, type: 3}
     prefabIndex: 0
     preload: 0
