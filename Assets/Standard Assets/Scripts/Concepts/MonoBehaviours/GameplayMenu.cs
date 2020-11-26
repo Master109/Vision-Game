@@ -17,6 +17,7 @@ namespace VisionGame
 			}
 		}
 		public Transform trs;
+		public float distanceFromCamera;
 		public SphereCollider centerOptionRange;
 		public Option centerOption;
 		public float optionSeperationFromCenterOption;

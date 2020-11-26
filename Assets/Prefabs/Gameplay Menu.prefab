@@ -61,6 +61,7 @@ MonoBehaviour:
   handleMultipleInstances: 0
   persistant: 0
   trs: {fileID: 8324649378454795714}
+  distanceFromCamera: 1
   centerOptionRange: {fileID: 2955841825768840138}
   centerOption:
     trs: {fileID: 8324649376408504398}

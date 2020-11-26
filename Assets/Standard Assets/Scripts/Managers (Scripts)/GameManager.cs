@@ -133,6 +133,10 @@ namespace VisionGame
 		public GameObject textPanelGo;
 		public _Text textPanelText;
 		public float distanceScale = 1;
+		bool leftGameplayMenuInput;
+		bool previousLeftGameplayMenuInput;
+		bool rightGameplayMenuInput;
+		bool previousRightGameplayMenuInput;
 
 		public override void Awake ()
 		{
@@ -181,7 +185,7 @@ namespace VisionGame
 			initialized = true;
 		}
 		
-		public IEnumerator OnGameSceneLoadedRoutine ()
+		IEnumerator OnGameSceneLoadedRoutine ()
 		{
 			gameModifierDict.Clear();
 			foreach (GameModifier gameModifier in gameModifiers)
@@ -218,13 +222,21 @@ namespace VisionGame
 			// try
 			// {
 				InputSystem.Update ();
-				foreach (IUpdatable updatable in updatables)
+				leftGameplayMenuInput = InputManager.LeftGameplayMenuInput;
+				rightGameplayMenuInput = InputManager.RightGameplayMenuInput;
+				HandleGameplayMenu ();
+				for (int i = 0; i < updatables.Length; i ++)
+				{
+					IUpdatable updatable = updatables[i];
 					updatable.DoUpdate ();
+				}
 				Physics.Simulate(Time.deltaTime);
 				ObjectPool.Instance.DoUpdate ();
-				// GetSingleton<GameCamera>().DoUpdate ();
+				// GameCamera.Instance.DoUpdate ();
 				framesSinceLoadedScene ++;
 				previousMousePosition = InputManager.MousePosition;
+				previousLeftGameplayMenuInput = leftGameplayMenuInput;
+				previousRightGameplayMenuInput = rightGameplayMenuInput;
 			// }
 			// catch (Exception e)
 			// {
@@ -361,7 +373,23 @@ namespace VisionGame
 		// 	public bool extendsUpFully;
 		// }
 
-		public virtual void InitCursor ()
+		void HandleGameplayMenu ()
+		{
+			if (GameplayMenu.instance.gameObject.activeSelf)
+				return;
+			bool shouldOpenGameplayMenu = false;
+			if (leftGameplayMenuInput && !previousLeftGameplayMenuInput)
+				GameplayMenu.instance.selectorTrs = Player.Instance.leftHandTrs;
+			else if (rightGameplayMenuInput && !previousRightGameplayMenuInput)
+				GameplayMenu.instance.selectorTrs = Player.Instance.rightHandTrs;
+			else
+				return;
+			GameplayMenu.instance.trs.position = GameCamera.Instance.trs.position + (GameCamera.instance.trs.forward * GameplayMenu.instance.distanceFromCamera);
+			GameplayMenu.instance.trs.rotation = GameCamera.Instance.trs.rotation;
+			GameplayMenu.instance.gameObject.SetActive(true);
+		}
+
+		void InitCursor ()
 		{
 			cursorEntriesDict.Clear();
 			foreach (CursorEntry cursorEntry in cursorEntries)
@@ -374,7 +402,7 @@ namespace VisionGame
 			// cursorEntriesDict["Default"].SetAsActive ();
 		}
 
-		public virtual IEnumerator LoadRoutine ()
+		IEnumerator LoadRoutine ()
 		{
 			yield return new WaitForEndOfFrame();
 			GetSingleton<SaveAndLoadManager>().Setup ();
@@ -391,7 +419,7 @@ namespace VisionGame
 			yield break;
 		}
 
-		public virtual void HideCursor (params object[] args)
+		void HideCursor (params object[] args)
 		{
 			activeCursorEntry.rectTrs.gameObject.SetActive(false);
 		}

@@ -120,9 +120,6 @@ namespace VisionGame
 		public void DoUpdate ()
 		{
 			mouseScrollWheelInput = InputManager.MouseScrollWheelInput;
-			InputManager.leftTouchController = (OculusTouchController) OculusTouchController.leftHand;
-			InputManager.rightTouchController = (OculusTouchController) OculusTouchController.rightHand;
-			leftHandPosition = leftHandTrs.position;
 			rightHandPosition = rightHandTrs.position;
 			mouseMovement = InputManager.MouseMovement;
 			HandleHandOrientation ();
@@ -219,7 +216,6 @@ namespace VisionGame
 
 		void HandleHeadOrientation ()
 		{
-			InputManager.hmd = InputSystem.GetDevice<OculusHMD>();
 			if (InputManager.hmd == null || InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
 			{
 				headTrs.localPosition = Vector3.zero;

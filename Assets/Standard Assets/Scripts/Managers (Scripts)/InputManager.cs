@@ -404,25 +404,25 @@ namespace VisionGame
 		public static OculusTouchController leftTouchController;
 		public static OculusTouchController rightTouchController;
 		
-		// IEnumerator Start ()
-		// {
-		// 	do
-		// 	{
-		// 		hmd = InputSystem.GetDevice<OculusHMD>();
-		// 		yield return new WaitForEndOfFrame();
-		// 	} while (hmd == null);
-		// 	do
-		// 	{
-		// 		leftTouchController = (OculusTouchController) OculusTouchController.leftHand;
-		// 		yield return new WaitForEndOfFrame();
-		// 	} while (leftTouchController == null);
-		// 	do
-		// 	{
-		// 		rightTouchController = (OculusTouchController) OculusTouchController.rightHand;
-		// 		yield return new WaitForEndOfFrame();
-		// 	} while (rightTouchController == null);
-		// 	yield break;
-		// }
+		void OnEnable ()
+		{
+			InputSystem.onDeviceChange += (device, change) => { OnDeviceChanged ((UnityEngine.InputSystem.InputDevice) device, change); };
+		}
+
+		void OnDeviceChanged (UnityEngine.InputSystem.InputDevice device, InputDeviceChange change)
+		{
+			if (change == InputDeviceChange.Added)
+			{
+				leftTouchController = (OculusTouchController) OculusTouchController.leftHand;
+				rightTouchController = (OculusTouchController) OculusTouchController.rightHand;
+				hmd = InputSystem.GetDevice<OculusHMD>();
+			}
+		}
+
+		void OnDisable ()
+		{
+			InputSystem.onDeviceChange -= OnDeviceChanged;
+		}
 
 		public static float GetAxis (InputControl<float> positiveButton, InputControl<float> negativeButton)
 		{
