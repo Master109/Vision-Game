@@ -89,7 +89,7 @@ namespace VisionGame
 		{
 			if (!selectedOption.Equals(default(Option)) && selectedOption.isInteractive)
 			{
-				if (selectorTrs == Player.Instance.leftHandTrs)
+				if (selectorTrs == Player.instance.leftHandTrs)
 				{
 					if (!leftGameplayMenuInput && previousLeftGameplayMenuInput)
 						selectedOption.interactUnityEvent.Invoke();
@@ -129,7 +129,7 @@ namespace VisionGame
 			gameObject.SetActive(false);
 			interactive = false;
 			StopAllCoroutines();
-			if (selectorTrs == Player.Instance.leftHandTrs)
+			if (selectorTrs == Player.instance.leftHandTrs)
 				GameManager.Instance.StartCoroutine(ViewOrbVisionRoutine (Level.Instance.leftOrb));
 			else
 				GameManager.Instance.StartCoroutine(ViewOrbVisionRoutine (Level.Instance.rightOrb));

@@ -378,9 +378,9 @@ namespace VisionGame
 			if (GameplayMenu.instance.gameObject.activeSelf || !GameplayMenu.instance.interactive)
 				return;
 			if (leftGameplayMenuInput && !previousLeftGameplayMenuInput)
-				GameplayMenu.instance.selectorTrs = Player.Instance.leftHandTrs;
+				GameplayMenu.instance.selectorTrs = Player.instance.leftHandTrs;
 			else if (rightGameplayMenuInput && !previousRightGameplayMenuInput)
-				GameplayMenu.instance.selectorTrs = Player.Instance.rightHandTrs;
+				GameplayMenu.instance.selectorTrs = Player.instance.rightHandTrs;
 			else
 				return;
 			GameplayMenu.instance.trs.position = GameCamera.Instance.trs.position + (GameCamera.instance.trs.forward * GameplayMenu.instance.distanceFromCamera);

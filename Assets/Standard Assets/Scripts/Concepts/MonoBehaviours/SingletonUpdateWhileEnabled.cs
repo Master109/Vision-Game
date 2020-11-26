@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
+public class SingletonUpdateWhileEnabled<T> : UpdateWhileEnabled where T : UpdateWhileEnabled
 {
 	public static T instance;
 	public static T Instance

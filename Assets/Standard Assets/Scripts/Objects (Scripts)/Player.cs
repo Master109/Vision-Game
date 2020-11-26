@@ -9,15 +9,9 @@ using UnityEngine.InputSystem;
 namespace VisionGame
 {
 	[ExecuteInEditMode]
-	public class Player : SingletonMonoBehaviour<Player>, IUpdatable
+	public class Player : SingletonUpdateWhileEnabled<Player>
 	{
-		public bool PauseWhileUnfocused
-		{
-			get
-			{
-				return false;
-			}
-		}
+		public new static Player instance;
 		public Transform trs;
 		public Rigidbody rigid;
 		public new Collider collider;
@@ -95,6 +89,8 @@ namespace VisionGame
 		List<PhysicsObject> physicsObjectsTouchingRightHand = new List<PhysicsObject>();
 		bool leftCanThrow;
 		bool rightCanThrow;
+		bool leftIsAiming;
+		bool rightIsAiming;
 		float mouseScrollWheelInput;
 		bool jumpInput;
 		bool previousJumpInput;
@@ -102,7 +98,7 @@ namespace VisionGame
 		float headRotationY;
 		Vector2 mouseMovement;
 
-		void OnEnable ()
+		public override void OnEnable ()
 		{
 #if UNITY_EDITOR
 			if (!Application.isPlaying)
@@ -112,6 +108,7 @@ namespace VisionGame
 				return;
 			}
 #endif
+			instance = this;
 			if (InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
 			{
 				leftHandTrs.SetParent(headTrs);
@@ -119,16 +116,14 @@ namespace VisionGame
 			}
 			currentThrowSpeed = throwSpeedRange.max;
 			Application.wantsToQuit += () => { invulnerable = true; return true; };
-			GameManager.updatables = GameManager.updatables.Add(this);
+			base.OnEnable ();
 		}
 
-		public void DoUpdate ()
+		public override void DoUpdate ()
 		{
 			mouseScrollWheelInput = InputManager.MouseScrollWheelInput;
 			rightHandPosition = rightHandTrs.position;
 			mouseMovement = InputManager.MouseMovement;
-			HandleHandOrientation ();
-			HandleHeadOrientation ();
 			turnInput = InputManager.TurnInput;
 			HandleFacing ();
 			leftThrowInput = InputManager.LeftThrowInput;
@@ -144,6 +139,8 @@ namespace VisionGame
 			HandleReplacement ();
 			jumpInput = InputManager.JumpInput;
 			HandleVelocity ();
+			HandleHandOrientation ();
+			HandleHeadOrientation ();
 			previousLeftReplaceInput = leftReplaceInput;
 			previousRightReplaceInput = rightReplaceInput;
 			previousTurnInput = turnInput;
@@ -159,13 +156,13 @@ namespace VisionGame
 			previousRightGrabInput = rightGrabInput;
 		}
 
-		void OnDisable ()
+		public override void OnDisable ()
 		{
 #if UNITY_EDITOR
 			if (!Application.isPlaying)
 				return;
 #endif
-			GameManager.updatables = GameManager.updatables.Remove(this);
+			base.OnDisable ();
 		}
 
 		void HandleVelocity ()

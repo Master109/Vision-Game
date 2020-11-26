@@ -78,7 +78,7 @@ namespace VisionGame
 				GameObject hitGo = hitGos[i];
 				if (hitGo == gameObject)
 					continue;
-				else if (hitGo == Player.Instance.gameObject)
+				else if (hitGo == Player.instance.gameObject)
 				{
 					GameManager.Instance.ReloadActiveScene ();
 					return;

@@ -78,7 +78,7 @@ namespace VisionGame
 					}
 					else
 					{
-						if (coll.gameObject == Player.Instance.gameObject)
+						if (coll.gameObject == Player.instance.gameObject)
 							Destroy(coll.gameObject);
 						else if (!stuckRigidbodies.Contains(coll.rigidbody))
 						{
