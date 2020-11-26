@@ -112,6 +112,11 @@ namespace VisionGame
 				return;
 			}
 #endif
+			if (InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
+			{
+				leftHandTrs.SetParent(headTrs);
+				rightHandTrs.SetParent(headTrs);
+			}
 			currentThrowSpeed = throwSpeedRange.max;
 			Application.wantsToQuit += () => { invulnerable = true; return true; };
 			GameManager.updatables = GameManager.updatables.Add(this);

@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using Extensions;
 using System;
 using UnityEngine.Events;
@@ -41,7 +40,7 @@ namespace VisionGame
 		}
 #endif
 
-		void Awake ()
+		public override void Awake ()
 		{
 			instance = this;
 			gameObject.SetActive(false);
@@ -69,10 +68,9 @@ namespace VisionGame
 
 		void HandleSelecting ()
 		{
-			if ((selectorTrs.position - centerOptionRange.bounds.center).sqrMagnitude <= centerOptionRange.bounds.extents.x)
-			{
-				Select (selectedOption);
-			}
+			print((selectorTrs.position - centerOptionRange.bounds.center).sqrMagnitude + " ," + (centerOptionRange.bounds.extents.x * centerOptionRange.bounds.extents.x));
+			if ((selectorTrs.position - centerOptionRange.bounds.center).sqrMagnitude <= centerOptionRange.bounds.extents.x * centerOptionRange.bounds.extents.x)
+				Select (centerOption);
 			else
 			{
 				int optionIndex = 0;
@@ -101,6 +99,9 @@ namespace VisionGame
 
 		void Select (Option option)
 		{
+			if (selectedOption.Equals(option))
+				return;
+			print("Selected " + option.trs.name);
 			if (!selectedOption.Equals(default(Option)))
 				Deselect (selectedOption);
 			if (option.isInteractive)
@@ -115,6 +116,7 @@ namespace VisionGame
 
 		void Deselect (Option option)
 		{
+			print("Deselected " + option.trs.name);
 			if (option.isInteractive)
 			{
 				option.selectedGo.SetActive(false);

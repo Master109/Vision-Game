@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7270362526531137513}
   - component: {fileID: 556701472783949373}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas (World)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 2289272401514400525}
   - component: {fileID: 2393982107645864084}
   - component: {fileID: 3649169970168137466}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Selected Gameplay Menu Option
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 3912349972360054881}
   - component: {fileID: 4139729849873845988}
   - component: {fileID: 1352702127146587539}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Deselected Gameplay Menu Option (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,7 +232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3232729426858601948}
   - component: {fileID: 1515235072150128800}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas (World)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +290,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8198024991533215661}
   - component: {fileID: 4973061949787105920}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas (World)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 4113611682471342955}
   - component: {fileID: 1411941024644030785}
   - component: {fileID: 1966315143843380125}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Uninteractive Gameplay Menu Option
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -519,6 +519,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI Text
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294149540042250466, guid: 468604ddb81967246aa30d62ccd96680,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4294149540042250467, guid: 468604ddb81967246aa30d62ccd96680,
         type: 3}
@@ -695,6 +700,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI Text
       objectReference: {fileID: 0}
+    - target: {fileID: 4294149540042250466, guid: 468604ddb81967246aa30d62ccd96680,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4294149540042250467, guid: 468604ddb81967246aa30d62ccd96680,
         type: 3}
       propertyPath: m_Pivot.x
@@ -869,6 +879,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI Text
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294149540042250466, guid: 468604ddb81967246aa30d62ccd96680,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4294149540042250467, guid: 468604ddb81967246aa30d62ccd96680,
         type: 3}
