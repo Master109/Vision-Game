@@ -40,8 +40,8 @@ public class CombineCubes : MonoBehaviour
 				Vector3 toOtherTrs = otherMeshAndTransform.Value.position - meshAndTransform.Value.position;
 				if (toOtherTrs.sqrMagnitude == 1)
 				{
-					MeshExtensions.MeshTriangle[] meshTriangles = MeshExtensions.GetTriangles(new KeyValuePair<Mesh, Transform>[1] { meshAndTransform });
-					MeshExtensions.MeshTriangle[] otherMeshTriangles = MeshExtensions.GetTriangles(new KeyValuePair<Mesh, Transform>[1] { otherMeshAndTransform });
+					MeshExtensions.MeshTriangle[] meshTriangles = MeshExtensions.GetMeshTriangles(new KeyValuePair<Mesh, Transform>[1] { meshAndTransform });
+					MeshExtensions.MeshTriangle[] otherMeshTriangles = MeshExtensions.GetMeshTriangles(new KeyValuePair<Mesh, Transform>[1] { otherMeshAndTransform });
 					int toOtherTrsXSign = MathfExtensions.Sign(toOtherTrs.x);
 					int toOtherTrsYSign = MathfExtensions.Sign(toOtherTrs.y);
 					int toOtherTrsZSign = MathfExtensions.Sign(toOtherTrs.z);

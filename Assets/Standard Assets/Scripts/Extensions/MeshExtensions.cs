@@ -5,7 +5,7 @@ namespace Extensions
 {
 	public static class MeshExtensions
 	{
-		public static MeshTriangle[] GetTriangles (params KeyValuePair<Mesh, Transform>[] meshesAndTransforms)
+		public static MeshTriangle[] GetMeshTriangles (params KeyValuePair<Mesh, Transform>[] meshesAndTransforms)
 		{
 			List<MeshTriangle> output = new List<MeshTriangle>();
 			for (int i = 0; i < meshesAndTransforms.Length; i ++)
@@ -17,9 +17,10 @@ namespace Extensions
 					foreach (MeshTriangle meshTriangle in meshVertex.trianglesIAmPartOf)
 					{
 						bool alreadyContained = false;
-						foreach (MeshTriangle outputMeshTriangle in output)
+						for (int i3 = 0; i3 < output.Count; i3 ++)
 						{
-							if (meshTriangle.mesh == outputMeshTriangle.mesh && meshTriangle.point1 == outputMeshTriangle.point1 && meshTriangle.point2 == outputMeshTriangle.point2 && meshTriangle.point3 == outputMeshTriangle.point3)
+							MeshTriangle outputMeshTriangle = output[i3];
+							if (meshTriangle.point1 == outputMeshTriangle.point1 && meshTriangle.point2 == outputMeshTriangle.point2 && meshTriangle.point3 == outputMeshTriangle.point3)
 							{
 								alreadyContained = true;
 								break;
@@ -31,6 +32,88 @@ namespace Extensions
 				}
 			}
 			return output.ToArray();
+		}
+		
+		public static MeshVertex[] GetMeshVertices (params KeyValuePair<Mesh, Transform>[] meshesAndTransforms)
+		{
+			List<MeshVertex> output = new List<MeshVertex>();
+			for (int i = 0; i < meshesAndTransforms.Length; i ++)
+			{
+				KeyValuePair<Mesh, Transform> meshAndTransform = meshesAndTransforms[i];
+				for (int i2 = 0; i2 < meshAndTransform.Key.vertexCount; i2 ++)
+				{
+					MeshVertex meshVertex = new MeshVertex(meshAndTransform.Key, meshAndTransform.Value, i2);
+					bool alreadyContained = false;
+					for (int i3 = 0; i3 < output.Count; i3 ++)
+					{
+						MeshVertex outputMeshVertex = output[i3];
+						if (meshVertex.point == outputMeshVertex.point)
+						{
+							alreadyContained = true;
+							break;
+						}
+					}
+					if (!alreadyContained)
+						output.Add(meshVertex);
+				}
+			}
+			return output.ToArray();
+		}
+		
+		public static MeshVertex[] GetMeshVertices (params MeshTriangle[] meshTriangles)
+		{
+			List<MeshVertex> output = new List<MeshVertex>();
+			for (int i = 0; i < meshTriangles.Length; i ++)
+			{
+				MeshTriangle meshTriangle = meshTriangles[i];
+				MeshVertex meshVertex = new MeshVertex(meshTriangle.mesh, meshTriangle.trs, output.Count, meshTriangle.point1);
+				if (!output.ContainsVertex(meshVertex.point))
+					output.Add(meshVertex);
+				meshVertex = new MeshVertex(meshTriangle.mesh, meshTriangle.trs, output.Count, meshTriangle.point2);
+				if (!output.ContainsVertex(meshVertex.point))
+					output.Add(meshVertex);
+				meshVertex = new MeshVertex(meshTriangle.mesh, meshTriangle.trs, output.Count, meshTriangle.point3);
+				if (!output.ContainsVertex(meshVertex.point))
+					output.Add(meshVertex);
+			}
+			return output.ToArray();
+		}
+
+		public static bool ContainsVertex (this ICollection<MeshVertex> meshVertices, Vector3 point)
+		{
+			for (int i = 0; i < meshVertices.Count; i ++)
+			{
+				MeshVertex meshVertex = meshVertices.Get(i);
+				if (meshVertex.point == point)
+					return true;
+			}
+			return false;
+		}
+
+		public static int IndexOfVertex (this ICollection<MeshVertex> meshVertices, Vector3 point)
+		{
+			for (int i = 0; i < meshVertices.Count; i ++)
+			{
+				MeshVertex meshVertex = meshVertices.Get(i);
+				if (meshVertex.point == point)
+					return i;
+			}
+			return -1;
+		}
+		
+		public static Mesh FromMeshTriangles (params MeshTriangle[] meshTriangles)
+		{
+			Mesh mesh = new Mesh();
+			mesh.triangles = new int[meshTriangles.Length];
+			MeshVertex[] meshVertices = GetMeshVertices(meshTriangles);
+			for (int i = 0; i < meshTriangles.Length; i ++)
+			{
+				MeshTriangle meshTriangle = meshTriangles[i];
+				mesh.triangles[i] = meshVertices.IndexOfVertex(meshTriangle.point1);
+				mesh.triangles[i + 1] = meshVertices.IndexOfVertex(meshTriangle.point2);
+				mesh.triangles[i + 2] = meshVertices.IndexOfVertex(meshTriangle.point3);
+			}
+			return mesh;
 		}
  
 		static int GetNewVertex (int i1, int i2, ref List<Vector3> vertices, ref Dictionary<uint, int> newVertices, ref List<Vector3> normals)
