@@ -160,16 +160,6 @@ public class ImageMappingGuideImage : GuideImage
 		mesh.vertices = new Vector3[texture.width * texture.height];
 		mesh.triangles = new int[mesh.vertexCount * 3];
 		Transform trs = new GameObject().AddComponent<Transform>();
-		// MeshVertex[] meshVertices = new MeshVertex[mesh.vertexCount];
-		// int vertexIndex = 0;
-		// for (int x = 0; x < texture.width; x ++)
-		// {
-		// 	for (int y = 0; y < texture.height; y ++)
-		// 	{
-		// 		meshVertices[vertexIndex] = new MeshVertex(mesh, trs, 0, new Vector3(x, y));
-		// 		vertexIndex ++;
-		// 	}
-		// }
 		MeshTriangle[] meshTriangles = new MeshTriangle[mesh.vertexCount - 2];
 		int triangleIndex = 0;
 		for (int x = 0; x < texture.width; x ++)
@@ -178,7 +168,6 @@ public class ImageMappingGuideImage : GuideImage
 			{
 				if (triangleIndex % 2 == 0)
 				{
-					// if (triangleIndex == )
 					// MeshTriangle meshTriangle = new MeshTriangle(mesh, trs, 0, 1);
 				}
 				triangleIndex ++;

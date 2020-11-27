@@ -113,6 +113,9 @@ namespace Extensions
 				mesh.triangles[i + 1] = meshVertices.IndexOfVertex(meshTriangle.point2);
 				mesh.triangles[i + 2] = meshVertices.IndexOfVertex(meshTriangle.point3);
 			}
+			for (int i = 0; i < meshVertices.Length; i ++)
+				mesh.vertices[i] = meshVertices[i].point;
+			// mesh.RecalculateNormals();
 			return mesh;
 		}
  
