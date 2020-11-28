@@ -2590,6 +2590,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2821995402296397662, guid: 184d567c281b88e4ab274f1294a41bfa,
+        type: 3}
+      propertyPath: rigid
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3248770227448938405, guid: 184d567c281b88e4ab274f1294a41bfa,
         type: 3}
       propertyPath: m_Size.x
@@ -2600,7 +2605,8 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 21
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 921752292226705190, guid: 184d567c281b88e4ab274f1294a41bfa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 184d567c281b88e4ab274f1294a41bfa, type: 3}
 --- !u!65 &925513638908723292 stripped
 BoxCollider:
@@ -3187,6 +3193,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4916940800559349558, guid: ebadf9f894b138e439079a8e35242518,
+        type: 3}
+      propertyPath: rigid
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5620550650458410957, guid: ebadf9f894b138e439079a8e35242518,
         type: 3}
       propertyPath: m_Size.x
@@ -3297,7 +3308,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8061301040664565582, guid: ebadf9f894b138e439079a8e35242518, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ebadf9f894b138e439079a8e35242518, type: 3}
 --- !u!65 &7066187655470555853 stripped
 BoxCollider:
@@ -3497,7 +3509,7 @@ PrefabInstance:
     - target: {fileID: 930546999370169150, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 930546999370169150, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
         type: 3}
@@ -3578,7 +3590,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ignoreCollisionEntries.Array.data[2].otherCollider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5620550650767378507}
     - target: {fileID: 2649347823527808878, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
         type: 3}
       propertyPath: m_Enabled
@@ -3751,7 +3763,7 @@ PrefabInstance:
     - target: {fileID: 8061301040664565583, guid: ebadf9f894b138e439079a8e35242518,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8061301040664565583, guid: ebadf9f894b138e439079a8e35242518,
         type: 3}
@@ -3766,7 +3778,7 @@ PrefabInstance:
     - target: {fileID: 8061301040664565583, guid: ebadf9f894b138e439079a8e35242518,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8061301040664565583, guid: ebadf9f894b138e439079a8e35242518,
         type: 3}
@@ -30977,7 +30989,7 @@ PrefabInstance:
     - target: {fileID: 6155287334718445649, guid: 6ed1322b69676fe4ba0b50cf440e91c6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6155287334718445649, guid: 6ed1322b69676fe4ba0b50cf440e91c6,
         type: 3}
