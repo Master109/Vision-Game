@@ -160,8 +160,7 @@ public class EditorScriptEditor : Editor
 		editorScript.UpdateHotkeys ();
 	}
 }
-#endif
-#if !UNITY_EDITOR
+#else
 using UnityEngine;
 
 public class EditorScript : MonoBehaviour

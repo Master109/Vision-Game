@@ -1,6 +1,4 @@
 #if UNITY_EDITOR
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Extensions;
 using UnityEditor;
@@ -27,23 +25,23 @@ public class GridTransform : EditorScript
 	public override void DoEditorUpdate ()
 	{
 		trs.SetWorldScale(trs.lossyScale.Snap(Vector3.one));
-		if (trs.localScale.x % 2 != 0)
+		if (trs.lossyScale.x % 2 != 0)
 			offset.x = 0;
 		else
 			offset.x = -.5f + smallValue;
-		if (trs.localScale.y % 2 != 0)
+		if (trs.lossyScale.y % 2 != 0)
 			offset.y = 0;
 		else
 			offset.y = -.5f + smallValue;
-		if (trs.localScale.z % 2 != 0)
+		if (trs.lossyScale.z % 2 != 0)
 			offset.z = 0;
 		else
 			offset.z = -.5f + smallValue;
 		offset *= GameManager.Instance.distanceScale;
-		Vector3 newPosition = trs.position.Snap(Vector3.one * GameManager.Instance.distanceScale) + offset;
+		Vector3 newPosition = trs.localPosition.Snap(Vector3.one * GameManager.Instance.distanceScale) + offset;
 		if (newPosition != previousPosition)
 			Undo.RegisterCompleteObjectUndo(trs, "Snap " + name + " position");
-		trs.position = newPosition;
+		trs.localPosition = newPosition;
 		previousPosition = trs.position;
 	}
 }
