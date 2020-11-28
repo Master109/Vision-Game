@@ -1,17 +1,23 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using VisionGame;
 
 public class ReplaceWithPrefabs : EditorScript
 {
 	public Transform[] replace;
 	public Transform prefab;
-	
-	public void Do ()
+
+	public override void OnEnable ()
 	{
-		foreach (Transform trs in replace)
+		base.OnEnable ();
+		Do ();
+	}
+	
+	void Do ()
+	{
+		for (int i = 0; i < replace.Length; i ++)
 		{
+			Transform trs = replace[i];
 			Transform clone = (Transform) PrefabUtility.InstantiatePrefab(prefab);
 			clone.position = trs.position;
 			clone.rotation = trs.rotation;

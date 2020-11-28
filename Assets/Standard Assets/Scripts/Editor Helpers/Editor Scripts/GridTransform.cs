@@ -8,6 +8,7 @@ public class GridTransform : EditorScript
 {
 	public Transform trs;
 	public float smallValue;
+	public bool affectedByDistanceScale;
 	protected Vector3 previousPosition;
 	protected Vector3 offset;
 
@@ -37,8 +38,13 @@ public class GridTransform : EditorScript
 			offset.z = 0;
 		else
 			offset.z = -.5f + smallValue;
-		offset *= GameManager.Instance.distanceScale;
-		Vector3 newPosition = trs.localPosition.Snap(Vector3.one * GameManager.Instance.distanceScale) + offset;
+		if (affectedByDistanceScale)
+			offset *= GameManager.Instance.distanceScale;
+		Vector3 newPosition;
+		if (affectedByDistanceScale)
+			newPosition = trs.localPosition.Snap(Vector3.one * GameManager.Instance.distanceScale) + offset;
+		else
+			newPosition = trs.localPosition.Snap(Vector3.one) + offset;
 		if (newPosition != previousPosition)
 			Undo.RegisterCompleteObjectUndo(trs, "Snap " + name + " position");
 		trs.localPosition = newPosition;

@@ -146,6 +146,7 @@ MonoBehaviour:
   hotkeys: []
   trs: {fileID: 930546999370169150}
   smallValue: 0.0001
+  affectedByDistanceScale: 0
 --- !u!1 &5309009152495794485
 GameObject:
   m_ObjectHideFlags: 0
