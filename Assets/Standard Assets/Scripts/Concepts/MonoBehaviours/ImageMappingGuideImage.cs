@@ -1,26 +1,27 @@
 using UnityEngine;
 using System.Collections.Generic;
-using MeshVertex = Extensions.MeshExtensions.MeshVertex;
-using MeshTriangle = Extensions.MeshExtensions.MeshTriangle;
+using Extensions;
+using System;
 
+[Serializable]
 public class ImageMappingGuideImage : GuideImage
 {
-	public ColorType resistMovementColorType;
+	// public ColorType resistMovementColorType;
 
-	public override bool Apply (object obj)
-	{
-		Texture2D texture = obj as Texture2D;
-		if (texture != null)
-			return Apply(texture);
-		return false;
-	}
+	// public override bool Apply (object obj)
+	// {
+	// 	Texture2D texture = obj as Texture2D;
+	// 	if (texture != null)
+	// 		return Apply(texture);
+	// 	return false;
+	// }
 
-	bool Apply (Texture2D texture)
-	{
-		Vector2Int borderSize = new Vector2Int((this.texture.width - texture.width) / 2, (this.texture.height - texture.height) / 2);
+	// bool Apply (Texture2D texture)
+	// {
+	// 	Vector2Int borderSize = new Vector2Int((this.texture.width - texture.width) / 2, (this.texture.height - texture.height) / 2);
 		
-		return true;
-	}
+	// 	return true;
+	// }
 
     public override object GetResultOfApply (object obj)
     {
@@ -32,33 +33,15 @@ public class ImageMappingGuideImage : GuideImage
 
 	Texture2D GetResultOfApply (Texture2D texture)
 	{
-		ColorRegion[] colorRegions = new ColorRegion[this.texture.width * this.texture.height];
-		Color[] colors = texture.GetPixels();
-		int colorRegionIndex = 0;
-		for (int x = 0; x < texture.width; x ++)
-		{
-			for (int y = 0; y < texture.height; y ++)
-			{
-				ColorRegion colorRegion = new ColorRegion();
-				colorRegion.color = colors[colorRegionIndex];
-				colorRegion.topLeft = new Vector2(x - 0.5f, y + 0.5f);
-				colorRegion.topRight = new Vector2(x + 0.5f, y + 0.5f);
-				colorRegion.bottomLeft = new Vector2(x - 0.5f, y - 0.5f);
-				colorRegion.bottomRight = new Vector2(x + 0.5f, y - 0.5f);
-				colorRegions[colorRegionIndex] = colorRegion;
-				colorRegionIndex ++;
-			}
-		}
-		colors = this.texture.GetPixels();
+		Color[] colors = this.texture.GetPixels();
 		int colorIndex = 0;
-		List<KeyValuePair<Vector2Int, Vector2Int>> movements = new List<KeyValuePair<Vector2Int, Vector2Int>>();
+		List<KeyValuePair<int, Vector2Int>> movements = new List<KeyValuePair<int, Vector2Int>>();
 		for (int x = 0; x < this.texture.width; x ++)
 		{
 			for (int y = 0; y < this.texture.height; y ++)
 			{
 				Color color = colors[colorIndex];
 				Vector2Int correspondingPoint = TransformPoint(texture, new Vector2Int(x, y));
-				ColorRegion colorRegion = colorRegions[correspondingPoint.y * texture.width + correspondingPoint.x];
 				if (color != defaultColorType.color)
 				{
 					int colorIndex2 = 0;
@@ -68,41 +51,69 @@ public class ImageMappingGuideImage : GuideImage
 						{
 							Color color2 = colors[colorIndex2];
 							Vector2Int correspondingPoint2 = TransformPoint(texture, new Vector2Int(x2, y2));
-							ColorRegion colorRegion2 = colorRegions[correspondingPoint.y * texture.width + correspondingPoint.x];
 							if (color2.r == color.r && color2.g == color.g && color2.b == color.b && color2.a == 1f - color.a)
 							{
-								KeyValuePair<Vector2Int, Vector2Int> movement;
+								KeyValuePair<int, Vector2Int> movement;
 								if (color.a < color2.a)
-									movement = new KeyValuePair<Vector2Int, Vector2Int>(correspondingPoint, correspondingPoint2);
+									movement = new KeyValuePair<int, Vector2Int>(colorIndex, correspondingPoint2);
 								else
-									movement = new KeyValuePair<Vector2Int, Vector2Int>(correspondingPoint2, correspondingPoint);
+									movement = new KeyValuePair<int, Vector2Int>(colorIndex2, correspondingPoint);
 								movements.Add(movement);
 							}
 							colorIndex2 ++;
 						}
 					}
 				}
-				colorRegionIndex ++;
+				colorIndex ++;
 			}
 		}
+		Mesh mesh = MeshFromImage(texture);
 		for (int x = 0; x < this.texture.width; x ++)
 		{
 			for (int y = 0; y < this.texture.height; y ++)
 			{
-				ColorRegion colorRegion = colorRegions[y * this.texture.width + x];
-				Vector2 topLeftMovement = Vector2.zero;
-				Vector2 topRightMovement = Vector2.zero;
-				Vector2 bottomLeftMovement = Vector2.zero;
-				Vector2 bottomRightMovement = Vector2.zero;
 				for (int i = 0; i < movements.Count; i ++)
 				{
-					KeyValuePair<Vector2Int, Vector2Int> movement = movements[i];
+					KeyValuePair<int, Vector2Int> movement = movements[i];
+					mesh.vertices[movement.Key] += movement.Value.ToVec3();
 					// if ()
 						// topLeftMovement += (movement.Value - colorRegion.topLeft).normalized * (movement.Key - movement.Key).magnitude;
 				}
 			}
 		}
 		return texture.DeepCopyByExpressionTree();
+	}
+
+	int GetIndexOfLeftPixel (Texture2D texture, int pixelIndex)
+	{
+		if (pixelIndex % texture.width != 0)
+			return pixelIndex - 1;
+		else
+			return -1;
+	}
+
+	int GetIndexOfRightPixel (Texture2D texture, int pixelIndex)
+	{
+		if (pixelIndex % texture.width != texture.width - 1)
+			return pixelIndex + 1;
+		else
+			return -1;
+	}
+
+	int GetIndexOfUpperPixel (Texture2D texture, int pixelIndex)
+	{
+		if (pixelIndex < (texture.height - 1) * texture.width)
+			return pixelIndex + texture.width;
+		else
+			return -1;
+	}
+
+	int GetIndexOfLowerPixel (Texture2D texture, int pixelIndex)
+	{
+		if (pixelIndex > texture.width - 1)
+			return pixelIndex - texture.width;
+		else
+			return -1;
 	}
 
 	Vector2Int TransformPoint (Texture2D texture, Vector2Int point)
@@ -156,24 +167,19 @@ public class ImageMappingGuideImage : GuideImage
 
 	Mesh MeshFromImage (Texture2D texture)
 	{
-		Mesh mesh = new Mesh();
-		mesh.vertices = new Vector3[texture.width * texture.height];
-		mesh.triangles = new int[mesh.vertexCount * 3];
-		Transform trs = new GameObject().AddComponent<Transform>();
-		MeshTriangle[] meshTriangles = new MeshTriangle[mesh.vertexCount - 2];
-		int triangleIndex = 0;
+		// Mesh mesh = CreatePlane.CreateMesh(new Vector2Int(texture.width, texture.height), new Vector2(texture.width, texture.height), CreatePlane.Orientation.Vertical, true);
+		Mesh mesh = CreatePlane.CreateGameObject(Vector3.zero, new Vector2Int(texture.width, texture.height), new Vector2(texture.width, texture.height), CreatePlane.Orientation.Vertical, true).GetComponent<MeshFilter>().sharedMesh;
+		mesh.colors = new Color[mesh.vertexCount];
+		Color[] colors = texture.GetPixels();
+		int vertexIndex = 0;
 		for (int x = 0; x < texture.width; x ++)
 		{
 			for (int y = 0; y < texture.height; y ++)
 			{
-				if (triangleIndex % 2 == 0)
-				{
-					// MeshTriangle meshTriangle = new MeshTriangle(mesh, trs, 0, 1);
-				}
-				triangleIndex ++;
+				mesh.colors[vertexIndex] = colors[y * texture.width + x];
+				vertexIndex ++;
 			}
 		}
-		Object.DestroyImmediate(trs.gameObject);
 		return mesh;
 	}
 }

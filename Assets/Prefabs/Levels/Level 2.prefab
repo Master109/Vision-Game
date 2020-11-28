@@ -3951,11 +3951,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 930546999370169151, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
         type: 3}
-      propertyPath: ignoreCollisionEntries.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 930546999370169151, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
-        type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
@@ -3988,6 +3983,11 @@ PrefabInstance:
         type: 3}
       propertyPath: adjustDistanceToAxel
       value: 2.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 930546999370169151, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
+        type: 3}
+      propertyPath: ignoreCollisionEntries.Array.size
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 930546999370169151, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
         type: 3}
@@ -4210,11 +4210,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 930546999370169151, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
         type: 3}
-      propertyPath: ignoreCollisionEntries.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 930546999370169151, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
-        type: 3}
       propertyPath: moveSpeed
       value: 100
       objectReference: {fileID: 0}
@@ -4232,6 +4227,11 @@ PrefabInstance:
         type: 3}
       propertyPath: distanceToAxelEnd
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 930546999370169151, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
+        type: 3}
+      propertyPath: ignoreCollisionEntries.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 930546999370169151, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
         type: 3}
