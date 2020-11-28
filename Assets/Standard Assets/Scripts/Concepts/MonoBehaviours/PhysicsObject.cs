@@ -1,5 +1,4 @@
 using UnityEngine;
-using Extensions;
 using System.Collections.Generic;
 
 namespace VisionGame
@@ -9,6 +8,7 @@ namespace VisionGame
 	{
 		public static List<Rigidbody> stuckRigidbodies = new List<Rigidbody>();
 		public Transform childrenParent;
+		public Transform capturedVisualizerTrs;
 		public Rigidbody rigid;
 		public new Collider collider;
 		[HideInInspector]
