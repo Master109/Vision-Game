@@ -595,7 +595,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: ODIN_INSPECTOR
+    1: ODIN_INSPECTOR;SUBSTANCE_PLUGIN_ENABLED
   platformArchitecture: {}
   scriptingBackend:
     Standalone: 1
