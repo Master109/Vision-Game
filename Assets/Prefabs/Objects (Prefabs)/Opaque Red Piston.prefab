@@ -318,7 +318,7 @@ MonoBehaviour:
   isGrabbable: 0
   whatICollideWith:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 7936
 --- !u!1 &6103762589404078290
 GameObject:
   m_ObjectHideFlags: 0

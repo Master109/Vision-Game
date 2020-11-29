@@ -136,7 +136,7 @@ MonoBehaviour:
   trs: {fileID: 8642901722070886499}
   prefabIndex: 0
   childrenParent: {fileID: 8728047618191456067}
-  capturedVisualizerTrs: {fileID: 0}
+  capturedVisualizerTrs: {fileID: 5490746422826664233}
   rigid: {fileID: 8642901722070886498}
   collider: {fileID: 8011746275113440144}
   velocity: {x: 0, y: 0, z: 0}

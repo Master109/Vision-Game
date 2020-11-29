@@ -41,10 +41,7 @@ namespace VisionGame
 		{
 			int storedObjectsCount = capturedObjectsParent.childCount;
 			for (int i = 0; i < storedObjectsCount; i ++)
-			{
 				capturedObjectsParent.GetChild(0).SetParent(oldCapturedObjectsParent);
-				Destroy(capturedObjectVisualizersParent.gameObject);
-			}
 			List<GameObject> hitGos = new List<GameObject>();
 			int currentIndex = 0;
 			for (float x = 0; x <= 1f; x += 1f / checksPerViewportAxis.x)
@@ -77,6 +74,9 @@ namespace VisionGame
 					currentIndex ++;
 				}
 			}
+			Destroy(capturedObjectVisualizersParent.gameObject);
+			capturedObjectVisualizersParent = new GameObject().GetComponent<Transform>();
+			capturedObjectVisualizersParent.SetParent(cameraTrs);
 			for (int i = 0; i < hitGos.Count; i ++)
 			{
 				GameObject hitGo = hitGos[i];
@@ -96,9 +96,6 @@ namespace VisionGame
 						physicsObject.velocity = physicsObject.trs.InverseTransformDirection(physicsObject.rigid.velocity);
 						physicsObject.angularVelocity = physicsObject.trs.InverseTransformDirection(physicsObject.rigid.angularVelocity);
 						physicsObject.trs.SetParent(capturedObjectsParent);
-						// physicsObject.capturedVisualizerTrs.SetParent(capturedObjectVisualizersParent);
-						capturedObjectVisualizersParent = new GameObject().GetComponent<Transform>();
-						capturedObjectVisualizersParent.SetParent(cameraTrs);
 						Transform capturedVisualizerTrs = Instantiate(physicsObject.capturedVisualizerTrs, physicsObject.capturedVisualizerTrs.position, physicsObject.capturedVisualizerTrs.rotation, capturedObjectVisualizersParent);
 						capturedVisualizerTrs.SetWorldScale (physicsObject.capturedVisualizerTrs.lossyScale);
 						capturedVisualizerTrs.gameObject.SetActive(true);
