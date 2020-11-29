@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class Spawner : MonoBehaviour
 {
 	public int prefabIndex;
+	public int initSpawns;
 	public SpawnZone[] spawnZones = new SpawnZone[0];
 	public Timer spawnTimer;
 	public float prefabRadius;
@@ -14,6 +15,8 @@ public class Spawner : MonoBehaviour
 
 	void OnEnable ()
 	{
+		for (int i = 0; i < initSpawns; i ++)
+			Spawn ();
 		spawnTimer.onFinished += Spawn;
 		spawnTimer.Reset ();
 		spawnTimer.Start ();

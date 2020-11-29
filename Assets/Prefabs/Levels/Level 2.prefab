@@ -45,12 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabIndex: 1
+  initSpawns: 10
   spawnZones:
   - boxCollider: {fileID: 6778382064714992268}
     points:
     - {fileID: 2693015486782812276}
   spawnTimer:
-    duration: 5
+    duration: 1
     timeRemaining: 0
     loop: 1
     pauseIfCan: 0
@@ -229,8 +230,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2968108519350728781}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -16, z: 9}
-  m_LocalScale: {x: 21, y: 173, z: 35}
+  m_LocalPosition: {x: 0, y: -40.5, z: 20}
+  m_LocalScale: {x: 21, y: 124, z: 57}
   m_Children:
   - {fileID: 2693015486782812276}
   m_Father: {fileID: 7872432740374981721}
@@ -273,7 +274,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3902182585906748414}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5454626983431977290}
@@ -322,7 +323,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minBreakForceSqr: 1000
-  brokenVariationsParent: {fileID: 7650114230864603319}
+  maxBreakAngleChange: 0
+  brokenVariations: []
 --- !u!1001 &28947027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1645,7 +1647,7 @@ PrefabInstance:
     - target: {fileID: 8693605404398695075, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
         type: 3}
       propertyPath: m_Mass
-      value: 399.0905
+      value: 398.69083
       objectReference: {fileID: 0}
     - target: {fileID: 8693605404398695075, guid: 4ffe084eb4df7fe4cbf9221a7e9741b3,
         type: 3}
@@ -1920,7 +1922,7 @@ PrefabInstance:
     - target: {fileID: 8061301040664565583, guid: ebadf9f894b138e439079a8e35242518,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 18.99
+      value: 18.98
       objectReference: {fileID: 0}
     - target: {fileID: 8061301040664565583, guid: ebadf9f894b138e439079a8e35242518,
         type: 3}
@@ -1930,7 +1932,7 @@ PrefabInstance:
     - target: {fileID: 8061301040664565583, guid: ebadf9f894b138e439079a8e35242518,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 20.99
+      value: 20.98
       objectReference: {fileID: 0}
     - target: {fileID: 8061301040664565583, guid: ebadf9f894b138e439079a8e35242518,
         type: 3}
@@ -3576,7 +3578,7 @@ PrefabInstance:
     - target: {fileID: 7657393021846157925, guid: d72a5931406d43e43a361afd21bbf631,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7657393021846157925, guid: d72a5931406d43e43a361afd21bbf631,
         type: 3}
