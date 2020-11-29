@@ -1,23 +1,39 @@
 using UnityEngine;
 using Extensions;
+using System;
+using Random = UnityEngine.Random;
 
 public class Breakable : MonoBehaviour
 {
 	public float minBreakForceSqr;
-	public Transform brokenVariationsParent;
+	public float maxBreakAngleChange;
+	public BrokenVariation[] brokenVariations = new BrokenVariation[0];
 
 	void OnCollisionEnter (Collision coll)
 	{
-		print(coll.GetForce() + " " + coll.GetForceSqr());
-		if (coll.GetForceSqr() >= minBreakForceSqr)
-			Break ();
+		Vector3 force = coll.GetForce();
+		print(force.magnitude + " " + force.sqrMagnitude);
+		if (force.sqrMagnitude >= minBreakForceSqr)
+			Break (force);
 	}
 
-	public virtual void Break ()
+	public virtual void Break (Vector3 force)
 	{
-		Transform brokenVariation = brokenVariationsParent.GetChild(Random.Range(0, brokenVariationsParent.childCount));
-		brokenVariation.SetParent(null);
-		brokenVariation.gameObject.SetActive(true);
+		BrokenVariation brokenVariation = brokenVariations[Random.Range(0, brokenVariations.Length)];
+		brokenVariation.trs.SetParent(null);
+		brokenVariation.trs.gameObject.SetActive(true);
+		for (int i = 0; i < brokenVariation.rigidbodies.Length; i ++)
+		{
+			Rigidbody rigid = brokenVariation.rigidbodies[i];
+			rigid.velocity = force.RandomRotate(0, maxBreakAngleChange);
+		}
 		Destroy(gameObject);
+	}
+
+	[Serializable]
+	public struct BrokenVariation
+	{
+		public Transform trs;
+		public Rigidbody[] rigidbodies;
 	}
 }

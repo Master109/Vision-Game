@@ -92,6 +92,14 @@ namespace Extensions
 			Vector3 direction = (rotation * (v - pivotPoint)).normalized;
 			return pivotPoint + (direction * Vector3.Distance(v, pivotPoint));
 		}
+
+		public static Vector3 RandomRotate (this Vector3 v, float minDegrees, float maxDegrees)
+		{
+			Vector3 randomDirection = Random.onUnitSphere * v.magnitude;
+			Vector3 targetDirection = Vector3.SlerpUnclamped(-v, randomDirection, float.Epsilon);
+			GameManager.Log (targetDirection == -v);
+			return Vector3.SlerpUnclamped(v, targetDirection, Random.Range(minDegrees, maxDegrees));
+		}
 		
 		public static float GetFacingAngle (this Vector2 v)
 		{
