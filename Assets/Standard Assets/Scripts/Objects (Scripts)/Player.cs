@@ -170,16 +170,6 @@ namespace VisionGame
 			move.x = 0;
 			move.z = 0;
 			isGrounded = controller.isGrounded;
-			if (!isGrounded)
-			{
-				RaycastHit hit;
-				if (Physics.Raycast(trs.position, Vector3.down, out hit, groundCheckDistance, whatICollideWith))
-				{
-					isGrounded = true;
-					if (hit.rigidbody != null)
-						HandleBeingPushed (hit.rigidbody);
-				}
-			}
 			if (isGrounded)
 				timeLastGrounded = Time.time;
 			Move ();
