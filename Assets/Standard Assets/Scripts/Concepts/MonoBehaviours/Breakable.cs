@@ -8,6 +8,7 @@ public class Breakable : MonoBehaviour
 
 	void OnCollisionEnter (Collision coll)
 	{
+		print(coll.GetForce() + " " + coll.GetForceSqr());
 		if (coll.GetForceSqr() >= minBreakForceSqr)
 			Break ();
 	}
