@@ -16,6 +16,7 @@ public class Breakable : MonoBehaviour
 	{
 		Transform brokenVariation = brokenVariationsParent.GetChild(Random.Range(0, brokenVariationsParent.childCount));
 		brokenVariation.SetParent(null);
+		brokenVariation.gameObject.SetActive(true);
 		Destroy(gameObject);
 	}
 }
