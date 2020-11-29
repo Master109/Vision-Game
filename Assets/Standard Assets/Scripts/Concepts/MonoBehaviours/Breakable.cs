@@ -12,7 +12,7 @@ public class Breakable : MonoBehaviour
 	void OnCollisionEnter (Collision coll)
 	{
 		Vector3 force = coll.GetForce();
-		print(force.magnitude + " " + force.sqrMagnitude);
+		print(force.magnitude);
 		if (force.sqrMagnitude >= minBreakForceSqr)
 			Break (force);
 	}
