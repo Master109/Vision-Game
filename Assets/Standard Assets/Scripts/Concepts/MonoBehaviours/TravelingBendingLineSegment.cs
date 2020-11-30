@@ -1,6 +1,7 @@
 using UnityEngine;
 using Extensions;
 using VisionGame;
+using System.Collections;
 
 public class TravelingBendingLineSegment : Spawnable, IUpdatable
 {
@@ -15,6 +16,7 @@ public class TravelingBendingLineSegment : Spawnable, IUpdatable
 	public float turnDegrees;
 	public LayerMask whatICrashInto;
 	public TrailRenderer trailRenderer;
+	public float lifeDuration;
 
 	void OnEnable ()
 	{
@@ -22,6 +24,7 @@ public class TravelingBendingLineSegment : Spawnable, IUpdatable
 		trailRenderer.endColor = trailRenderer.startColor;
 		trailRenderer.emitting = true;
 		GameManager.updatables = GameManager.updatables.Add(this);
+		StartCoroutine(DelayDisable ());
 	}
 
 	public void DoUpdate ()
@@ -34,8 +37,10 @@ public class TravelingBendingLineSegment : Spawnable, IUpdatable
 				{
 					if (!HandleTurning (trs.up))
 					{
+						StopCoroutine(DelayDisable ());
 						trailRenderer.emitting = false;
 						ObjectPool.instance.DelayDespawn (prefabIndex, gameObject, trs, trailRenderer.time);
+						GameManager.updatables = GameManager.updatables.Remove(this);
 					}
 				}
 			}
@@ -43,8 +48,10 @@ public class TravelingBendingLineSegment : Spawnable, IUpdatable
 			{
 				if (!HandleTurning (trs.right))
 				{
+					StopCoroutine(DelayDisable ());
 					trailRenderer.emitting = false;
 					ObjectPool.instance.DelayDespawn (prefabIndex, gameObject, trs, trailRenderer.time);
+					GameManager.updatables = GameManager.updatables.Remove(this);
 				}
 			}
 		}
@@ -66,6 +73,14 @@ public class TravelingBendingLineSegment : Spawnable, IUpdatable
 
 	void OnDisable ()
 	{
+		GameManager.updatables = GameManager.updatables.Remove(this);
+	}
+
+	IEnumerator DelayDisable ()
+	{
+		yield return new WaitForSeconds(lifeDuration);
+		trailRenderer.emitting = false;
+		ObjectPool.instance.DelayDespawn (prefabIndex, gameObject, trs, trailRenderer.time);
 		GameManager.updatables = GameManager.updatables.Remove(this);
 	}
 }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1519090719271743365}
   - component: {fileID: 8459690503456040840}
   - component: {fileID: 3143266379461114516}
-  - component: {fileID: 7919073704526279058}
   m_Layer: 9
   m_Name: Traveling Bending Line Segment
   m_TagString: Untagged
@@ -151,18 +150,3 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &7919073704526279058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519090719271743364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21bca75f0b2057b4b84186da8089eea3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trs: {fileID: 1519090719271743365}
-  prefabIndex: 1
-  time: 10
