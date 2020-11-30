@@ -89,8 +89,6 @@ namespace VisionGame
 		List<PhysicsObject> physicsObjectsTouchingRightHand = new List<PhysicsObject>();
 		bool leftCanThrow;
 		bool rightCanThrow;
-		bool leftIsAiming;
-		bool rightIsAiming;
 		float mouseScrollWheelInput;
 		bool jumpInput;
 		bool previousJumpInput;
@@ -411,20 +409,23 @@ namespace VisionGame
 
 		void HandleThrowing (bool throwInput, bool previousThrowInput, ref bool canThrow, Transform handTrs, ref PhysicsObject grabbedPhysicsObject, Vector3 previousHandPosition, Vector3 previousHandEulerAngles)
 		{
-			if (!canThrow)
-				return;
-			if (!throwInput && previousThrowInput && grabbedPhysicsObject != null)
+			if (grabbedPhysicsObject != null)
 			{
-				canThrow = false;
-				grabbedPhysicsObject.trs.SetParent(null);
-				Vector3 throwVelocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
-				if (InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
-					throwVelocity += handTrs.forward * currentThrowSpeed;
-				grabbedPhysicsObject.rigid.velocity = throwVelocity;
-				grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
-				StartCoroutine(UnignoreCollisionDelayRoutine (grabbedPhysicsObject.collider));
-				grabbedPhysicsObject.rigid.isKinematic = false;
-				grabbedPhysicsObject = null;
+				if (!throwInput && previousThrowInput && canThrow)
+				{
+					canThrow = false;
+					grabbedPhysicsObject.trs.SetParent(null);
+					Vector3 throwVelocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
+					if (InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
+						throwVelocity += handTrs.forward * currentThrowSpeed;
+					grabbedPhysicsObject.rigid.velocity = throwVelocity;
+					grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
+					StartCoroutine(UnignoreCollisionDelayRoutine (grabbedPhysicsObject.collider));
+					grabbedPhysicsObject.rigid.isKinematic = false;
+					grabbedPhysicsObject = null;
+				}
+				else if (throwInput && !previousThrowInput)
+					canThrow = true;
 			}
 		}
 
@@ -447,8 +448,6 @@ namespace VisionGame
 				grabbedPhysicsObject.trs.localEulerAngles += new Vector3(-mouseMovement.y * rotateRate.x, mouseMovement.x * rotateRate.y) * Time.deltaTime;
 				grabbedPhysicsObject.trs.RotateAround(grabbedPhysicsObject.trs.position, grabbedPhysicsObject.trs.forward, mouseScrollWheelInput * rollRate * Time.deltaTime);
 			}
-			else
-				canThrow = true;
 		}
 		
 		void HandleGravity ()
