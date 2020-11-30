@@ -20,6 +20,7 @@ public class TravelingBendingLineSegment : Spawnable, IUpdatable
 	{
 		trailRenderer.startColor = ColorExtensions.RandomColor().SetAlpha(trailRenderer.startColor.a);
 		trailRenderer.endColor = trailRenderer.startColor;
+		trailRenderer.emitting = true;
 		GameManager.updatables = GameManager.updatables.Add(this);
 	}
 
@@ -32,13 +33,19 @@ public class TravelingBendingLineSegment : Spawnable, IUpdatable
 				if (!HandleTurning (trs.right))
 				{
 					if (!HandleTurning (trs.up))
-						ObjectPool.instance.Despawn (prefabIndex, gameObject, trs);
+					{
+						trailRenderer.emitting = false;
+						ObjectPool.instance.DelayDespawn (prefabIndex, gameObject, trs, trailRenderer.time);
+					}
 				}
 			}
 			else if (!HandleTurning (trs.up))
 			{
 				if (!HandleTurning (trs.right))
-					ObjectPool.instance.Despawn (prefabIndex, gameObject, trs);
+				{
+					trailRenderer.emitting = false;
+					ObjectPool.instance.DelayDespawn (prefabIndex, gameObject, trs, trailRenderer.time);
+				}
 			}
 		}
 		trs.position += trs.forward * moveSpeed * Time.deltaTime;

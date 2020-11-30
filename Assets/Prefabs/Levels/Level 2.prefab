@@ -51,7 +51,7 @@ MonoBehaviour:
     points:
     - {fileID: 2693015486782812276}
   spawnTimer:
-    duration: 1
+    duration: 0.5
     timeRemaining: 0
     loop: 1
     pauseIfCan: 0
