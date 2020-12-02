@@ -157,7 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hotkeys: []
   trs: {fileID: 8558334622425614864}
-  smallValue: 0.0001
+  smallValue: 0.001
   affectedByDistanceScale: 0
 --- !u!114 &6712134689901093481
 MonoBehaviour:

@@ -171,6 +171,11 @@ namespace VisionGame
 			if (isGrounded)
 				timeLastGrounded = Time.time;
 			Move ();
+			if (Physics.Raycast(trs.position, move, collider.bounds.extents.x + move.magnitude * Time.deltaTime, whatICollideWith))
+			{
+				print(1);
+				move = Vector3.up * move.y;
+			}
 			HandleGravity ();
 			HandleJump ();
 			if (controller.enabled)
@@ -355,17 +360,6 @@ namespace VisionGame
 		{
 			if (!canThrow)
 				aimer.enabled = false;
-			// {
-			// 	aimer.enabled = false;
-				// if (throwInput && !previousThrowInput)
-				// {
-				// }
-				// else
-				// {
-				// 	aimer.enabled = false;
-					// return;
-				// }
-			// }
 			if (throwInput && grabbedPhysicsObject != null)
 			{
 				currentThrowSpeed = Mathf.Clamp(currentThrowSpeed + mouseScrollWheelInput * throwSpeedChangeRate * Time.deltaTime, throwSpeedRange.min, throwSpeedRange.max);

@@ -52,6 +52,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 7936
   trailRenderer: {fileID: 3143266379461114516}
+  lifeDuration: 10
 --- !u!96 &3143266379461114516
 TrailRenderer:
   serializedVersion: 2
