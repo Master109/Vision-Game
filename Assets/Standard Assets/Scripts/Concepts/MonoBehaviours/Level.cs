@@ -1,19 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Extensions;
 
 namespace VisionGame
 {
-	public class Level : SingletonMonoBehaviour<Level>, IUpdatable
+	public class Level : SingletonMonoBehaviour<Level>
 	{
-		public bool PauseWhileUnfocused
-		{
-			get
-			{
-				return false;
-			}
-		}
 		public Orb leftOrb;
 		public Orb rightOrb;
 		public Orb[] orbs = new Orb[0];
@@ -28,18 +18,6 @@ namespace VisionGame
 				Light light = lights[i];
 				light.range *= GameManager.instance.distanceScale;
 			}
-			GameManager.updatables = GameManager.updatables.Add(this);
-		}
-
-		public void DoUpdate ()
-		{
-			if (InputManager.RestartInput)
-				GameManager.Instance.ReloadActiveScene ();
-		}
-
-		void OnDisable ()
-		{
-			GameManager.updatables = GameManager.updatables.Remove(this);
 		}
 	}
 }

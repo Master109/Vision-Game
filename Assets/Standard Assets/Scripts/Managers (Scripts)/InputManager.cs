@@ -285,20 +285,6 @@ namespace VisionGame
 				return TurnInput;
 			}
 		}
-		public static bool RestartInput
-		{
-			get
-			{
-				return _InputDevice == InputDevice.KeyboardAndMouse && Keyboard.current.rKey.isPressed;
-			}
-		}
-		public bool _RestartInput
-		{
-			get
-			{
-				return RestartInput;
-			}
-		}
 		public static bool LeftGameplayMenuInput
 		{
 			get
