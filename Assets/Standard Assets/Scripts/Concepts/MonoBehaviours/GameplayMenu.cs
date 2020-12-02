@@ -6,15 +6,9 @@ using UnityEngine.Events;
 
 namespace VisionGame
 {
-	public class GameplayMenu : SingletonMonoBehaviour<GameplayMenu>, IUpdatable
+	public class GameplayMenu : SingletonUpdateWhileEnabled<GameplayMenu>
 	{
-		public bool PauseWhileUnfocused
-		{
-			get
-			{
-				return true;
-			}
-		}
+		public bool isTopTier;
 		public Transform trs;
 		public float distanceFromCamera;
 		public SphereCollider centerOptionRange;
@@ -44,17 +38,12 @@ namespace VisionGame
 
 		public override void Awake ()
 		{
-			instance = this;
+			if (isTopTier)
+				instance = this;
 			gameObject.SetActive(false);
 		}
 
-		void OnEnable ()
-		{
-			instance = this;
-			GameManager.updatables = GameManager.updatables.Add(this);
-		}
-
-		public void DoUpdate ()
+		public override void DoUpdate ()
 		{
 			leftGameplayMenuInput = InputManager.LeftGameplayMenuInput;
 			rightGameplayMenuInput = InputManager.RightGameplayMenuInput;
@@ -62,11 +51,6 @@ namespace VisionGame
 			HandleInteracting ();
 			previousLeftGameplayMenuInput = leftGameplayMenuInput;
 			previousRightGameplayMenuInput = rightGameplayMenuInput;
-		}
-
-		void OnDisable ()
-		{
-			GameManager.updatables = GameManager.updatables.Remove(this);
 		}
 
 		void HandleSelecting ()

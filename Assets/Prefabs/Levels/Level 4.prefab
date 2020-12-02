@@ -2641,15 +2641,50 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -300.00003
       objectReference: {fileID: 0}
-    - target: {fileID: 1079027144990550520, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+    - target: {fileID: 410218218555122608, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 410218218555122608, guid: 51b3a7c81ff3af647b9b549bcd7da981,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.000000014901161
+      objectReference: {fileID: 0}
+    - target: {fileID: 502403119272245065, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135886103364471, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 595732097756367647, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.000000014901161
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079027144990550520, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079027144990550520, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3246809322123391673, guid: 51b3a7c81ff3af647b9b549bcd7da981,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858055682624809109, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4780438776160938162, guid: 51b3a7c81ff3af647b9b549bcd7da981,
         type: 3}
@@ -2733,8 +2768,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813539634756811920, guid: 51b3a7c81ff3af647b9b549bcd7da981,
         type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813539634756811920, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931492840020254327, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.000000014901161
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297705373573330648, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297705373573330648, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.000000014901161
+      objectReference: {fileID: 0}
+    - target: {fileID: 5389890981654831649, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453585494670497311, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6230980197656325381, guid: 51b3a7c81ff3af647b9b549bcd7da981,
         type: 3}
@@ -2745,6 +2810,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772669576503393789, guid: 51b3a7c81ff3af647b9b549bcd7da981,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51b3a7c81ff3af647b9b549bcd7da981, type: 3}

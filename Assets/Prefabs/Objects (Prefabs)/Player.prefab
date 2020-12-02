@@ -991,6 +991,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4780438776161039506}
     m_Modifications:
+    - target: {fileID: 701595849546002434, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.000000010927847
+      objectReference: {fileID: 0}
+    - target: {fileID: 701595849546002434, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674766657856057122, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674766657856057122, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.000000021855694
+      objectReference: {fileID: 0}
     - target: {fileID: 7385703956904017451, guid: b23ea8c7b6d39444ea6385927f77b664,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1071,6 +1091,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gameplay Menu (VR)
       objectReference: {fileID: 0}
+    - target: {fileID: 8963494820540310827, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9149942585222358023, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0000000029812202
+      objectReference: {fileID: 0}
+    - target: {fileID: 9149942585222358023, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b23ea8c7b6d39444ea6385927f77b664, type: 3}
 --- !u!1 &8413551269368622134 stripped
@@ -1092,6 +1127,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4780438776161039506}
     m_Modifications:
+    - target: {fileID: 701595849546002434, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.000000010927847
+      objectReference: {fileID: 0}
+    - target: {fileID: 701595849546002434, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3002783507269272260, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: distanceFromCamera
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674766657856057122, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674766657856057122, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.000000021855694
+      objectReference: {fileID: 0}
     - target: {fileID: 7385703956904017451, guid: b23ea8c7b6d39444ea6385927f77b664,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1176,6 +1236,21 @@ PrefabInstance:
         type: 3}
       propertyPath: distanceFromCamera
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8963494820540310827, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9149942585222358023, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0000000029812202
+      objectReference: {fileID: 0}
+    - target: {fileID: 9149942585222358023, guid: b23ea8c7b6d39444ea6385927f77b664,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b23ea8c7b6d39444ea6385927f77b664, type: 3}
