@@ -172,10 +172,7 @@ namespace VisionGame
 				timeLastGrounded = Time.time;
 			Move ();
 			if (Physics.Raycast(trs.position, move, collider.bounds.extents.x + move.magnitude * Time.deltaTime, whatICollideWith))
-			{
-				print(1);
 				move = Vector3.up * move.y;
-			}
 			HandleGravity ();
 			HandleJump ();
 			if (controller.enabled)

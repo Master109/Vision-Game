@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8346040110403809155}
   - component: {fileID: 8346040110403809154}
   - component: {fileID: 7125550893441742741}
+  - component: {fileID: 2865460253479833026}
   m_Layer: 0
   m_Name: Reflection Probe
   m_TagString: Untagged
@@ -80,3 +81,19 @@ MonoBehaviour:
   trs: {fileID: 8346040110403809155}
   reflectionProbe: {fileID: 8346040110403809154}
   maxAnlgeToBlock: 45
+--- !u!114 &2865460253479833026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8346040110403809277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f53e1d378552af48a4187a4ccfd0a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hotkeys: []
+  trs: {fileID: 8346040110403809155}
+  smallValue: 0.001
+  affectedByDistanceScale: 0
