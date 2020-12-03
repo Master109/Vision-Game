@@ -46,8 +46,8 @@ public class GridTransform : EditorScript
 		}
 		else
 			newPosition = trs.position.Snap(Vector3.one) + offset;
-		if (newPosition != previousPosition)
-			Undo.RegisterCompleteObjectUndo(trs, "Snap " + name + " position");
+		// if (newPosition != previousPosition)
+		// 	Undo.RegisterCompleteObjectUndo(trs, "Snap " + name + " position");
 		trs.position = newPosition;
 		previousPosition = trs.position;
 	}
