@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Extensions;
 
 namespace VisionGame
 {
@@ -86,8 +87,10 @@ namespace VisionGame
 							stuckRigidbodies.Add(rigid);
 							rigid.isKinematic = true;
 							coll.rigidbody.isKinematic = true;
-							PhysicsObject physicsObject = ObjectPool.instance.SpawnComponent<PhysicsObject> (prefabIndex, default(Vector3), default(Quaternion), trs.parent);
+							PhysicsObject physicsObject = coll.rigidbody.GetComponent<PhysicsObject>();
 							trs.SetParent(physicsObject.childrenParent);
+							// PhysicsObject physicsObject = ObjectPool.instance.SpawnComponent<PhysicsObject> (prefabIndex, default(Vector3), default(Quaternion), trs.parent);
+							// trs.SetParent(physicsObject.childrenParent);
 						}
 					}
 					return;
