@@ -3,6 +3,7 @@ using System.Collections;
 using Extensions;
 using System;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 namespace VisionGame
 {
@@ -59,14 +60,59 @@ namespace VisionGame
 				Select (centerOption);
 			else
 			{
-				int optionIndex = 0;
-				for (float angle = 0; angle < 360; angle += 360f / options.Length)
+				Plane plane = new Plane(trs.forward, centerOptionRange.bounds.center);
+				float hitDistance;
+				Ray ray = new Ray(selectorTrs.position, selectorTrs.forward);
+				if (plane.Raycast(ray, out hitDistance))
 				{
-					if (Vector3.Angle(trs.rotation * (selectorTrs.position - centerOptionRange.bounds.center), trs.rotation * VectorExtensions.FromFacingAngle(angle)) <= 360f / options.Length / 2)
-						Select (options[optionIndex]);
-					optionIndex ++;
+					Vector2 hitPoint = ray.GetPoint(hitDistance);
+					List<Transform> optionTransforms = new List<Transform>();
+					for (int i = 0; i < options.Length; i ++)
+					{
+						Option option = options[i];
+						optionTransforms.Add(option.trs);
+					}
+					optionTransforms.Add(centerOption.trs);
+					Transform closestOptionTrs = TransformExtensions.GetClosestTransform_3D(optionTransforms.ToArray(), hitPoint);
+					for (int i = 0; i < optionTransforms.Count; i ++)
+					{
+						Transform optionTrs = optionTransforms[i];
+						if (closestOptionTrs == optionTrs)
+						{
+							Select (options[i]);
+							return;
+						}
+					}
+					Select (centerOption);
 				}
+				// 	int optionIndex = 0;
+				// 	for (float angle = 0; angle < 360; angle += 360f / options.Length)
+				// 	{
+				// 		Option option = options[optionIndex];
+				// 		if (Vector3.Angle(trs.rotation * (selectorTrs.position - centerOptionRange.bounds.center), trs.rotation * VectorExtensions.FromFacingAngle(angle)) <= 360f / options.Length / 2)
+				// 			Select (option);
+				// 		optionIndex ++;
+				// 	}
+				// }
 			}
+			// List<Transform> optionTransforms = new List<Transform>();
+			// for (int i = 0; i < options.Length; i ++)
+			// {
+			// 	Option option = options[i];
+			// 	optionTransforms.Add(option.trs);
+			// }
+			// optionTransforms.Add(centerOption.trs);
+			// Transform closestOptionTrs = selectorTrs.GetClosestTransform_3D(optionTransforms.ToArray());
+			// for (int i = 0; i < optionTransforms.Count; i ++)
+			// {
+			// 	Transform optionTrs = optionTransforms[i];
+			// 	if (closestOptionTrs == optionTrs)
+			// 	{
+			// 		Select (options[i]);
+			// 		return;
+			// 	}
+			// }
+			// Select (centerOption);
 		}
 
 		void HandleInteracting ()

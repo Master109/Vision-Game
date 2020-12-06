@@ -40,42 +40,100 @@ namespace Extensions
 			return output.ToArray();
 		}
 
-		public static Transform GetClosestTransform_2D (this Transform closestTo, Transform[] transforms)
+		public static Transform GetClosestTransform_2D (this Transform trs, Transform[] transforms)
 		{
 			// while (transforms.Contains(null))
 			// 	transforms = transforms.Remove(null);
-			if (transforms.Length == 0)
-				return null;
-			else if (transforms.Length == 1)
-				return transforms[0];
-			int closestOpponentIndex = 0;
+			// if (transforms.Length == 0)
+			// 	return null;
+			// else if (transforms.Length == 1)
+			// 	return transforms[0];
+			float distance;
+			Transform closestTrs = transforms[0];
+			float closestDistance = ((Vector2) (trs.position - closestTrs.position)).sqrMagnitude;
 			for (int i = 1; i < transforms.Length; i ++)
 			{
-				Transform checkOpponent = transforms[i];
-				Transform currentClosestOpponent = transforms[closestOpponentIndex];
-				if (((Vector2) (closestTo.position - checkOpponent.position)).sqrMagnitude < ((Vector2) (closestTo.position - currentClosestOpponent.position)).sqrMagnitude)
-					closestOpponentIndex = i;
+				Transform transform = transforms[i];
+				distance = ((Vector2) (trs.position - closestTrs.position)).sqrMagnitude;
+				if (distance < closestDistance)
+				{
+					closestTrs = trs;
+					closestDistance = distance;
+				}
 			}
-			return transforms[closestOpponentIndex];
+			return closestTrs;
 		}
 
 		public static Transform GetClosestTransform_2D (Transform[] transforms, Vector2 position)
 		{
 			// while (transforms.Contains(null))
 			// 	transforms = transforms.Remove(null);
-			if (transforms.Length == 0)
-				return null;
-			else if (transforms.Length == 1)
-				return transforms[0];
-			int closestOpponentIndex = 0;
+			// if (transforms.Length == 0)
+			// 	return null;
+			// else if (transforms.Length == 1)
+			// 	return transforms[0];
+			float distance;
+			Transform closestTrs = transforms[0];
+			float closestDistance = (position - (Vector2) closestTrs.position).sqrMagnitude;
 			for (int i = 1; i < transforms.Length; i ++)
 			{
-				Transform checkOpponent = transforms[i];
-				Transform currentClosestOpponent = transforms[closestOpponentIndex];
-				if ((position - (Vector2) checkOpponent.position).sqrMagnitude < (position - (Vector2) currentClosestOpponent.position).sqrMagnitude)
-					closestOpponentIndex = i;
+				Transform trs = transforms[i];
+				distance = (position - (Vector2) trs.position).sqrMagnitude;
+				if (distance < closestDistance)
+				{
+					closestTrs = trs;
+					closestDistance = distance;
+				}
 			}
-			return transforms[closestOpponentIndex];
+			return closestTrs;
+		}
+
+		public static Transform GetClosestTransform_3D (this Transform trs, Transform[] transforms)
+		{
+			// while (transforms.Contains(null))
+			// 	transforms = transforms.Remove(null);
+			// if (transforms.Length == 0)
+			// 	return null;
+			// else if (transforms.Length == 1)
+			// 	return transforms[0];
+			float distance;
+			Transform closestTrs = transforms[0];
+			float closestDistance = (trs.position - closestTrs.position).sqrMagnitude;
+			for (int i = 1; i < transforms.Length; i ++)
+			{
+				Transform transform = transforms[i];
+				distance = (trs.position - closestTrs.position).sqrMagnitude;
+				if (distance < closestDistance)
+				{
+					closestTrs = trs;
+					closestDistance = distance;
+				}
+			}
+			return closestTrs;
+		}
+
+		public static Transform GetClosestTransform_3D (Transform[] transforms, Vector3 position)
+		{
+			// while (transforms.Contains(null))
+			// 	transforms = transforms.Remove(null);
+			// if (transforms.Length == 0)
+			// 	return null;
+			// else if (transforms.Length == 1)
+			// 	return transforms[0];
+			float distance;
+			Transform closestTrs = transforms[0];
+			float closestDistance = (position - closestTrs.position).sqrMagnitude;
+			for (int i = 1; i < transforms.Length; i ++)
+			{
+				Transform trs = transforms[i];
+				distance = (position - trs.position).sqrMagnitude;
+				if (distance < closestDistance)
+				{
+					closestTrs = trs;
+					closestDistance = distance;
+				}
+			}
+			return closestTrs;
 		}
 
 		public static Rect GetRect (this Transform trs)

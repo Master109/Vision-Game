@@ -202,6 +202,7 @@ namespace VisionGame
 			else
 			{
 				handTrs.localPosition = initLocalPosition;
+				Physics.Simulate(Time.fixedDeltaTime);
 				handTrs.localRotation = Quaternion.identity;
 			}
 		}
