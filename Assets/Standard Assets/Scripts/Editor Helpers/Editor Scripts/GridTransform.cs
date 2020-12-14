@@ -1,7 +1,6 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using Extensions;
-using UnityEditor;
 using VisionGame;
 
 public class GridTransform : EditorScript

@@ -202,7 +202,10 @@ namespace VisionGame
 			else
 			{
 				handTrs.localPosition = initLocalPosition;
-				Physics.Simulate(Time.fixedDeltaTime);
+				Ray ray = new Ray(trs.position, handTrs.position - trs.position);
+				RaycastHit hit;
+				if (Physics.Raycast(ray, out hit, (handTrs.position - trs.position).magnitude, whatICollideWith))
+					handTrs.position = ray.GetPoint(hit.distance);
 				handTrs.localRotation = Quaternion.identity;
 			}
 		}
