@@ -504,5 +504,10 @@ namespace Extensions
 			}
 			return positions;
 		}
+
+		public static Vector3 ReflectAboutPoint (this Vector3 v, Vector3 point)
+		{
+			return v + ((point - v) * 2);
+		}
 	}
 }

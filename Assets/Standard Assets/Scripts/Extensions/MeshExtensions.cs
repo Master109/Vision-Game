@@ -371,12 +371,12 @@ namespace Extensions
 				this.point3 = trs.TransformPoint(point3);
 			}
 
-			public bool HasSimilarPoints (MeshTriangle meshTriangle, float maxDistanceSqr)
+			public bool AllCornersAreSimilar (MeshTriangle meshTriangle, float maxDistanceSqr)
 			{
 				return point1.GetDistanceSqrToClosestPoint(meshTriangle.point1, meshTriangle.point2, meshTriangle.point3) <= maxDistanceSqr && point2.GetDistanceSqrToClosestPoint(meshTriangle.point1, meshTriangle.point2, meshTriangle.point3) <= maxDistanceSqr && point3.GetDistanceSqrToClosestPoint(meshTriangle.point1, meshTriangle.point2, meshTriangle.point3) <= maxDistanceSqr;
 			}
 
-			public bool HasSimilarPoint (MeshTriangle meshTriangle, float maxDistanceSqr)
+			public bool HasSimilarCorner (MeshTriangle meshTriangle, float maxDistanceSqr)
 			{
 				return point1.GetDistanceSqrToClosestPoint(meshTriangle.point1, meshTriangle.point2, meshTriangle.point3) <= maxDistanceSqr || point2.GetDistanceSqrToClosestPoint(meshTriangle.point1, meshTriangle.point2, meshTriangle.point3) <= maxDistanceSqr || point3.GetDistanceSqrToClosestPoint(meshTriangle.point1, meshTriangle.point2, meshTriangle.point3) <= maxDistanceSqr;
 			}
@@ -388,7 +388,7 @@ namespace Extensions
 				return plane.Equals(otherPlane) || plane.Equals(otherPlane.flipped);
 			}
 
-			// public bool DoesOverlap (MeshTriangle meshTriangle)
+			// public bool DoesOverlap (MeshTriangle meshTriangle, bool equalPointsOverlap)
 			// {
 				
 			// }
@@ -405,6 +405,21 @@ namespace Extensions
 			// {
 
 			// }
+
+			public bool Contains (Vector3 point)
+			{
+				return false;
+			}
+
+			// public Vector3 ClosestPoint (Vector3 point)
+			// {
+			// }
+
+			public MeshTriangle[] Subdivide ()
+			{
+				MeshTriangle[] output = new MeshTriangle[4];
+				return output;
+			}
 		}
 	}
 }

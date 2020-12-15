@@ -118,23 +118,13 @@ public class LineSegment3D
 
 	public virtual bool DoIIntersectWithLineSegment (LineSegment3D other, bool shouldIncludeEndPoints)
 	{
-		bool output = false;
-		float denominator = (other.end.y - other.start.y) * (end.x - start.x) - (other.end.x - other.start.x) * (end.y - start.y);
-		if (denominator != 0f)
-		{
-			float u_a = ((other.end.x - other.start.x) * (start.y - other.start.y) - (other.end.y - other.start.y) * (start.x - other.start.x)) / denominator;
-			float u_b = ((end.x - start.x) * (start.y - other.start.y) - (end.y - start.y) * (start.x - other.start.x)) / denominator;
-			if (shouldIncludeEndPoints)
-			{
-				if (u_a >= 0f && u_a <= 1f && u_b >= 0f && u_b <= 1f)
-					output = true;
-			}
-			else
-			{
-				if (u_a > 0f && u_a < 1f && u_b > 0f && u_b < 1f)
-					output = true;
-			}
-		}
-		return output;
+		Vector3 da = end - start; 
+		Vector3 db = other.end - other.start;
+		Vector3 dc = other.start - start;
+		if (Vector3.Dot(dc, Vector3.Cross(da, db)) != 0) // lines are not coplanar
+			return false;
+		float s = Vector3.Dot(Vector3.Cross(dc, db), Vector3.Cross(da, db)) / Vector3.Dot(Vector3.Cross(da, db), Vector3.Cross(da, db));
+		float t = Vector3.Dot(Vector3.Cross(dc, da), Vector3.Cross(da, db)) / Vector3.Dot(Vector3.Cross(da, db), Vector3.Cross(da, db));
+		return s >= 0 && s <= 1 && t >= 0 && t <= 1;
 	}
 }
