@@ -171,8 +171,13 @@ namespace VisionGame
 			if (isGrounded)
 				timeLastGrounded = Time.time;
 			Move ();
-			if (Physics.Raycast(trs.position, move, collider.bounds.extents.x + move.magnitude * Time.deltaTime, whatICollideWith))
-				move = Vector3.up * move.y;
+			RaycastHit hit;
+			if (Physics.Raycast(trs.position, move, out hit, collider.bounds.extents.x + move.magnitude * Time.deltaTime, whatICollideWith))
+			{
+				PhysicsObject physicsObject = hit.collider.GetComponentInParent<PhysicsObject>();
+				if (leftGrabbedPhysicsObject != physicsObject && rightGrabbedPhysicsObject != physicsObject)
+					move = Vector3.up * move.y;
+			}
 			HandleGravity ();
 			HandleJump ();
 			if (controller.enabled)
@@ -205,7 +210,7 @@ namespace VisionGame
 				Ray ray = new Ray(trs.position, handTrs.position - trs.position);
 				RaycastHit hit;
 				if (Physics.Raycast(ray, out hit, (handTrs.position - trs.position).magnitude, whatICollideWith))
-					handTrs.position = ray.GetPoint(hit.distance);
+					handTrs.position = hit.point;
 				handTrs.localRotation = Quaternion.identity;
 			}
 		}

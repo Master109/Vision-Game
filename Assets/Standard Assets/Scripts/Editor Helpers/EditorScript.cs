@@ -35,75 +35,110 @@ public class EditorScript : MonoBehaviour
 
 	public virtual void UpdateHotkeys ()
 	{
-		Hotkey hotkey;
-		bool shouldBreak;
-		for (int i = 0; i < hotkeys.Length; i ++)
+		if (hotkeys.Length > 0)
 		{
-			hotkey = hotkeys[i];
-			if (Event.current != null)
+			for (int i = 0; i < hotkeys.Length; i ++)
 			{
-				shouldBreak = false;
-				inputEvent.mousePosition = Event.current.mousePosition.ToVec2Int();
-				inputEvent.type = Event.current.type;
-				foreach (Hotkey.Button button in hotkey.buttons)
+				Hotkey hotkey = hotkeys[i];
+				if (Event.current != null)
 				{
-					if (Event.current.keyCode == button.key)
+					bool shouldBreak = false;
+					inputEvent.mousePosition = Event.current.mousePosition.ToVec2Int();
+					inputEvent.type = Event.current.type;
+					foreach (Hotkey.Button button in hotkey.buttons)
 					{
-						if (Event.current.type == EventType.KeyDown)
+						if (Event.current.keyCode == button.key)
 						{
-							inputEvent.keys = inputEvent.keys.Add(Event.current.keyCode);
-							button.isPressing = true;
-							if (hotkey.downType == Hotkey.DownType.All)
+							if (Event.current.type == EventType.KeyDown)
 							{
-								foreach (Hotkey.Button button2 in hotkey.buttons)
+								inputEvent.keys = inputEvent.keys.Add(Event.current.keyCode);
+								button.isPressing = true;
+								if (hotkey.downType == Hotkey.DownType.All)
 								{
-									if (!button2.isPressing)
+									foreach (Hotkey.Button button2 in hotkey.buttons)
 									{
-										shouldBreak = true;
-										break;
+										if (!button2.isPressing)
+										{
+											shouldBreak = true;
+											break;
+										}
 									}
+									if (shouldBreak)
+										break;
 								}
-								if (shouldBreak)
-									break;
+								hotkey.downAction.Invoke();
 							}
-							hotkey.downAction.Invoke();
-						}
-						else if (Event.current.type == EventType.KeyUp)
-						{
-							inputEvent.keys = inputEvent.keys.Remove(Event.current.keyCode);
-							button.isPressing = false;
-							if (hotkey.upType == Hotkey.UpType.All)
+							else if (Event.current.type == EventType.KeyUp)
 							{
-								foreach (Hotkey.Button button2 in hotkey.buttons)
+								inputEvent.keys = inputEvent.keys.Remove(Event.current.keyCode);
+								button.isPressing = false;
+								if (hotkey.upType == Hotkey.UpType.All)
 								{
-									if (button2.isPressing)
+									foreach (Hotkey.Button button2 in hotkey.buttons)
 									{
-										shouldBreak = true;
-										break;
+										if (button2.isPressing)
+										{
+											shouldBreak = true;
+											break;
+										}
 									}
+									if (shouldBreak)
+										break;
 								}
-								if (shouldBreak)
-									break;
+								hotkey.upAction.Invoke();
 							}
-							hotkey.upAction.Invoke();
 						}
 					}
 				}
+				inputEvent.previousKeys = (KeyCode[]) inputEvent.keys.Clone();
 			}
-			inputEvent.previousKeys = (KeyCode[]) inputEvent.keys.Clone();
 		}
+		else if (Event.current != null)
+		{
+			inputEvent.mousePosition = Event.current.mousePosition.ToVec2Int();
+			inputEvent.type = Event.current.type;
+		}
+	}
+
+	public static Vector2 GetMousePosition ()
+	{
+		Camera camera = SceneView.lastActiveSceneView.camera;
+		if (camera == null)
+			camera = SceneView.currentDrawingSceneView.camera;
+		return GetMousePosition(camera);
+	}
+
+	public static Vector2 GetMousePosition (Camera camera)
+	{
+		Vector2 output = inputEvent.mousePosition;
+		output.y = camera.ViewportToScreenPoint(Vector2.one).y - camera.ViewportToScreenPoint(Vector2.zero).y - output.y;
+		return output;
 	}
 
 	public static Vector2 GetMousePositionInWorld ()
 	{
-		Vector2 output;
 		Camera camera = SceneView.lastActiveSceneView.camera;
 		if (camera == null)
 			camera = SceneView.currentDrawingSceneView.camera;
-		output = inputEvent.mousePosition;
-		output.y = camera.ViewportToScreenPoint(Vector2.one).y - camera.ViewportToScreenPoint(Vector2.zero).y - output.y;
-		output = camera.ScreenToWorldPoint(output);
-		return output;
+		return GetMousePositionInWorld(camera);
+	}
+
+	public static Vector2 GetMousePositionInWorld (Camera camera)
+	{
+		return camera.ScreenToWorldPoint(GetMousePosition(camera));
+	}
+
+	public static Ray GetMouseRay ()
+	{
+		Camera camera = SceneView.lastActiveSceneView.camera;
+		if (camera == null)
+			camera = SceneView.currentDrawingSceneView.camera;
+		return GetMouseRay(camera);
+	}
+
+	public static Ray GetMouseRay (Camera camera)
+	{
+		return camera.ScreenPointToRay(GetMousePosition(camera));
 	}
 
 	[Serializable]

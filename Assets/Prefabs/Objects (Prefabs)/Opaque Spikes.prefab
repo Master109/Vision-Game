@@ -73,7 +73,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hotkeys: []
   trs: {fileID: 2965924052034869802}
-  smallValue: 0.000001
+  smallValue: 0.001
+  affectedByDistanceScale: 0
 --- !u!1001 &5754851607365959438
 PrefabInstance:
   m_ObjectHideFlags: 0
