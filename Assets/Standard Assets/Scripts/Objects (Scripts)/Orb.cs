@@ -39,6 +39,8 @@ namespace VisionGame
 		
 		public void ReplaceObjects ()
 		{
+			if (capturedObjectsParent == null)
+				return;
 			int storedObjectsCount = capturedObjectsParent.childCount;
 			for (int i = 0; i < storedObjectsCount; i ++)
 				capturedObjectsParent.GetChild(0).SetParent(oldCapturedObjectsParent);
@@ -81,11 +83,9 @@ namespace VisionGame
 			{
 				GameObject hitGo = hitGos[i];
 				if (hitGo == gameObject)
-					continue;
-				else if (hitGo == Player.instance.gameObject)
 				{
-					GameManager.Instance.ReloadActiveScene ();
-					return;
+					Destroy(gameObject);
+					continue;
 				}
 				IStorable storable = hitGo.GetComponentInParent<IStorable>();
 				if (storable != null)

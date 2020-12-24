@@ -95,6 +95,11 @@ namespace VisionGame
 		float headRotationY;
 		Vector2 mouseMovement;
 
+		void Awake ()
+		{
+			Application.wantsToQuit += () => { invulnerable = true; return true; };
+		}
+
 		public override void OnEnable ()
 		{
 #if UNITY_EDITOR
@@ -112,7 +117,6 @@ namespace VisionGame
 				rightHandTrs.SetParent(headTrs);
 			}
 			currentThrowSpeed = throwSpeedRange.max;
-			Application.wantsToQuit += () => { invulnerable = true; return true; };
 			base.OnEnable ();
 		}
 
@@ -160,7 +164,15 @@ namespace VisionGame
 				return;
 #endif
 			base.OnDisable ();
+			if (!invulnerable)
+				GameManager.instance.ReloadActiveScene ();
 		}
+
+		// void OnDestroy ()
+		// {
+		// 	if (!invulnerable)
+		// 		GameManager.instance.ReloadActiveScene ();
+		// }
 
 		void HandleVelocity ()
 		{
@@ -448,6 +460,8 @@ namespace VisionGame
 				grabbedPhysicsObject.trs.localEulerAngles += new Vector3(-mouseMovement.y * rotateRate.x, mouseMovement.x * rotateRate.y) * Time.deltaTime;
 				grabbedPhysicsObject.trs.RotateAround(grabbedPhysicsObject.trs.position, grabbedPhysicsObject.trs.forward, mouseScrollWheelInput * rollRate * Time.deltaTime);
 			}
+			else if (grabbedPhysicsObject is Orb && InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
+				grabbedPhysicsObject.trs.rotation = headTrs.rotation;
 		}
 		
 		void HandleGravity ()

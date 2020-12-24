@@ -18,13 +18,16 @@ public class Breakable : MonoBehaviour
 
 	public virtual void Break (Vector3 force)
 	{
-		BrokenVariation brokenVariation = brokenVariations[Random.Range(0, brokenVariations.Length)];
-		brokenVariation.trs.SetParent(null);
-		brokenVariation.trs.gameObject.SetActive(true);
-		for (int i = 0; i < brokenVariation.rigidbodies.Length; i ++)
+		if (brokenVariations.Length > 0)
 		{
-			Rigidbody rigid = brokenVariation.rigidbodies[i];
-			rigid.velocity = force.RandomRotate(0, maxBreakAngleChange);
+			BrokenVariation brokenVariation = brokenVariations[Random.Range(0, brokenVariations.Length)];
+			brokenVariation.trs.SetParent(null);
+			brokenVariation.trs.gameObject.SetActive(true);
+			for (int i = 0; i < brokenVariation.rigidbodies.Length; i ++)
+			{
+				Rigidbody rigid = brokenVariation.rigidbodies[i];
+				rigid.velocity = force.RandomRotate(0, maxBreakAngleChange);
+			}
 		}
 		Destroy(gameObject);
 	}

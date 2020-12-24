@@ -8,14 +8,14 @@ using Extensions;
 
 namespace VisionGame
 {
-	public class InputManager : MonoBehaviour
+	public class InputManager : SingletonMonoBehaviour<InputManager>
 	{
 		public InputSettings settings;
 		public static InputSettings Settings
 		{
 			get
 			{
-				return GameManager.GetSingleton<InputManager>().settings;
+				return Instance.settings;
 			}
 		}
 		public InputDevice inputDevice;
@@ -23,7 +23,7 @@ namespace VisionGame
 		{
 			get
 			{
-				return GameManager.GetSingleton<InputManager>().inputDevice;
+				return Instance.inputDevice;
 			}
 		}
 		public static bool UsingGamepad

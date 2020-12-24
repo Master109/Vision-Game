@@ -364,10 +364,9 @@ MonoBehaviour:
     interactUnityEvent:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2893526013246861309, guid: 6a3c4ec60fc7908448540fdcb4fbe5a8,
-            type: 3}
-          m_TargetAssemblyTypeName: VisionGame.GameManager, Assembly-CSharp-firstpass
-          m_MethodName: ReloadActiveScene
+        - m_Target: {fileID: 8324649378454795725}
+          m_TargetAssemblyTypeName: VisionGame.GameplayMenu, Assembly-CSharp-firstpass
+          m_MethodName: RestartLevel
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

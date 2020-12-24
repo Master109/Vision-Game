@@ -444,6 +444,8 @@ GameObject:
   - component: {fileID: 5692036685778637831}
   - component: {fileID: 5136274394976537837}
   - component: {fileID: 8313628555746994776}
+  - component: {fileID: 5089524351070348979}
+  - component: {fileID: 6877119526311718558}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -653,6 +655,48 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 3
+--- !u!114 &5089524351070348979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4780438776160938162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bb7ebfa160c5bc42ae86ceaaeaeee3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minBreakForceSqr: 100
+  maxBreakAngleChange: 0
+  brokenVariations: []
+--- !u!114 &6877119526311718558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4780438776160938162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab73ed5919906d344a3a03e56e36fb52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trs: {fileID: 4780438776161039506}
+  prefabIndex: 0
+  childrenParent: {fileID: 0}
+  capturedVisualizerTrs: {fileID: 7468272638900927072}
+  rigid: {fileID: 8313628555746994776}
+  collider: {fileID: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  angularVelocity: {x: 0, y: 0, z: 0}
+  overlapAmountToGetStuck: 0
+  isStuck: 0
+  frameIWasEnabled: 0
+  isGrabbable: 0
+  whatICollideWith:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &5620335876363739058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1335,15 +1379,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d156174f4b44ee4d836e11e39e720b8, type: 3}
---- !u!135 &5060147861051251745 stripped
-SphereCollider:
-  m_CorrespondingSourceObject: {fileID: 3365195422956816847, guid: 9d156174f4b44ee4d836e11e39e720b8,
-    type: 3}
-  m_PrefabInstance: {fileID: 7533065062260741614}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8148586841573431190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1846276062801887864, guid: 9d156174f4b44ee4d836e11e39e720b8,
+    type: 3}
+  m_PrefabInstance: {fileID: 7533065062260741614}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &5060147861051251745 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 3365195422956816847, guid: 9d156174f4b44ee4d836e11e39e720b8,
     type: 3}
   m_PrefabInstance: {fileID: 7533065062260741614}
   m_PrefabAsset: {fileID: 0}

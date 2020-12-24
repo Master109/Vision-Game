@@ -154,6 +154,12 @@ namespace VisionGame
 			}
 		}
 
+		public void RestartLevel ()
+		{
+			Player.instance.invulnerable = true;
+			GameManager.instance.ReloadActiveScene ();
+		}
+
 		public void ViewOrbVision ()
 		{
 			gameObject.SetActive(false);
