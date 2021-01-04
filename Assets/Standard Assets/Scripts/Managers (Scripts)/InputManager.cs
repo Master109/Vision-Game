@@ -289,11 +289,7 @@ namespace VisionGame
 		{
 			get
 			{
-				if (_InputDevice == InputDevice.OculusRift && leftTouchController != null && leftTouchController.secondaryButton.isPressed)
-					return true;
-				else if (Keyboard.current.digit1Key.isPressed)
-					return true;
-				return false;
+				return _InputDevice == InputDevice.OculusRift && leftTouchController != null && leftTouchController.secondaryButton.isPressed;
 			}
 		}
 		public bool _LeftGameplayMenuInput
@@ -307,11 +303,7 @@ namespace VisionGame
 		{
 			get
 			{
-				if (_InputDevice == InputDevice.OculusRift && rightTouchController != null && rightTouchController.secondaryButton.isPressed)
-					return true;
-				else if (Keyboard.current.digit2Key.isPressed)
-					return true;
-				return false;
+				return _InputDevice == InputDevice.OculusRift && rightTouchController != null && rightTouchController.secondaryButton.isPressed;
 			}
 		}
 		public bool _RightGameplayMenuInput
@@ -319,6 +311,20 @@ namespace VisionGame
 			get
 			{
 				return RightGameplayMenuInput;
+			}
+		}
+		public static bool GameplayMenuInput
+		{
+			get
+			{
+				return _InputDevice == InputDevice.KeyboardAndMouse && Keyboard.current.escapeKey.isPressed;
+			}
+		}
+		public bool _GameplayMenuInput
+		{
+			get
+			{
+				return GameplayMenuInput;
 			}
 		}
 		public static float MouseScrollWheelInput

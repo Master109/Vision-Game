@@ -44,13 +44,12 @@ namespace Extensions
 
 		public static Transform GetClosestTransform_2D (this Transform trs, Transform[] transforms)
 		{
-			float distance;
 			Transform closestTrs = transforms[0];
 			float closestDistance = ((Vector2) (trs.position - closestTrs.position)).sqrMagnitude;
 			for (int i = 1; i < transforms.Length; i ++)
 			{
 				Transform transform = transforms[i];
-				distance = ((Vector2) (trs.position - closestTrs.position)).sqrMagnitude;
+				float distance = ((Vector2) (trs.position - closestTrs.position)).sqrMagnitude;
 				if (distance < closestDistance)
 				{
 					closestTrs = trs;
@@ -62,13 +61,12 @@ namespace Extensions
 
 		public static Transform GetClosestTransform_2D (Transform[] transforms, Vector2 position)
 		{
-			float distance;
 			Transform closestTrs = transforms[0];
 			float closestDistance = (position - (Vector2) closestTrs.position).sqrMagnitude;
 			for (int i = 1; i < transforms.Length; i ++)
 			{
 				Transform trs = transforms[i];
-				distance = (position - (Vector2) trs.position).sqrMagnitude;
+				float distance = (position - (Vector2) trs.position).sqrMagnitude;
 				if (distance < closestDistance)
 				{
 					closestTrs = trs;
@@ -80,13 +78,12 @@ namespace Extensions
 
 		public static Transform GetClosestTransform_3D (this Transform trs, Transform[] transforms)
 		{
-			float distance;
 			Transform closestTrs = transforms[0];
 			float closestDistance = (trs.position - closestTrs.position).sqrMagnitude;
 			for (int i = 1; i < transforms.Length; i ++)
 			{
 				Transform transform = transforms[i];
-				distance = (trs.position - closestTrs.position).sqrMagnitude;
+				float distance = (trs.position - closestTrs.position).sqrMagnitude;
 				if (distance < closestDistance)
 				{
 					closestTrs = trs;
@@ -98,13 +95,12 @@ namespace Extensions
 
 		public static Transform GetClosestTransform_3D (Transform[] transforms, Vector3 position)
 		{
-			float distance;
 			Transform closestTrs = transforms[0];
 			float closestDistance = (position - closestTrs.position).sqrMagnitude;
 			for (int i = 1; i < transforms.Length; i ++)
 			{
 				Transform trs = transforms[i];
-				distance = (position - trs.position).sqrMagnitude;
+				float distance = (position - trs.position).sqrMagnitude;
 				if (distance < closestDistance)
 				{
 					closestTrs = trs;

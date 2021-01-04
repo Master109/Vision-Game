@@ -137,6 +137,8 @@ namespace VisionGame
 		bool previousLeftGameplayMenuInput;
 		bool rightGameplayMenuInput;
 		bool previousRightGameplayMenuInput;
+		bool gameplayMenuInput;
+		bool previousGameplayMenuInput;
 
 		public override void Awake ()
 		{
@@ -224,6 +226,7 @@ namespace VisionGame
 				InputSystem.Update ();
 				leftGameplayMenuInput = InputManager.LeftGameplayMenuInput;
 				rightGameplayMenuInput = InputManager.RightGameplayMenuInput;
+				gameplayMenuInput = InputManager.GameplayMenuInput;
 				HandleGameplayMenu ();
 				for (int i = 0; i < updatables.Length; i ++)
 				{
@@ -237,6 +240,7 @@ namespace VisionGame
 				previousMousePosition = InputManager.MousePosition;
 				previousLeftGameplayMenuInput = leftGameplayMenuInput;
 				previousRightGameplayMenuInput = rightGameplayMenuInput;
+				previousGameplayMenuInput = gameplayMenuInput;
 			// }
 			// catch (Exception e)
 			// {
@@ -381,6 +385,8 @@ namespace VisionGame
 				GameplayMenu.instance.selectorTrs = Player.instance.leftHandTrs;
 			else if (rightGameplayMenuInput && !previousRightGameplayMenuInput)
 				GameplayMenu.instance.selectorTrs = Player.instance.rightHandTrs;
+			else if (gameplayMenuInput && !previousGameplayMenuInput)
+				GameplayMenu.instance.selectorTrs = Player.instance.headTrs;
 			else
 				return;
 			GameplayMenu.instance.trs.position = GameCamera.Instance.trs.position + (GameCamera.instance.trs.forward * GameplayMenu.instance.distanceFromCamera);

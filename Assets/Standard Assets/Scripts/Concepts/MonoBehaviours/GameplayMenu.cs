@@ -24,6 +24,8 @@ namespace VisionGame
 		bool previousLeftGameplayMenuInput;
 		bool rightGameplayMenuInput;
 		bool previousRightGameplayMenuInput;
+		bool gameplayMenuInput;
+		bool previousGameplayMenuInput;
 
 #if UNITY_EDITOR
 		void OnValidate ()
@@ -48,43 +50,40 @@ namespace VisionGame
 		{
 			leftGameplayMenuInput = InputManager.LeftGameplayMenuInput;
 			rightGameplayMenuInput = InputManager.RightGameplayMenuInput;
+			gameplayMenuInput = InputManager.GameplayMenuInput;
 			HandleSelecting ();
 			HandleInteracting ();
 			previousLeftGameplayMenuInput = leftGameplayMenuInput;
 			previousRightGameplayMenuInput = rightGameplayMenuInput;
+			previousGameplayMenuInput = gameplayMenuInput;
 		}
 
 		void HandleSelecting ()
 		{
-			if ((selectorTrs.position - centerOptionRange.bounds.center).sqrMagnitude <= centerOptionRange.bounds.extents.x * centerOptionRange.bounds.extents.x)
-				Select (centerOption);
-			else
+			Plane plane = new Plane(trs.forward, centerOptionRange.bounds.center);
+			float hitDistance;
+			Ray ray = new Ray(selectorTrs.position, selectorTrs.forward);
+			if (plane.Raycast(ray, out hitDistance))
 			{
-				Plane plane = new Plane(trs.forward, centerOptionRange.bounds.center);
-				float hitDistance;
-				Ray ray = new Ray(selectorTrs.position, selectorTrs.forward);
-				if (plane.Raycast(ray, out hitDistance))
+				Vector3 hitPoint = ray.GetPoint(hitDistance);
+				List<Transform> optionTransforms = new List<Transform>();
+				for (int i = 0; i < options.Length; i ++)
 				{
-					Vector2 hitPoint = ray.GetPoint(hitDistance);
-					List<Transform> optionTransforms = new List<Transform>();
-					for (int i = 0; i < options.Length; i ++)
-					{
-						Option option = options[i];
-						optionTransforms.Add(option.trs);
-					}
-					optionTransforms.Add(centerOption.trs);
-					Transform closestOptionTrs = TransformExtensions.GetClosestTransform_3D(optionTransforms.ToArray(), hitPoint);
-					for (int i = 0; i < optionTransforms.Count; i ++)
-					{
-						Transform optionTrs = optionTransforms[i];
-						if (closestOptionTrs == optionTrs)
-						{
-							Select (options[i]);
-							return;
-						}
-					}
-					Select (centerOption);
+					Option option = options[i];
+					optionTransforms.Add(option.trs);
 				}
+				optionTransforms.Add(centerOption.trs);
+				Transform closestOptionTrs = TransformExtensions.GetClosestTransform_3D(optionTransforms.ToArray(), hitPoint);
+				for (int i = 0; i < optionTransforms.Count - 1; i ++)
+				{
+					Transform optionTrs = optionTransforms[i];
+					if (closestOptionTrs == optionTrs)
+					{
+						Select (options[i]);
+						return;
+					}
+				}
+				Select (centerOption);
 				// 	int optionIndex = 0;
 				// 	for (float angle = 0; angle < 360; angle += 360f / options.Length)
 				// 	{
@@ -119,12 +118,11 @@ namespace VisionGame
 		{
 			if (!selectedOption.Equals(default(Option)) && selectedOption.isInteractive)
 			{
-				if (selectorTrs == Player.instance.leftHandTrs)
-				{
-					if (!leftGameplayMenuInput && previousLeftGameplayMenuInput)
-						selectedOption.interactUnityEvent.Invoke();
-				}
-				else if (!rightGameplayMenuInput && previousRightGameplayMenuInput)
+				if (selectorTrs == Player.instance.leftHandTrs && !leftGameplayMenuInput && previousLeftGameplayMenuInput)
+					selectedOption.interactUnityEvent.Invoke();
+				else if (selectorTrs == Player.instance.leftHandTrs && !rightGameplayMenuInput && previousRightGameplayMenuInput)
+					selectedOption.interactUnityEvent.Invoke();
+				else if (!gameplayMenuInput && previousGameplayMenuInput)
 					selectedOption.interactUnityEvent.Invoke();
 			}
 		}
@@ -178,10 +176,12 @@ namespace VisionGame
 			{
 				leftGameplayMenuInput = InputManager.LeftGameplayMenuInput;
 				rightGameplayMenuInput = InputManager.RightGameplayMenuInput;
-				if ((leftGameplayMenuInput && !previousLeftGameplayMenuInput) || (rightGameplayMenuInput && !previousRightGameplayMenuInput))
+				gameplayMenuInput = InputManager.GameplayMenuInput;
+				if ((leftGameplayMenuInput && !previousLeftGameplayMenuInput) || (rightGameplayMenuInput && !previousRightGameplayMenuInput) || (gameplayMenuInput && !previousGameplayMenuInput))
 					break;
 				previousLeftGameplayMenuInput = leftGameplayMenuInput;
 				previousRightGameplayMenuInput = rightGameplayMenuInput;
+				previousGameplayMenuInput = gameplayMenuInput;
 				yield return new WaitForEndOfFrame();
 			}
 			orb.camera.enabled = false;
@@ -191,9 +191,7 @@ namespace VisionGame
 		[Serializable]
 		public struct Option
 		{
-#if UNITY_EDITOR
 			public Transform trs;
-#endif
 			public GameObject selectedGo;
 			public GameObject deselectedGo;
 			public bool isInteractive;
