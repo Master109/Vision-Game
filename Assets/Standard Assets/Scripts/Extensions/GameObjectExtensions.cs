@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Extensions
 {
 	public static class GameObjectExtensions
 	{
-		public static GameObject FindWithComponentInParents (Transform child, string componentName)
+		public static GameObject FindGameObjectWithComponentInParents (Transform child, string componentName)
 		{
 			while (child != null)
 			{
@@ -21,9 +24,21 @@ namespace Extensions
 			return null;
 		}
 		
-		public static GameObject FindWithComponentInParents (Transform child, Type componentType)
+		public static GameObject FindGameObjectWithComponentInParents (Transform child, Type componentType)
 		{
-			return FindWithComponentInParents (child, componentType.Name);
+			return FindGameObjectWithComponentInParents(child, componentType.Name);
 		}
+
+		public static T InsertParentWithComponent<T> (this Transform trs) where T : Component
+		{
+			return trs.InsertParent().gameObject.AddComponent<T>();
+		}
+
+#if UNITY_EDITOR
+		public static T InsertParentWithComponentAndRegisterUndo<T> (this Transform trs) where T : Component
+		{
+			return trs.InsertParentAndRegisterUndo().gameObject.AddComponent<T>();
+		}
+#endif
 	}
 }

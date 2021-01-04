@@ -22,6 +22,11 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6276333853413823122, guid: 43c3f6c69342b8542b58e6161e739898,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6448312152999517594, guid: 43c3f6c69342b8542b58e6161e739898,
         type: 3}
       propertyPath: m_Enabled

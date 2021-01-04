@@ -3,10 +3,11 @@ using Extensions;
 
 namespace VisionGame
 {
-	public class BoxPhysicsObject : PhysicsObject
+	public class BoxPhysicsObject : MeshPhysicsObject
 	{
 #if UNITY_EDITOR
 		public bool autoSetMass;
+		public bool autoSetBoxCollider;
 #endif
 
 		public override void OnEnable ()
@@ -16,14 +17,24 @@ namespace VisionGame
 			{
 				childrenParent.localScale = Vector3.one.Divide(trs.lossyScale);
 				BoxCollider boxCollider = collider as BoxCollider;
-				boxCollider.size = trs.lossyScale;
+				if (autoSetBoxCollider && boxCollider != null)
+				{
+					BoxCollider _boxCollider = gameObject.AddComponent<BoxCollider>();
+					boxCollider.center = _boxCollider.center;
+					boxCollider.size = _boxCollider.size;
+					DestroyImmediate(_boxCollider);
+				}
 				if (autoSetMass && rigid != null)
 				{
-					rigid.mass = trs.lossyScale.x * trs.lossyScale.y * trs.lossyScale.z;
+					Bounds bounds = collider.GetUnrotatedBounds();
+					rigid.mass = bounds.size.x * bounds.size.y * bounds.size.z;
 					for (int i = 0; i < childrenParent.childCount; i ++)
 					{
 						Transform child = childrenParent.GetChild(i);
-						rigid.mass += child.lossyScale.x * child.lossyScale.y * child.lossyScale.z;
+						boxCollider = child.gameObject.AddComponent<BoxCollider>();
+						bounds = boxCollider.GetUnrotatedBounds();
+						rigid.mass += bounds.size.x * bounds.size.y * bounds.size.z;
+						DestroyImmediate(boxCollider);
 						Piston piston = child.GetComponent<Piston>();
 						if (piston != null)
 						{

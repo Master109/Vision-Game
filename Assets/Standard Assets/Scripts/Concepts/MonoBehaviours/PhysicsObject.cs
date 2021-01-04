@@ -88,9 +88,8 @@ namespace VisionGame
 							rigid.isKinematic = true;
 							coll.rigidbody.isKinematic = true;
 							PhysicsObject physicsObject = coll.rigidbody.GetComponent<PhysicsObject>();
-							trs.SetParent(physicsObject.childrenParent);
 							// PhysicsObject physicsObject = ObjectPool.instance.SpawnComponent<PhysicsObject> (prefabIndex, default(Vector3), default(Quaternion), trs.parent);
-							// trs.SetParent(physicsObject.childrenParent);
+							trs.SetParent(physicsObject.childrenParent);
 						}
 					}
 					return;

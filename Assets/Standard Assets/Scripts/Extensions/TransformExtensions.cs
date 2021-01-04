@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Extensions
 {
@@ -41,12 +44,6 @@ namespace Extensions
 
 		public static Transform GetClosestTransform_2D (this Transform trs, Transform[] transforms)
 		{
-			// while (transforms.Contains(null))
-			// 	transforms = transforms.Remove(null);
-			// if (transforms.Length == 0)
-			// 	return null;
-			// else if (transforms.Length == 1)
-			// 	return transforms[0];
 			float distance;
 			Transform closestTrs = transforms[0];
 			float closestDistance = ((Vector2) (trs.position - closestTrs.position)).sqrMagnitude;
@@ -65,12 +62,6 @@ namespace Extensions
 
 		public static Transform GetClosestTransform_2D (Transform[] transforms, Vector2 position)
 		{
-			// while (transforms.Contains(null))
-			// 	transforms = transforms.Remove(null);
-			// if (transforms.Length == 0)
-			// 	return null;
-			// else if (transforms.Length == 1)
-			// 	return transforms[0];
 			float distance;
 			Transform closestTrs = transforms[0];
 			float closestDistance = (position - (Vector2) closestTrs.position).sqrMagnitude;
@@ -89,12 +80,6 @@ namespace Extensions
 
 		public static Transform GetClosestTransform_3D (this Transform trs, Transform[] transforms)
 		{
-			// while (transforms.Contains(null))
-			// 	transforms = transforms.Remove(null);
-			// if (transforms.Length == 0)
-			// 	return null;
-			// else if (transforms.Length == 1)
-			// 	return transforms[0];
 			float distance;
 			Transform closestTrs = transforms[0];
 			float closestDistance = (trs.position - closestTrs.position).sqrMagnitude;
@@ -113,12 +98,6 @@ namespace Extensions
 
 		public static Transform GetClosestTransform_3D (Transform[] transforms, Vector3 position)
 		{
-			// while (transforms.Contains(null))
-			// 	transforms = transforms.Remove(null);
-			// if (transforms.Length == 0)
-			// 	return null;
-			// else if (transforms.Length == 1)
-			// 	return transforms[0];
 			float distance;
 			Transform closestTrs = transforms[0];
 			float closestDistance = (position - closestTrs.position).sqrMagnitude;
@@ -187,5 +166,24 @@ namespace Extensions
 		{
 			return Matrix4x4.TRS(trs.position, trs.rotation, trs.lossyScale);
 		}
+
+		public static Transform InsertParent (this Transform trs)
+		{
+			Transform parent = new GameObject().GetComponent<Transform>();
+			parent.SetParent(trs.parent);
+			trs.SetParent(parent);
+			return parent;
+		}
+
+#if UNITY_EDITOR
+		public static Transform InsertParentAndRegisterUndo (this Transform trs)
+		{
+			Transform parent = new GameObject().GetComponent<Transform>();
+			Undo.RegisterCreatedObjectUndo(parent.gameObject, "Insert parent");
+			parent.SetParent(trs.parent);
+			Undo.SetTransformParent(trs, parent, "Insert parent");
+			return parent;
+		}
+#endif
 	}
 }

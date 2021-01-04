@@ -279,7 +279,7 @@ namespace VisionGame
 						for (int i = 0; i < touchingPhysicsObjects.Length; i ++)
 						{
 							PhysicsObject physicsObject = touchingPhysicsObjects[i];
-							if (physicsObject.isGrabbable && !physicsObject.Equals(grabbedPhysicsObject) && !physicsObject.Equals(otherGrabbedPhysicsObject))
+							if (physicsObject.isGrabbable && physicsObject != grabbedPhysicsObject && physicsObject != otherGrabbedPhysicsObject)
 							{
 								IgnoreCollision (physicsObject.collider, true);
 								physicsObject.trs.SetParent(handTrs);

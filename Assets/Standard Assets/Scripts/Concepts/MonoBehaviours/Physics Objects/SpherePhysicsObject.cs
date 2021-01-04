@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VisionGame
 {
-	public class SpherePhysicsObject : PhysicsObject
+	public class SpherePhysicsObject : MeshPhysicsObject
 	{
 		public float collisionCheckDistance;
 

@@ -439,7 +439,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4780438776161039506}
   - component: {fileID: 4780438776914837558}
-  - component: {fileID: 4780438776155413846}
   - component: {fileID: 777132718866571283}
   - component: {fileID: 5692036685778637831}
   - component: {fileID: 5136274394976537837}
@@ -535,65 +534,6 @@ MonoBehaviour:
   unignoreCollisionDelay: 0.3
   initLeftHandLocalPosition: {x: -0.5, y: -1, z: 1}
   initRightHandLocalPosition: {x: 0.5, y: -1, z: 1}
---- !u!114 &4780438776155413846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4780438776160938162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e933e81d3c20c74ea6fdc708a67e3a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  queueAhead: 1
-  useRecommendedMSAALevel: 1
-  _monoscopic: 0
-  enableAdaptiveResolution: 0
-  enableColorGamut: 0
-  colorGamut: 0
-  minRenderScale: 0.7
-  maxRenderScale: 1
-  _headPoseRelativeOffsetRotation: {x: 0, y: 0, z: 0}
-  _headPoseRelativeOffsetTranslation: {x: 0, y: 0, z: 0}
-  profilerTcpPort: 32419
-  expandMixedRealityCapturePropertySheet: 0
-  enableMixedReality: 0
-  compositionMethod: 0
-  extraHiddenLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  externalCompositionBackdropColorRift: {r: 0, g: 1, b: 0, a: 1}
-  externalCompositionBackdropColorQuest: {r: 0, g: 0, b: 0, a: 0}
-  capturingCameraDevice: 0
-  flipCameraFrameHorizontally: 0
-  flipCameraFrameVertically: 0
-  handPoseStateLatency: 0
-  sandwichCompositionRenderLatency: 0
-  sandwichCompositionBufferedFrames: 8
-  chromaKeyColor: {r: 0, g: 1, b: 0, a: 1}
-  chromaKeySimilarity: 0.6
-  chromaKeySmoothRange: 0.03
-  chromaKeySpillRange: 0.06
-  useDynamicLighting: 0
-  depthQuality: 1
-  dynamicLightingSmoothFactor: 8
-  dynamicLightingDepthVariationClampingValue: 0.001
-  virtualGreenScreenType: 0
-  virtualGreenScreenTopY: 10
-  virtualGreenScreenBottomY: -10
-  virtualGreenScreenApplyDepthCulling: 0
-  virtualGreenScreenDepthTolerance: 0.2
-  mrcActivationMode: 0
-  _trackingOriginType: 0
-  usePositionTracking: 1
-  useRotationTracking: 1
-  useIPDInPositionTracking: 1
-  resetTrackerOnLoad: 0
-  AllowRecenter: 1
-  _reorientHMDOnControllerRecenter: 1
-  LateControllerUpdate: 1
 --- !u!143 &777132718866571283
 CharacterController:
   m_ObjectHideFlags: 0
@@ -667,7 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bb7ebfa160c5bc42ae86ceaaeaeee3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minBreakForceSqr: 100
+  minBreakForceSqr: 2500
   maxBreakAngleChange: 0
   brokenVariations: []
 --- !u!114 &6877119526311718558

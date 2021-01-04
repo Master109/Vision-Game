@@ -110,6 +110,8 @@ public class EditorScript : MonoBehaviour
 
 	public static Vector2 GetMousePosition (Camera camera)
 	{
+		if (camera == null)
+			return VectorExtensions.NULL2;
 		Vector2 output = inputEvent.mousePosition;
 		output.y = camera.ViewportToScreenPoint(Vector2.one).y - camera.ViewportToScreenPoint(Vector2.zero).y - output.y;
 		return output;
@@ -130,14 +132,18 @@ public class EditorScript : MonoBehaviour
 
 	public static Ray GetMouseRay ()
 	{
-		Camera camera = SceneView.lastActiveSceneView.camera;
-		if (camera == null)
+		Camera camera = null;
+		if (SceneView.lastActiveSceneView != null)
+			camera = SceneView.lastActiveSceneView.camera;
+		if (camera == null && SceneView.currentDrawingSceneView != null)
 			camera = SceneView.currentDrawingSceneView.camera;
 		return GetMouseRay(camera);
 	}
 
 	public static Ray GetMouseRay (Camera camera)
 	{
+		if (camera == null)
+			return new Ray();
 		return camera.ScreenPointToRay(GetMousePosition(camera));
 	}
 

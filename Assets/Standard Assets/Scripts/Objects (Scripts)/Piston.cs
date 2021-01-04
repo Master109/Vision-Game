@@ -7,7 +7,7 @@ using System;
 namespace VisionGame
 {
 	[ExecuteInEditMode]
-	public class Piston : MonoBehaviour, IUpdatable
+	public class Piston : UpdateWhileEnabled
 	{
 		public bool PauseWhileUnfocused
 		{
@@ -54,7 +54,7 @@ namespace VisionGame
 			lineSegment = new LineSegment3D(axelTrs.position, axelTrs.position + (axelParent.forward * moveDistance / 2));
 		}
 
-		void OnEnable ()
+		public override void OnEnable ()
 		{
 #if UNITY_EDITOR
 			if (!Application.isPlaying)
@@ -64,7 +64,7 @@ namespace VisionGame
 			}
 #endif
 			rigid.constraints = rigidConstraints;
-			GameManager.updatables = GameManager.updatables.Add(this);
+			base.OnEnable ();
 		}
 
 #if UNITY_EDITOR
@@ -129,7 +129,7 @@ namespace VisionGame
 			return;
 #endif
 			rigid.constraints = RigidbodyConstraints.FreezeAll;
-			GameManager.updatables = GameManager.updatables.Remove(this);
+			base.OnDisable ();
 		}
 
 		void OnApplicationQuit ()
