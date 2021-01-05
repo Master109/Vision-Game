@@ -183,6 +183,7 @@ MonoBehaviour:
   whatICollideWith:
     serializedVersion: 2
     m_Bits: 7936
+  capturedVisualizerMeshFilter: {fileID: 4326877092980104927}
   collisionCheckDistance: 0.2
   receiverIds: 
 --- !u!114 &7833878919439437363

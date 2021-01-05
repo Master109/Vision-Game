@@ -7,7 +7,7 @@ using UnityEditor;
 using System;
 
 //[ExecuteInEditMode]
-public class DestroyComponentsOfTypes : EditorScript
+public class DestroyAllComponentsOfTypes : EditorScript
 {
 	public Component[] components;
 	public Type[] types;
@@ -35,7 +35,7 @@ public class DestroyComponentsOfTypes : EditorScript
 			foreach (Component component in components)
 				types = types.Add(component.GetType());
 		}
-		Component[] _components = GetComponents<Component>();
+		Component[] _components = FindObjectsOfType<Component>();
 		Component _component;
 		foreach (Type type in types)
 		{
@@ -54,11 +54,11 @@ public class DestroyComponentsOfTypes : EditorScript
 }
 
 [CustomEditor(typeof(DestroyComponentsOfTypes))]
-public class DestroyComponentsOfTypesEditor : EditorScriptEditor
+public class DestroyAllComponentsOfTypesEditor : EditorScriptEditor
 {
 }
 #else
-public class DestroyComponentsOfTypes : EditorScript
+public class DestroyAllComponentsOfTypes : EditorScript
 {
 }
 #endif
