@@ -74,34 +74,7 @@ MonoBehaviour:
     durationPerCharacter: 0
   textPanelGo: {fileID: 0}
   textPanelText: {fileID: 0}
-  distanceScale: 0.5
-  wallPrefab: {fileID: 0}
-  startTrs: {fileID: 0}
-  endTrs: {fileID: 0}
-  cornerTransforms: []
-  parent: {fileID: 0}
-  size: {x: 1, y: 1}
-  wallThickness: {x: 1, y: 1}
-  wallsPerCorner: 0
-  leftWallMakeMode: 0
-  rightWallMakeMode: 0
-  bottomWallMakeMode: 0
-  topWallMakeMode: 0
-  startCap:
-    capPrefab: {fileID: 0}
-    extendsLeftFully: 0
-    extendsRightFully: 0
-    extendsDownFully: 0
-    extendsUpFully: 0
-  endCap:
-    capPrefab: {fileID: 0}
-    extendsLeftFully: 0
-    extendsRightFully: 0
-    extendsDownFully: 0
-    extendsUpFully: 0
-  gizmosMeshColor: {r: 0, g: 0, b: 0, a: 0}
-  gizmosStartColor: {r: 0, g: 0, b: 0, a: 0}
-  gizmosEndColor: {r: 0, g: 0, b: 0, a: 0}
+  distanceScale: 1
 --- !u!1001 &3533961045123899539
 PrefabInstance:
   m_ObjectHideFlags: 0

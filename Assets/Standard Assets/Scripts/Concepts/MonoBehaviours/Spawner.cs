@@ -24,21 +24,23 @@ public class Spawner : MonoBehaviour
 
 	void Spawn (params object[] args)
 	{
-		Vector3 spawnPosition;
 		do
 		{
 			SpawnZone spawnZone = spawnZones[Random.Range(0, spawnZones.Length)];
-			spawnPosition = spawnZone.boxCollider.bounds.RandomPoint();
-			for (int i = 0; i < spawnZone.points.Length; i ++)
+			Vector3 destination = spawnZone.boxCollider.bounds.RandomPointOnBounds();
+			Vector3 point = spawnZone.points[Random.Range(0, spawnZone.points.Length)].position;
+			Vector3 toDestination = destination - point;
+			Ray ray = new Ray(point, toDestination);
+			RaycastHit hit;
+			float distanceToDestination = toDestination.magnitude;
+			if (Physics.SphereCast(ray, prefabRadius, out hit, distanceToDestination, whatICantSpawnIn))
 			{
-				Transform point = spawnZone.points[i];
-				Ray ray = new Ray(spawnPosition, point.position - spawnPosition);
-				if (!Physics.SphereCast(ray, prefabRadius, (point.position - spawnPosition).magnitude, whatICantSpawnIn))
-				{
-					ObjectPool.instance.SpawnComponent<ISpawnable>(prefabIndex, spawnPosition, Quaternion.LookRotation(Random.onUnitSphere));
-					return;
-				}
+				distanceToDestination = hit.distance;
+				if (distanceToDestination == 0)
+					continue;
 			}
+			ObjectPool.instance.SpawnComponent<ISpawnable>(prefabIndex, ray.GetPoint(distanceToDestination * Random.value), Quaternion.LookRotation(Random.onUnitSphere));
+			return;
 		} while (true);
 	}
 

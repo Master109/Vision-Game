@@ -97,7 +97,6 @@ namespace Extensions
 		{
 			Vector3 randomDirection = Random.onUnitSphere * v.magnitude;
 			Vector3 targetDirection = Vector3.SlerpUnclamped(-v, randomDirection, float.Epsilon);
-			GameManager.Log (targetDirection == -v);
 			return Vector3.SlerpUnclamped(v, targetDirection, Random.Range(minDegrees, maxDegrees));
 		}
 		

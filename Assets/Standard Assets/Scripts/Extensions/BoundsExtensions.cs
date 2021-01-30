@@ -90,9 +90,37 @@ namespace Extensions
 			return output;
 		}
 
-		public static Vector3 RandomPoint (this Bounds bounds)
+		public static Vector3 RandomPointInside (this Bounds bounds)
 		{
 			return new Vector3(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y), Random.Range(bounds.min.z, bounds.max.z));
+		}
+
+		public static Vector3 RandomPointOnBounds (this Bounds bounds)
+		{
+			Vector3 randomPoint = bounds.RandomPointInside();
+			int random = Random.Range(0, 3);
+			if (random == 0)
+			{
+				if (Random.value < 0.5f)
+					randomPoint.x = bounds.min.x;
+				else
+					randomPoint.x = bounds.max.x;
+			}
+			else if (random == 1)
+			{
+				if (Random.value < 0.5f)
+					randomPoint.y = bounds.min.y;
+				else
+					randomPoint.y = bounds.max.y;
+			}
+			else
+			{
+				if (Random.value < 0.5f)
+					randomPoint.z = bounds.min.z;
+				else
+					randomPoint.z = bounds.max.z;
+			}
+			return randomPoint;
 		}
 	}
 }

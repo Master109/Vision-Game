@@ -26,15 +26,13 @@ namespace VisionGame
 				}
 				if (autoSetMass && rigid != null)
 				{
-					Bounds bounds = collider.GetUnrotatedBounds();
+					Bounds bounds = GetComponent<MeshRenderer>().bounds;
 					rigid.mass = bounds.size.x * bounds.size.y * bounds.size.z;
 					for (int i = 0; i < childrenParent.childCount; i ++)
 					{
 						Transform child = childrenParent.GetChild(i);
-						boxCollider = child.gameObject.AddComponent<BoxCollider>();
-						bounds = boxCollider.GetUnrotatedBounds();
+						bounds = child.GetComponent<MeshRenderer>().bounds;
 						rigid.mass += bounds.size.x * bounds.size.y * bounds.size.z;
-						DestroyImmediate(boxCollider);
 						Piston piston = child.GetComponent<Piston>();
 						if (piston != null)
 						{
