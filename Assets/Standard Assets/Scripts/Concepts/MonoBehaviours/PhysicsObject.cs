@@ -70,6 +70,12 @@ namespace VisionGame
 				ContactPoint contactPoint = coll.GetContact(i);
 				if (contactPoint.separation <= -overlapAmountToGetStuck)
 				{
+					Breakable breakable = coll.gameObject.GetComponentInParent<Breakable>();
+					if (breakable != null)
+					{
+						breakable.Break (coll.relativeVelocity);
+						return;
+					}
 					isStuck = true;
 					if (coll.rigidbody == null)
 					{

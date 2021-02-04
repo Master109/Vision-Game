@@ -5,16 +5,17 @@ using Random = UnityEngine.Random;
 
 public class Breakable : MonoBehaviour
 {
-	public float minBreakForceSqr;
+	// public Rigidbody rigid;
+	public float minBreakForce;
 	public float maxBreakAngleChange;
 	public BrokenVariation[] brokenVariations = new BrokenVariation[0];
 
-	void OnCollisionEnter (Collision coll)
-	{
-		Vector3 force = coll.GetForce();
-		if (force.sqrMagnitude >= minBreakForceSqr)
-			Break (force);
-	}
+	// void OnCollisionEnter (Collision coll)
+	// {
+	// 	float damage = coll.GetDamage(rigid);
+	// 	if (damage >= minBreakForce)
+	// 		Break (coll.relativeVelocity.normalized * damage);
+	// }
 
 	public virtual void Break (Vector3 force)
 	{
