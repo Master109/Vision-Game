@@ -26,6 +26,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
+// using VisionGame;
 
 public class ONSPAudioSource : MonoBehaviour
 {
@@ -38,7 +39,8 @@ public class ONSPAudioSource : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void OnBeforeSceneLoadRuntimeMethod()
     {
-        OSP_SetGlobalVoiceLimit(ONSPSettings.Instance.voiceLimit);
+        // if (InputManager._InputDevice != InputManager.InputDevice.KeyboardAndMouse)
+            OSP_SetGlobalVoiceLimit(ONSPSettings.Instance.voiceLimit);
     }
 
     // Import functions
