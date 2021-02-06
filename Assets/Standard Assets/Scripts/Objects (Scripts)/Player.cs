@@ -45,8 +45,8 @@ namespace VisionGame
 		public Transform headTrs;
 		public float maxHeadDistance;
 		public SphereCollider headSphereCollider;
-		public SphereCollider leftHandSphereCollider;
-		public SphereCollider rightHandSphereCollider;
+		// public SphereCollider leftHandSphereCollider;
+		// public SphereCollider rightHandSphereCollider;
 		public float spikeCheckDistance;
 		public float unignoreCollisionDelay;
 		Vector3 extraVelocity;
@@ -218,12 +218,12 @@ namespace VisionGame
 			else
 			{
 				handTrs.localPosition = initLocalPosition;
-				Ray ray = new Ray(trs.position, handTrs.position - trs.position);
-				RaycastHit hit;
-				if (Physics.Raycast(ray, out hit, (handTrs.position - trs.position).magnitude, whatICollideWith))
-					handTrs.position = hit.point;
 				handTrs.localRotation = Quaternion.identity;
 			}
+			Ray ray = new Ray(trs.position, handTrs.position - trs.position);
+			RaycastHit hit;
+			if (Physics.Raycast(ray, out hit, (handTrs.position - trs.position).magnitude, whatICollideWith))
+				handTrs.position = hit.point;
 		}
 
 		void HandleHeadOrientation ()
@@ -281,6 +281,7 @@ namespace VisionGame
 							PhysicsObject physicsObject = touchingPhysicsObjects[i];
 							if (physicsObject.isGrabbable && physicsObject != grabbedPhysicsObject && physicsObject != otherGrabbedPhysicsObject)
 							{
+								StopCoroutine(UnignoreCollisionDelayRoutine (physicsObject.collider));
 								IgnoreCollision (physicsObject.collider, true);
 								physicsObject.trs.SetParent(handTrs);
 								grabbedPhysicsObject = physicsObject;
@@ -289,15 +290,15 @@ namespace VisionGame
 								Orb orb = physicsObject.GetComponent<Orb>();
 								if (orb != null && Level.Instance.orbs.Length == 2)
 								{
-									if ((orb == Level.Instance.orbs[0]) == (handTrs == leftHandTrs))
+									if ((orb == Level.instance.orbs[0]) == (handTrs == leftHandTrs))
 									{
-										Level.Instance.leftOrb = orb;
-										Level.Instance.rightOrb = Level.Instance.orbs[1];
+										Level.instance.leftOrb = orb;
+										Level.instance.rightOrb = Level.instance.orbs[1];
 									}
 									else
 									{
-										Level.Instance.leftOrb = Level.Instance.orbs[1];
-										Level.Instance.rightOrb = orb;
+										Level.instance.leftOrb = Level.instance.orbs[1];
+										Level.instance.rightOrb = orb;
 									}
 								}
 							}
@@ -309,6 +310,7 @@ namespace VisionGame
 							SetGrabPosition (grabbedPhysicsObject);
 						else
 						{
+							StopCoroutine(UnignoreCollisionDelayRoutine (grabbedPhysicsObject.collider));
 							StartCoroutine(UnignoreCollisionDelayRoutine (grabbedPhysicsObject.collider));
 							grabbedPhysicsObject.rigid.isKinematic = false;
 							grabbedPhysicsObject = null;
@@ -327,6 +329,7 @@ namespace VisionGame
 						grabbedPhysicsObject.rigid.velocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
 						grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
 					}
+					StopCoroutine(UnignoreCollisionDelayRoutine (grabbedPhysicsObject.collider));
 					StartCoroutine(UnignoreCollisionDelayRoutine (grabbedPhysicsObject.collider));
 					grabbedPhysicsObject.rigid.isKinematic = false;
 					grabbedPhysicsObject = null;
@@ -340,8 +343,8 @@ namespace VisionGame
 			overlappedColliders.Remove(collider);
 			overlappedColliders.Remove(controller);
 			overlappedColliders.Remove(headSphereCollider);
-			overlappedColliders.Remove(leftHandSphereCollider);
-			overlappedColliders.Remove(rightHandSphereCollider);
+			// overlappedColliders.Remove(leftHandSphereCollider);
+			// overlappedColliders.Remove(rightHandSphereCollider);
 			if (overlappedColliders.Count > 0)
 			{
 				physicsObject.rigid.useGravity = false;
@@ -432,6 +435,7 @@ namespace VisionGame
 						throwVelocity += handTrs.forward * currentThrowSpeed;
 					grabbedPhysicsObject.rigid.velocity = throwVelocity;
 					grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
+					StopCoroutine(UnignoreCollisionDelayRoutine (grabbedPhysicsObject.collider));
 					StartCoroutine(UnignoreCollisionDelayRoutine (grabbedPhysicsObject.collider));
 					grabbedPhysicsObject.rigid.isKinematic = false;
 					grabbedPhysicsObject = null;
@@ -560,8 +564,8 @@ namespace VisionGame
 
 		void OnCollisionEnter (Collision coll)
 		{
-			if (coll.rigidbody != null)
-				HandleBeingPushed (coll.rigidbody);
+			// if (coll.rigidbody != null)
+			// 	HandleBeingPushed (coll.rigidbody);
 			HandleSlopes ();
 			if (coll.gameObject.GetComponent<Spikes>() != null)
 				GameManager.Instance.ReloadActiveScene ();
@@ -569,15 +573,15 @@ namespace VisionGame
 
 		void OnCollisionStay (Collision coll)
 		{
-			if (coll.rigidbody != null)
-				HandleBeingPushed (coll.rigidbody);
+			// if (coll.rigidbody != null)
+			// 	HandleBeingPushed (coll.rigidbody);
 			HandleSlopes ();
 		}
 
 		void OnControllerColliderHit (ControllerColliderHit hit)
 		{
-			if (hit.rigidbody != null)
-				HandleBeingPushed (hit.rigidbody);
+			// if (hit.rigidbody != null)
+			// 	HandleBeingPushed (hit.rigidbody);
 			HandleSlopes ();
 			if (hit.gameObject.GetComponent<Spikes>() != null)
 				GameManager.Instance.ReloadActiveScene ();
@@ -593,6 +597,9 @@ namespace VisionGame
 				{
 					if (!physicsObjectsTouchingLeftHand.Contains(physicsObject))
 						physicsObjectsTouchingLeftHand.Add(physicsObject);
+					hits = Physics.OverlapSphere(rightHandTrs.position, rightHandSphereSensorCollider.bounds.extents.x, whatIsGrabbable);
+					if (hits.Contains(physicsObject.collider))
+						physicsObjectsTouchingRightHand.Add(physicsObject);
 				}
 				else if (!physicsObjectsTouchingRightHand.Contains(physicsObject))
 					physicsObjectsTouchingRightHand.Add(physicsObject);
@@ -628,8 +635,8 @@ namespace VisionGame
 			Physics.IgnoreCollision(collider, this.collider, ignore);
 			Physics.IgnoreCollision(collider, controller, ignore);
 			Physics.IgnoreCollision(collider, headSphereCollider, ignore);
-			Physics.IgnoreCollision(collider, leftHandSphereCollider, ignore);
-			Physics.IgnoreCollision(collider, rightHandSphereCollider, ignore);
+			// Physics.IgnoreCollision(collider, leftHandSphereCollider, ignore);
+			// Physics.IgnoreCollision(collider, rightHandSphereCollider, ignore);
 		}
 	}
 }

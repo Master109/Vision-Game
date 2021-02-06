@@ -44,7 +44,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.2
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &7591353493630772916
 SphereCollider:
@@ -578,7 +578,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 6912
   rotateRate: {x: 100, y: -100}
-  rollRate: 10
+  rollRate: 1000
   invulnerable: 0
   maxHandDistance: 2
   leftAimer: {fileID: 3568746398812738074}
@@ -590,7 +590,7 @@ MonoBehaviour:
   throwSpeedRange:
     min: 0
     max: 50
-  throwSpeedChangeRate: 1
+  throwSpeedChangeRate: -100
   whatICollideWith:
     serializedVersion: 2
     m_Bits: 6912
@@ -604,8 +604,6 @@ MonoBehaviour:
   headTrs: {fileID: 8148586841573431190}
   maxHeadDistance: 1
   headSphereCollider: {fileID: 5060147861051251745}
-  leftHandSphereCollider: {fileID: 2231373898985516562}
-  rightHandSphereCollider: {fileID: 7591353493630772916}
   spikeCheckDistance: 0.4
   unignoreCollisionDelay: 0.3
   initLeftHandLocalPosition: {x: -0.5, y: -1, z: 1}
@@ -757,7 +755,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.2
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &2231373898985516562
 SphereCollider:
