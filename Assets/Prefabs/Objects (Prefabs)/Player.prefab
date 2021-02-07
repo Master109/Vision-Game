@@ -594,13 +594,11 @@ MonoBehaviour:
   whatICollideWith:
     serializedVersion: 2
     m_Bits: 6912
-  groundCheckDistance: 1.4
-  extraVelocityDrag: 10
+  groundCheckDistance: 1.3
   headRotationSensitivity: {x: 0.5, y: 0.5}
   headYRotationRange:
     min: -90
     max: 90
-  timeTillApplyExtraVelocityDrag: 0.7
   headTrs: {fileID: 8148586841573431190}
   maxHeadDistance: 1
   headSphereCollider: {fileID: 5060147861051251745}

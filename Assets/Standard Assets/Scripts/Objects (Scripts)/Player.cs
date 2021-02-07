@@ -38,25 +38,19 @@ namespace VisionGame
 		public float throwSpeedChangeRate;
 		public LayerMask whatICollideWith;
 		public float groundCheckDistance;
-		public float extraVelocityDrag;
 		public Vector2 headRotationSensitivity;
 		public FloatRange headYRotationRange;
-		public float timeTillApplyExtraVelocityDrag;
 		public Transform headTrs;
 		public float maxHeadDistance;
 		public SphereCollider headSphereCollider;
-		// public SphereCollider leftHandSphereCollider;
-		// public SphereCollider rightHandSphereCollider;
 		public float spikeCheckDistance;
 		public float unignoreCollisionDelay;
-		Vector3 extraVelocity;
 		[SerializeField]
 		[HideInInspector]
 		Vector3 initLeftHandLocalPosition;
 		[SerializeField]
 		[HideInInspector]
 		Vector3 initRightHandLocalPosition;
-		float timeExtraVelocityWasSet;
 		float currentThrowSpeed;
 		Vector3 previousMoveInput;
 		Vector3 leftHandPosition;
@@ -168,12 +162,6 @@ namespace VisionGame
 				GameManager.instance.ReloadActiveScene ();
 		}
 
-		// void OnDestroy ()
-		// {
-		// 	if (!invulnerable)
-		// 		GameManager.instance.ReloadActiveScene ();
-		// }
-
 		void HandleVelocity ()
 		{
 			move.x = 0;
@@ -194,12 +182,10 @@ namespace VisionGame
 			if (controller.enabled)
 			{
 				rigid.velocity = Vector3.zero;
-				controller.Move((move + extraVelocity) * Time.deltaTime);
+				controller.Move(move * Time.deltaTime);
 			}
 			else
-				rigid.velocity = move + extraVelocity;
-			if (Time.time - timeExtraVelocityWasSet >= timeTillApplyExtraVelocityDrag)
-				extraVelocity *= (1f - Time.deltaTime * extraVelocityDrag);
+				rigid.velocity = move;
 		}
 
 		void HandleHandOrientation ()
@@ -343,8 +329,6 @@ namespace VisionGame
 			overlappedColliders.Remove(collider);
 			overlappedColliders.Remove(controller);
 			overlappedColliders.Remove(headSphereCollider);
-			// overlappedColliders.Remove(leftHandSphereCollider);
-			// overlappedColliders.Remove(rightHandSphereCollider);
 			if (overlappedColliders.Count > 0)
 			{
 				physicsObject.rigid.useGravity = false;
@@ -549,12 +533,6 @@ namespace VisionGame
 				rigid.velocity = controller.velocity;
 			controller.enabled = false;
 		}
-
-		void HandleBeingPushed (Rigidbody rigid)
-		{
-			extraVelocity = rigid.velocity;
-			timeExtraVelocityWasSet = Time.time;
-		}
 		
 		void Jump ()
 		{
@@ -564,8 +542,6 @@ namespace VisionGame
 
 		void OnCollisionEnter (Collision coll)
 		{
-			// if (coll.rigidbody != null)
-			// 	HandleBeingPushed (coll.rigidbody);
 			HandleSlopes ();
 			if (coll.gameObject.GetComponent<Spikes>() != null)
 				GameManager.Instance.ReloadActiveScene ();
@@ -573,15 +549,11 @@ namespace VisionGame
 
 		void OnCollisionStay (Collision coll)
 		{
-			// if (coll.rigidbody != null)
-			// 	HandleBeingPushed (coll.rigidbody);
 			HandleSlopes ();
 		}
 
 		void OnControllerColliderHit (ControllerColliderHit hit)
 		{
-			// if (hit.rigidbody != null)
-			// 	HandleBeingPushed (hit.rigidbody);
 			HandleSlopes ();
 			if (hit.gameObject.GetComponent<Spikes>() != null)
 				GameManager.Instance.ReloadActiveScene ();
@@ -635,8 +607,6 @@ namespace VisionGame
 			Physics.IgnoreCollision(collider, this.collider, ignore);
 			Physics.IgnoreCollision(collider, controller, ignore);
 			Physics.IgnoreCollision(collider, headSphereCollider, ignore);
-			// Physics.IgnoreCollision(collider, leftHandSphereCollider, ignore);
-			// Physics.IgnoreCollision(collider, rightHandSphereCollider, ignore);
 		}
 	}
 }
