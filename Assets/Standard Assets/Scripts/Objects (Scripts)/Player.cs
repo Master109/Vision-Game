@@ -45,6 +45,7 @@ namespace VisionGame
 		public SphereCollider headSphereCollider;
 		public float spikeCheckDistance;
 		public float unignoreCollisionDelay;
+		public float grabbedPhysicsObjectDropDistance;
 		[SerializeField]
 		[HideInInspector]
 		Vector3 initLeftHandLocalPosition;
@@ -312,6 +313,7 @@ namespace VisionGame
 					if (grabbedPhysicsObject.trs.parent == handTrs)
 					{
 						grabbedPhysicsObject.trs.SetParent(null);
+						grabbedPhysicsObject.trs.position = trs.position + GameCamera.Instance.trs.forward.SetY(0).normalized * grabbedPhysicsObjectDropDistance;
 						grabbedPhysicsObject.rigid.velocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
 						grabbedPhysicsObject.rigid.angularVelocity = QuaternionExtensions.GetAngularVelocity(Quaternion.Euler(previousHandEulerAngles), handTrs.rotation);
 					}
@@ -414,6 +416,7 @@ namespace VisionGame
 				{
 					canThrow = false;
 					grabbedPhysicsObject.trs.SetParent(null);
+					grabbedPhysicsObject.trs.position = trs.position + GameCamera.Instance.trs.forward.SetY(0).normalized * grabbedPhysicsObjectDropDistance;
 					Vector3 throwVelocity = (handTrs.position - previousHandPosition) / Time.deltaTime;
 					if (InputManager._InputDevice == InputManager.InputDevice.KeyboardAndMouse)
 						throwVelocity += handTrs.forward * currentThrowSpeed;
