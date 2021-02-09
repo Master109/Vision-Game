@@ -87,6 +87,11 @@ namespace VisionGame
 					Destroy(gameObject);
 					continue;
 				}
+				else if (hitGo == Player.instance.gameObject)
+				{
+					Destroy(Player.instance.gameObject);
+					continue;
+				}
 				IStorable storable = hitGo.GetComponentInParent<IStorable>();
 				if (storable != null)
 				{
