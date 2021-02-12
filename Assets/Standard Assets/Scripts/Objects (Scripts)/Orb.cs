@@ -76,22 +76,17 @@ namespace VisionGame
 					currentIndex ++;
 				}
 			}
-			Destroy(capturedObjectVisualizersParent.gameObject);
+			if (capturedObjectVisualizersParent != null)
+				Destroy(capturedObjectVisualizersParent.gameObject);
 			capturedObjectVisualizersParent = new GameObject().GetComponent<Transform>();
 			capturedObjectVisualizersParent.SetParent(cameraTrs);
 			for (int i = 0; i < hitGos.Count; i ++)
 			{
 				GameObject hitGo = hitGos[i];
 				if (hitGo == gameObject)
-				{
 					Destroy(gameObject);
-					continue;
-				}
 				else if (hitGo == Player.instance.gameObject)
-				{
 					Destroy(Player.instance.gameObject);
-					continue;
-				}
 				IStorable storable = hitGo.GetComponentInParent<IStorable>();
 				if (storable != null)
 				{

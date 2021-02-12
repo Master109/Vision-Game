@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 public class Breakable : MonoBehaviour
 {
 	// public Rigidbody rigid;
-	public float minBreakForce;
+	// public float minBreakForce;
 	public float maxBreakAngleChange;
 	public BrokenVariation[] brokenVariations = new BrokenVariation[0];
 

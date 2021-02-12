@@ -1,0 +1,285 @@
+Using pre-set license
+Gtk-Message: 06:33:05.545: Failed to load module "canberra-gtk-module"
+Gtk-Message: 06:33:05.545: Failed to load module "pk-gtk-module"
+Gtk-Message: 06:33:05.545: Failed to load module "canberra-gtk-module"
+Gtk-Message: 06:33:05.545: Failed to load module "pk-gtk-module"
+Desktop is 1920 x 1080 @ 60 Hz
+
+ COMMAND LINE ARGUMENTS:
+Unity
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+/home/GileadCosman/Vision-Game
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+41621
+Successfully changed project path to: /home/GileadCosman/Vision-Game
+/home/GileadCosman/Vision-Game
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 106.68 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.2.3f1 (8ff31bc5bf5b)
+[Subsystems] Discovering subsystems at path /home/GileadCosman/Unity/Hub/Editor/2020.2.3f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /home/GileadCosman/Vision-Game/Assets
+GLX Extensions: GLX_ARB_create_context GLX_ARB_create_context_no_error GLX_ARB_create_context_profile GLX_ARB_fbconfig_float GLX_ARB_framebuffer_sRGB GLX_ARB_get_proc_address GLX_ARB_multisample GLX_EXT_buffer_age GLX_EXT_create_context_es2_profile GLX_EXT_create_context_es_profile GLX_EXT_fbconfig_packed_float GLX_EXT_framebuffer_sRGB GLX_EXT_import_context GLX_EXT_swap_control GLX_EXT_swap_control_tear GLX_EXT_texture_from_pixmap GLX_EXT_visual_info GLX_EXT_visual_rating GLX_MESA_copy_sub_buffer GLX_MESA_query_renderer GLX_MESA_swap_control GLX_OML_swap_method GLX_OML_sync_control GLX_SGIS_multisample GLX_SGIX_fbconfig GLX_SGIX_pbuffer GLX_SGIX_visual_select_group GLX_SGI_make_current_read GLX_SGI_video_sync 
+Renderer: Mesa DRI Intel(R) UHD Graphics 620 (WHL GT2)
+Vendor:   Intel Open Source Technology Center
+Version:  4.6 (Core Profile) Mesa 20.3.4 (git-6d8c68603f)
+GLES:     0
+ GL_3DFX_texture_compression_FXT1 GL_AMD_conservative_depth GL_AMD_depth_clamp_separate GL_AMD_draw_buffers_blend GL_AMD_gpu_shader_int64 GL_AMD_multi_draw_indirect GL_AMD_query_buffer_object GL_AMD_seamless_cubemap_per_texture GL_AMD_shader_stencil_export GL_AMD_shader_trinary_minmax GL_AMD_texture_texture4 GL_AMD_vertex_shader_layer GL_AMD_vertex_shader_viewport_index GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_APPLE_object_purgeable GL_ARB_ES2_compatibility GL_ARB_ES3_1_compatibility GL_ARB_ES3_2_compatibility GL_ARB_ES3_compatibility GL_ARB_arrays_of_arrays GL_ARB_base_instance GL_ARB_blend_func_extended GL_ARB_buffer_storage GL_ARB_clear_buffer_object GL_ARB_clear_texture GL_ARB_clip_control GL_ARB_compressed_texture_pixel_storage GL_ARB_compute_shader GL_ARB_compute_variable_group_size GL_ARB_conditional_render_inverted GL_ARB_conservative_depth GL_ARB_copy_buffer GL_ARB_copy_image GL_ARB_cull_distance GL_ARB_debug_output GL_ARB_depth_buffer_float GL_ARB_depth_clamp GL_ARB_de
+rivative_control GL_ARB_direct_state_access GL_ARB_draw_buffers GL_ARB_draw_buffers_blend GL_ARB_draw_elements_base_vertex GL_ARB_draw_indirect GL_ARB_draw_instanced GL_ARB_enhanced_layouts GL_ARB_explicit_attrib_location GL_ARB_explicit_uniform_location GL_ARB_fragment_coord_conventions GL_ARB_fragment_layer_viewport GL_ARB_fragment_shader GL_ARB_fragment_shader_interlock GL_ARB_framebuffer_no_attachments GL_ARB_framebuffer_object GL_ARB_framebuffer_sRGB GL_ARB_get_program_binary GL_ARB_get_texture_sub_image GL_ARB_gl_spirv GL_ARB_gpu_shader5 GL_ARB_gpu_shader_fp64 GL_ARB_gpu_shader_int64 GL_ARB_half_float_pixel GL_ARB_half_float_vertex GL_ARB_indirect_parameters GL_ARB_instanced_arrays GL_ARB_internalformat_query GL_ARB_internalformat_query2 GL_ARB_invalidate_subdata GL_ARB_map_buffer_alignment GL_ARB_map_buffer_range GL_ARB_multi_bind GL_ARB_multi_draw_indirect GL_ARB_occlusion_query2 GL_ARB_parallel_shader_compile GL_ARB_pipeline_statistics_query GL_ARB_pixel_buffer_object GL_ARB_point_sprite GL_ARB_poly
+gon_offset_clamp GL_ARB_post_depth_coverage GL_ARB_program_interface_query GL_ARB_provoking_vertex GL_ARB_query_buffer_object GL_ARB_robust_buffer_access_behavior GL_ARB_robustness GL_ARB_sample_shading GL_ARB_sampler_objects GL_ARB_seamless_cube_map GL_ARB_seamless_cubemap_per_texture GL_ARB_separate_shader_objects GL_ARB_shader_atomic_counter_ops GL_ARB_shader_atomic_counters GL_ARB_shader_ballot GL_ARB_shader_bit_encoding GL_ARB_shader_clock GL_ARB_shader_draw_parameters GL_ARB_shader_group_vote GL_ARB_shader_image_load_store GL_ARB_shader_image_size GL_ARB_shader_objects GL_ARB_shader_precision GL_ARB_shader_stencil_export GL_ARB_shader_storage_buffer_object GL_ARB_shader_subroutine GL_ARB_shader_texture_image_samples GL_ARB_shader_texture_lod GL_ARB_shader_viewport_layer_array GL_ARB_shading_language_420pack GL_ARB_shading_language_include GL_ARB_shading_language_packing GL_ARB_spirv_extensions GL_ARB_stencil_texturing GL_ARB_sync GL_ARB_tessellation_shader GL_ARB_texture_barrier GL_ARB_texture_buffer_o
+bject GL_ARB_texture_buffer_object_rgb32 GL_ARB_texture_buffer_range GL_ARB_texture_compression_bptc GL_ARB_texture_compression_rgtc GL_ARB_texture_cube_map_array GL_ARB_texture_filter_anisotropic GL_ARB_texture_float GL_ARB_texture_gather GL_ARB_texture_mirror_clamp_to_edge GL_ARB_texture_multisample GL_ARB_texture_non_power_of_two GL_ARB_texture_query_levels GL_ARB_texture_query_lod GL_ARB_texture_rectangle GL_ARB_texture_rg GL_ARB_texture_rgb10_a2ui GL_ARB_texture_stencil8 GL_ARB_texture_storage GL_ARB_texture_storage_multisample GL_ARB_texture_swizzle GL_ARB_texture_view GL_ARB_timer_query GL_ARB_transform_feedback2 GL_ARB_transform_feedback3 GL_ARB_transform_feedback_instanced GL_ARB_transform_feedback_overflow_query GL_ARB_uniform_buffer_object GL_ARB_vertex_array_bgra GL_ARB_vertex_array_object GL_ARB_vertex_attrib_64bit GL_ARB_vertex_attrib_binding GL_ARB_vertex_buffer_object GL_ARB_vertex_shader GL_ARB_vertex_type_10f_11f_11f_rev GL_ARB_vertex_type_2_10_10_10_rev GL_ARB_viewport_array GL_ATI_blend_e
+quation_separate GL_ATI_texture_float GL_EXT_EGL_image_storage GL_EXT_EGL_sync GL_EXT_abgr GL_EXT_blend_equation_separate GL_EXT_demote_to_helper_invocation GL_EXT_draw_buffers2 GL_EXT_draw_instanced GL_EXT_framebuffer_blit GL_EXT_framebuffer_multisample GL_EXT_framebuffer_multisample_blit_scaled GL_EXT_framebuffer_object GL_EXT_framebuffer_sRGB GL_EXT_packed_depth_stencil GL_EXT_packed_float GL_EXT_pixel_buffer_object GL_EXT_polygon_offset_clamp GL_EXT_provoking_vertex GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_integer_mix GL_EXT_shader_samples_identical GL_EXT_texture_array GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc GL_EXT_texture_filter_anisotropic GL_EXT_texture_integer GL_EXT_texture_sRGB GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_shared_exponent GL_EXT_texture_snorm GL_EXT_texture_swizzle GL_EXT_timer_query GL_EXT_transform_feedback GL_EXT_vertex_array_bgr
+a GL_EXT_vertex_attrib_64bit GL_IBM_multimode_draw_arrays GL_INTEL_blackhole_render GL_INTEL_conservative_rasterization GL_INTEL_performance_query GL_INTEL_shader_atomic_float_minmax GL_INTEL_shader_integer_functions2 GL_KHR_blend_equation_advanced GL_KHR_blend_equation_advanced_coherent GL_KHR_context_flush_control GL_KHR_debug GL_KHR_no_error GL_KHR_parallel_shader_compile GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_MESA_pack_invert GL_MESA_shader_integer_functions GL_MESA_texture_signed_rgba GL_NV_compute_shader_derivatives GL_NV_conditional_render GL_NV_depth_clamp GL_NV_fragment_shader_interlock GL_NV_packed_depth_stencil GL_NV_texture_barrier GL_OES_EGL_image GL_S3_s3tc
+OPENGL LOG: Creating OpenGL 4.6 graphics device ; Context level  <OpenGL 4.5> ; Context handle 1812871760
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Initialize mono
+Mono path[0] = '/home/GileadCosman/Unity/Hub/Editor/2020.2.3f1/Editor/Data/Managed'
+Mono path[1] = '/home/GileadCosman/Unity/Hub/Editor/2020.2.3f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = '/home/GileadCosman/Unity/Hub/Editor/2020.2.3f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56481
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /home/GileadCosman/Unity/Hub/Editor/2020.2.3f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: /home/GileadCosman/Unity/Hub/Editor/2020.2.3f1/Editor/Data/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /home/GileadCosman/Unity/Hub/Editor/2020.2.3f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Register platform support module: /home/GileadCosman/Unity/Hub/Editor/2020.2.3f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Registered in 0.002815 seconds.
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 115.08 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.281 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.008593 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 120.15 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.279 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
+Refreshing native plugins compatible for Editor in 0.81 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3182 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 141.0 MB.
+System memory in use after: 140.3 MB.
+
+Unloading 108 unused Assets to reduce memory usage. Loaded Objects now: 3689.
+Total: 52.335751 ms (FindLiveObjects: 0.388672 ms CreateObjectMapping: 0.222596 ms MarkObjects: 51.089854 ms  DeleteObjects: 0.632733 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/Prefabs/Level.prefab
+  artifactKey: Guid(ec873ad4e9e1c4c419e1062f187bed48) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Level.prefab using Guid(ec873ad4e9e1c4c419e1062f187bed48) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '09eb9bf6ba3ae5ba133d0b23a96d964e') in 0.380592 seconds
+  Import took 0.390840 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 76.559016 seconds.
+  path: Assets/Scenes/Game.unity
+  artifactKey: Guid(3b8887e3253f76a8ca892bff5456031e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/Game.unity using Guid(3b8887e3253f76a8ca892bff5456031e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0747b0fe63605d3bce28f57620cb0999') in 0.001266 seconds
+  Import took 0.009116 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 84.902463 seconds.
+  path: Assets/Art/Materials/Opaque Red Wall.mat
+  artifactKey: Guid(4139053475e6e2441882447c723ecfe4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Art/Materials/Opaque Red Wall.mat using Guid(4139053475e6e2441882447c723ecfe4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '87e485fc4ce638df15bfb7f26c211c39') in 0.031369 seconds
+  Import took 0.039787 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000344 seconds.
+  path: Assets/Art/Materials/Transparent Red Wall.mat
+  artifactKey: Guid(e1a23e261a9e46c49935cf7aed347810) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Art/Materials/Transparent Red Wall.mat using Guid(e1a23e261a9e46c49935cf7aed347810) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9d991629f253251de6fde2682b26baba') in 0.009316 seconds
+  Import took 0.017740 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 50.845058 seconds.
+  path: Assets/Art/Materials/Pink Zone.mat
+  artifactKey: Guid(ec088dc590226edd0a826e6b0800536b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Art/Materials/Pink Zone.mat using Guid(ec088dc590226edd0a826e6b0800536b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ae9a738b838d38fbb2d34ba5540538a0') in 0.009997 seconds
+  Import took 0.019343 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 65.333748 seconds.
+  path: Assets/Art/Materials/Pink Zone.mat
+  artifactKey: Guid(ec088dc590226edd0a826e6b0800536b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Art/Materials/Pink Zone.mat using Guid(ec088dc590226edd0a826e6b0800536b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1f66c2fbe3fc75f0c69653c191c0ea20') in 0.011926 seconds
+  Import took 0.023855 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 79.156760 seconds.
+  path: Assets/Prefabs/Objects (Prefabs)/Player.prefab
+  artifactKey: Guid(51b3a7c81ff3af647b9b549bcd7da981) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Objects (Prefabs)/Player.prefab using Guid(51b3a7c81ff3af647b9b549bcd7da981) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dd0c7b03a29fc6e4ec2b52ef102447f8') in 0.046907 seconds
+  Import took 0.056447 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.910394 seconds.
+  path: Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab
+  artifactKey: Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab using Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '593c4ec156a763014f52833d7a4f76ff') in 0.004596 seconds
+  Import took 0.012580 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004152 seconds.
+  path: Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab
+  artifactKey: Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab using Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '593c4ec156a763014f52833d7a4f76ff') in 0.003887 seconds
+  Import took 0.011678 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 17.830384 seconds.
+  path: Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab
+  artifactKey: Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab using Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '59483570210eec026148f52fb5ba088a') in 0.004278 seconds
+  Import took 0.014174 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.005153 seconds.
+  path: Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab
+  artifactKey: Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab using Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '59483570210eec026148f52fb5ba088a') in 0.005010 seconds
+  Import took 0.015147 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.115459 seconds.
+  path: Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab
+  artifactKey: Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab using Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5def7b643224a0ef9cf2cc3bade33e9f') in 0.003344 seconds
+  Import took 0.012311 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 14.659322 seconds.
+  path: Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab
+  artifactKey: Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Objects (Prefabs)/Pink Zone.prefab using Guid(4b6fbae607bf42e0db96c0a393bd0ee8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ec17cde8216d3eab79c0e89a8b130654') in 0.004182 seconds
+  Import took 0.014125 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 15.562830 seconds.
+  path: Assets/Prefabs/Pink Zone (1).prefab
+  artifactKey: Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pink Zone (1).prefab using Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2aa4ac0da5f3ff44b83193dc873859d9') in 0.004668 seconds
+  Import took 0.014486 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.006720 seconds.
+  path: Assets/Prefabs/Pink Zone (1).prefab
+  artifactKey: Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pink Zone (1).prefab using Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2aa4ac0da5f3ff44b83193dc873859d9') in 0.004617 seconds
+  Import took 0.014673 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 18.495080 seconds.
+  path: Assets/Prefabs/Pink Zone.prefab
+  artifactKey: Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pink Zone.prefab using Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3ef056d342e0ca0554f6fa1e9e89ccf5') in 0.002919 seconds
+  Import took 0.010715 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 12.034297 seconds.
+  path: Assets/Prefabs/Pink Zone.prefab
+  artifactKey: Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pink Zone.prefab using Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '44f1d291909c81fc5f4c8d269c25927e') in 0.003430 seconds
+  Import took 0.011071 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 9.694769 seconds.
+  path: Assets/Prefabs/Pink Zone.prefab
+  artifactKey: Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pink Zone.prefab using Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '52d29f8ed7c1c3e480d13741868ed7d8') in 0.003154 seconds
+  Import took 0.011815 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 64.987260 seconds.
+  path: Assets/Prefabs/Pink Zone.prefab
+  artifactKey: Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pink Zone.prefab using Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2967f9ca436c77b88526ee7f33737309') in 0.003723 seconds
+  Import took 0.011843 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 7.915429 seconds.
+  path: Assets/Prefabs/Pink Zone.prefab
+  artifactKey: Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pink Zone.prefab using Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dd403566bafdbd3f054b6e9f0170d493') in 0.003424 seconds
+  Import took 0.011152 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 11.805488 seconds.
+  path: Assets/Prefabs/Pink Zone.prefab
+  artifactKey: Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pink Zone.prefab using Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5476de30901e2f827a7b2660600202ae') in 0.003365 seconds
+  Import took 0.010736 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.409349 seconds.
+  path: Assets/Prefabs/Pink Zone.prefab
+  artifactKey: Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pink Zone.prefab using Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7292f2992edfb48d273988b688056a2e') in 0.003607 seconds
+  Import took 0.011456 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 23.014335 seconds.
+  path: Assets/Prefabs/Pink Zone.prefab
+  artifactKey: Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pink Zone.prefab using Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6c71df678941942eafdf5aa0cd7bb8ec') in 0.003408 seconds
+  Import took 0.010969 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 36.070824 seconds.
+  path: Assets/Prefabs/Pink Zone.prefab
+  artifactKey: Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pink Zone.prefab using Guid(e1f9bcfe2b16f57fb98fab6b6f5518f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0a41664efa702314255e2cb64886d32e') in 0.003060 seconds
+  Import took 0.011619 seconds .
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
