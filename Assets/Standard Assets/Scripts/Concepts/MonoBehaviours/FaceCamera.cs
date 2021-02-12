@@ -31,7 +31,7 @@ namespace VisionGame
 			if (!Application.isPlaying)
 				return;
 #endif
-			toCamera = GameManager.GetSingleton<CameraScript>().trs.position - trs.position;
+			toCamera = CameraScript.Instance.trs.position - trs.position;
 			trs.rotation = Quaternion.LookRotation(transform.forward, new Vector3(toCamera.x * xMultiplier, toCamera.y * yMultiplier, toCamera.z * zMultiplier));
 		}
 	}

@@ -9,7 +9,7 @@ using Extensions;
 namespace VisionGame
 {
 	//[ExecuteInEditMode]
-	public class VirtualKeyboard : MonoBehaviour
+	public class VirtualKeyboard : SingletonMonoBehaviour<VirtualKeyboard>
 	{
 		public Transform trs;
 		public InputField outputToInputField;

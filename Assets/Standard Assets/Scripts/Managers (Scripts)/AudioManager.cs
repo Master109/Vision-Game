@@ -5,7 +5,7 @@ using Extensions;
 
 namespace VisionGame
 {
-	public class AudioManager : MonoBehaviour, ISaveableAndLoadable
+	public class AudioManager : SingletonMonoBehaviour<AudioManager>, ISaveableAndLoadable
 	{
 		public string Name
 		{
@@ -37,8 +37,9 @@ namespace VisionGame
 		public SoundEffect soundEffectPrefab;
 		public static SoundEffect[] soundEffects = new SoundEffect[0];
 
-		public virtual void Awake ()
+		public override void Awake ()
 		{
+			base.Awake ();
 			UpdateAudioListener ();
 			soundEffects = new SoundEffect[0];
 		}
@@ -53,9 +54,9 @@ namespace VisionGame
 
 		public virtual void ToggleMute ()
 		{
-			if (GameManager.GetSingleton<AudioManager>() != this)
+			if (AudioManager.Instance != this)
 			{
-				GameManager.GetSingleton<AudioManager>().ToggleMute ();
+				AudioManager.Instance.ToggleMute ();
 				return;
 			}
 			mute = !mute;

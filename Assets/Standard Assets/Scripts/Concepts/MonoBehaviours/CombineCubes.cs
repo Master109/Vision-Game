@@ -8,7 +8,7 @@ using VisionGame;
 #endif
 
 [ExecuteInEditMode]
-public class CombineCubes : MonoBehaviour
+public class CombineCubes : SingletonMonoBehaviour<CombineCubes>
 {
 	public GameObject outputGo;
 	public bool autoAddRigidbody;
@@ -192,9 +192,9 @@ public class CombineCubes : MonoBehaviour
             Transform trs = Selection.transforms[i];
             combineEntries[i] = new CombineEntry(trs.GetComponent<MeshFilter>(), trs);
 		}
-		GameObject outputGo = GameManager.GetSingleton<CombineCubes>().outputGo;
-		bool autoAddRigidbody = GameManager.GetSingleton<CombineCubes>().autoAddRigidbody;
-		bool autoSetColliders = GameManager.GetSingleton<CombineCubes>().autoSetColliders;
+		GameObject outputGo = CombineCubes.Instance.outputGo;
+		bool autoAddRigidbody = CombineCubes.Instance.autoAddRigidbody;
+		bool autoSetColliders = CombineCubes.Instance.autoSetColliders;
 		CombineCubes combineCubes = new GameObject().AddComponent<CombineCubes>();
 		combineCubes.outputGo = outputGo;
 		combineCubes.combineEntries = combineEntries;

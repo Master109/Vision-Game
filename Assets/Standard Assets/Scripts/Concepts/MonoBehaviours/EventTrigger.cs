@@ -94,7 +94,7 @@ namespace VisionGame
 			public virtual void Update ()
 			{
 				previousValue = value;
-				value = GameManager.GetSingleton<InputManager>().GetMember<T>(inputMemberPath);
+				value = InputManager.Instance.GetMember<T>(inputMemberPath);
 			}
 		}
 

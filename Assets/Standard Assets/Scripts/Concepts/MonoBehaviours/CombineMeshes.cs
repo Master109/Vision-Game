@@ -8,7 +8,7 @@ using System.IO;
 #endif
 
 [ExecuteInEditMode]
-public class CombineMeshes : MonoBehaviour
+public class CombineMeshes : SingletonMonoBehaviour<CombineMeshes>
 {
 	public GameObject outputGo;
 	public CombineEntry[] combineEntries = new CombineEntry[0];
@@ -92,12 +92,12 @@ public class CombineMeshes : MonoBehaviour
             Transform trs = Selection.transforms[i];
             combineEntries[i] = new CombineEntry(trs.GetComponent<MeshFilter>(), trs);
 		}
-		GameObject outputGo = GameManager.GetSingleton<CombineMeshes>().outputGo;
-		CombineMode combineMode = GameManager.GetSingleton<CombineMeshes>().combineMode;
-		bool autoSetMaterial = GameManager.GetSingleton<CombineMeshes>().autoSetMaterial;
-		bool autoSetColliders = GameManager.GetSingleton<CombineMeshes>().autoSetColliders;
-		bool shouldMakeAsset = GameManager.GetSingleton<CombineMeshes>().shouldMakeAsset;
-		string saveAssetAtPath = GameManager.GetSingleton<CombineMeshes>().saveAssetAtPath;
+		GameObject outputGo = CombineMeshes.Instance.outputGo;
+		CombineMode combineMode = CombineMeshes.Instance.combineMode;
+		bool autoSetMaterial = CombineMeshes.Instance.autoSetMaterial;
+		bool autoSetColliders = CombineMeshes.Instance.autoSetColliders;
+		bool shouldMakeAsset = CombineMeshes.Instance.shouldMakeAsset;
+		string saveAssetAtPath = CombineMeshes.Instance.saveAssetAtPath;
 		CombineMeshes combineMeshes = new GameObject().AddComponent<CombineMeshes>();
 		combineMeshes.outputGo = outputGo;
 		combineMeshes.combineMode = combineMode;

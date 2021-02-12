@@ -6,7 +6,7 @@ using Extensions;
 using VisionGame;
 using UnityEngine.InputSystem;
 
-public class UIControlManager : MonoBehaviour, IUpdatable
+public class UIControlManager : SingletonMonoBehaviour<UIControlManager>, IUpdatable
 {
 	public bool PauseWhileUnfocused
 	{
@@ -30,8 +30,9 @@ public class UIControlManager : MonoBehaviour, IUpdatable
 	bool previousLeftClickInput;
 	InputField currentInputField;
 
-	public virtual void Awake ()
+	public override void Awake ()
 	{
+		base.Awake ();
 		GameManager.updatables = GameManager.updatables.Add(this);
 		repeatTimer.onFinished += delegate { _HandleChangeSelected (); ControlSelected (); };
 	}

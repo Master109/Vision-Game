@@ -72,7 +72,7 @@ public class _Animation : MonoBehaviour
 		if (CurrentFrame.useLocalScale)
 			trs.localScale = CurrentFrame.localScale;
 		if (CurrentFrame.useStartDialog)
-			GameManager.GetSingleton<DialogManager>().StartDialog (CurrentFrame.startDialog);
+			DialogManager.Instance.StartDialog (CurrentFrame.startDialog);
 		if (CurrentFrame.useActivateButton)
 			CurrentFrame.activateButton.onClick.Invoke();
 		currentFrameIndex ++;

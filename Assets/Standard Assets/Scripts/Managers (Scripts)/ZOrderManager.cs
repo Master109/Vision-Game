@@ -9,7 +9,7 @@ using UnityEditor;
 namespace VisionGame
 {
 	//[ExecuteInEditMode]
-	public class ZOrderManager : MonoBehaviour
+	public class ZOrderManager : SingletonMonoBehaviour<ZOrderManager>
 	{
 		public GameObject[] addToZOrderedObjects = new GameObject[0];
 		public List<ZOrderedObject> zOrderedObjects = new List<ZOrderedObject>();
@@ -100,7 +100,7 @@ namespace VisionGame
 		[MenuItem("Z Order/Apply Changes")]
 		public static void _ApplyChanges ()
 		{
-			GameManager.GetSingleton<ZOrderManager>().ApplyChanges ();
+			Instance.ApplyChanges ();
 		}
 #endif
 	}

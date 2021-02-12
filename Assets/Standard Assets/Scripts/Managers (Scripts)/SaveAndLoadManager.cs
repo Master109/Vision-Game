@@ -75,9 +75,9 @@ namespace VisionGame
 		
 		public virtual void Save ()
 		{
-			if (GameManager.GetSingleton<SaveAndLoadManager>() != this)
+			if (SaveAndLoadManager.Instance != this)
 			{
-				GameManager.GetSingleton<SaveAndLoadManager>().Save ();
+				SaveAndLoadManager.Instance.Save ();
 				return;
 			}
 			// Setup ();
@@ -124,9 +124,9 @@ namespace VisionGame
 		
 		public virtual void Load (int saveEntryIndex)
 		{
-			if (GameManager.GetSingleton<SaveAndLoadManager>() != this)
+			if (SaveAndLoadManager.Instance != this)
 			{
-				GameManager.GetSingleton<SaveAndLoadManager>().Load (saveEntryIndex);
+				SaveAndLoadManager.Instance.Load (saveEntryIndex);
 				return;
 			}
 			if (!usePlayerPrefs)
@@ -147,7 +147,7 @@ namespace VisionGame
 		public virtual void OnLoaded ()
 		{
 			GameManager.Instance.SetGosActive ();
-			// GameManager.GetSingleton<AudioManager>().Awake ();
+			// AudioManager.Instance.Awake ();
 			// Player.instance.trs.position = Player.instance.spawnPosition;
 			// GameCamera.Instance.Awake ();
 			// GameManager.GetSingleton<Survival>().highscoreText.text.text = "Highscore: " + GameManager.GetSingleton<Survival>().highscore;
@@ -155,9 +155,9 @@ namespace VisionGame
 
 		public virtual void Delete (int saveEntryIndex)
 		{
-			if (GameManager.GetSingleton<SaveAndLoadManager>() != this)
+			if (SaveAndLoadManager.Instance != this)
 			{
-				GameManager.GetSingleton<SaveAndLoadManager>().Delete (saveEntryIndex);
+				SaveAndLoadManager.Instance.Delete (saveEntryIndex);
 				return;
 			}
 			for (int i = 0; i < saveEntries.Length; i ++)
@@ -219,18 +219,18 @@ namespace VisionGame
 					if (!memberEntry.isField)
 					{
 						PropertyInfo property = memberEntry.member as PropertyInfo;
-						if (GameManager.GetSingleton<SaveAndLoadManager>().usePlayerPrefs)
+						if (SaveAndLoadManager.Instance.usePlayerPrefs)
 							PlayerPrefs.SetString(GetKeyNameForMemberEntry(accountIndex, saveEntryIndex, memberEntry), Serialize(property.GetValue(saveableAndLoadable, null), property.PropertyType));
 						else
-							GameManager.GetSingleton<SaveAndLoadManager>().savedData += GetKeyNameForMemberEntry(accountIndex, saveEntryIndex, memberEntry) + VALUE_GROUP_SEPERATOR + Serialize(property.GetValue(saveableAndLoadable, null), property.PropertyType) + VALUE_GROUP_SEPERATOR;
+							SaveAndLoadManager.Instance.savedData += GetKeyNameForMemberEntry(accountIndex, saveEntryIndex, memberEntry) + VALUE_GROUP_SEPERATOR + Serialize(property.GetValue(saveableAndLoadable, null), property.PropertyType) + VALUE_GROUP_SEPERATOR;
 					}
 					else
 					{
 						FieldInfo field = memberEntry.member as FieldInfo;
-						if (GameManager.GetSingleton<SaveAndLoadManager>().usePlayerPrefs)
+						if (SaveAndLoadManager.Instance.usePlayerPrefs)
 							PlayerPrefs.SetString(GetKeyNameForMemberEntry(accountIndex, saveEntryIndex, memberEntry), Serialize(field.GetValue(saveableAndLoadable), field.FieldType));
 						else
-							GameManager.GetSingleton<SaveAndLoadManager>().savedData += GetKeyNameForMemberEntry(accountIndex, saveEntryIndex, memberEntry) + VALUE_GROUP_SEPERATOR + Serialize(field.GetValue(saveableAndLoadable), field.FieldType) + VALUE_GROUP_SEPERATOR;
+							SaveAndLoadManager.Instance.savedData += GetKeyNameForMemberEntry(accountIndex, saveEntryIndex, memberEntry) + VALUE_GROUP_SEPERATOR + Serialize(field.GetValue(saveableAndLoadable), field.FieldType) + VALUE_GROUP_SEPERATOR;
 					}
 				}
 			}
@@ -244,14 +244,14 @@ namespace VisionGame
 					if (!memberEntry.isField)
 					{
 						PropertyInfo property = memberEntry.member as PropertyInfo;
-						if (GameManager.GetSingleton<SaveAndLoadManager>().usePlayerPrefs)
+						if (SaveAndLoadManager.Instance.usePlayerPrefs)
 						{
 							value = Deserialize(PlayerPrefs.GetString(GetKeyNameForMemberEntry(accountIndex, saveEntryIndex, memberEntry), Serialize(property.GetValue(saveableAndLoadable, null), property.PropertyType)), property.PropertyType);
 							property.SetValue(saveableAndLoadable, value, null);
 						}
 						else
 						{
-							string[] valueGroups = GameManager.GetSingleton<SaveAndLoadManager>().savedData.Split(new string[] { VALUE_GROUP_SEPERATOR }, StringSplitOptions.None);
+							string[] valueGroups = SaveAndLoadManager.Instance.savedData.Split(new string[] { VALUE_GROUP_SEPERATOR }, StringSplitOptions.None);
 							for (int i = 0; i < valueGroups.Length; i += 2)
 							{
 								string valueGroup = valueGroups[i];
@@ -267,14 +267,14 @@ namespace VisionGame
 					else
 					{
 						FieldInfo field = memberEntry.member as FieldInfo;
-						if (GameManager.GetSingleton<SaveAndLoadManager>().usePlayerPrefs)
+						if (SaveAndLoadManager.Instance.usePlayerPrefs)
 						{
 							value = Deserialize(PlayerPrefs.GetString(GetKeyNameForMemberEntry(accountIndex, saveEntryIndex, memberEntry), Serialize(field.GetValue(saveableAndLoadable), field.FieldType)), field.FieldType);
 							field.SetValue(saveableAndLoadable, value);
 						}
 						else
 						{
-							string[] valueGroups = GameManager.GetSingleton<SaveAndLoadManager>().savedData.Split(new string[] { VALUE_GROUP_SEPERATOR }, StringSplitOptions.None);
+							string[] valueGroups = SaveAndLoadManager.Instance.savedData.Split(new string[] { VALUE_GROUP_SEPERATOR }, StringSplitOptions.None);
 							for (int i = 0; i < valueGroups.Length; i += 2)
 							{
 								string valueGroup = valueGroups[i];
@@ -294,16 +294,16 @@ namespace VisionGame
 			{
 				foreach (MemberEntry memberEntry in memberEntries)
 				{
-					if (GameManager.GetSingleton<SaveAndLoadManager>().usePlayerPrefs)
+					if (SaveAndLoadManager.Instance.usePlayerPrefs)
 						PlayerPrefs.DeleteKey(GetKeyNameForMemberEntry(accountIndex, saveEntryIndex, memberEntry));
 					else
 					{
-						string[] valueGroups = GameManager.GetSingleton<SaveAndLoadManager>().savedData.Split(new string[] { VALUE_GROUP_SEPERATOR }, StringSplitOptions.None);
+						string[] valueGroups = SaveAndLoadManager.Instance.savedData.Split(new string[] { VALUE_GROUP_SEPERATOR }, StringSplitOptions.None);
 						for (int i = 0; i < valueGroups.Length; i += 2)
 						{
 							string valueGroup = valueGroups[i];
 							if (valueGroup == GetKeyNameForMemberEntry(accountIndex, saveEntryIndex, memberEntry))
-								GameManager.GetSingleton<SaveAndLoadManager>().savedData = GameManager.GetSingleton<SaveAndLoadManager>().savedData.RemoveEach(valueGroup + VALUE_GROUP_SEPERATOR + valueGroups[i + 1] + VALUE_GROUP_SEPERATOR);
+								SaveAndLoadManager.Instance.savedData = SaveAndLoadManager.Instance.savedData.RemoveEach(valueGroup + VALUE_GROUP_SEPERATOR + valueGroups[i + 1] + VALUE_GROUP_SEPERATOR);
 						}
 					}
 				}

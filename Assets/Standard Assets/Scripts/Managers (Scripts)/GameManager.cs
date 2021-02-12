@@ -178,7 +178,7 @@ namespace VisionGame
 			AccountManager.lastUsedAccountIndex = 0;
 			if (SceneManager.GetActiveScene().name == "Init")
 				LoadGameScenes ();
-			else if (GetSingleton<GameCamera>() != null)
+			else if (GameCamera.Instance != null)
 				StartCoroutine(OnGameSceneLoadedRoutine ());
 		}
 
@@ -410,15 +410,15 @@ namespace VisionGame
 		IEnumerator LoadRoutine ()
 		{
 			yield return new WaitForEndOfFrame();
-			GetSingleton<SaveAndLoadManager>().Setup ();
+			SaveAndLoadManager.Instance.Setup ();
 			if (!HasPlayedBefore)
 			{
-				GetSingleton<SaveAndLoadManager>().DeleteAll ();
+				SaveAndLoadManager.Instance.DeleteAll ();
 				HasPlayedBefore = true;
-				GetSingleton<SaveAndLoadManager>().OnLoaded ();
+				SaveAndLoadManager.Instance.OnLoaded ();
 			}
 			else
-				GetSingleton<SaveAndLoadManager>().LoadMostRecent ();
+				SaveAndLoadManager.Instance.LoadMostRecent ();
 			// GetSingleton<AdsManager>().ShowAd ();
 			Init ();
 			yield break;
@@ -521,7 +521,7 @@ namespace VisionGame
 			if (AccountManager.lastUsedAccountIndex == -1)
 				return;
 			// AccountManager.CurrentlyPlaying.PlayTime += Time.time;
-			// GetSingleton<SaveAndLoadManager>().Save ();
+			// SaveAndLoadManager.Instance.Save ();
 		}
 
 		public virtual void OnApplicationFocus (bool isFocused)
@@ -690,44 +690,44 @@ namespace VisionGame
 			button.onClick.Invoke();
 		}
 
-		public static T GetSingleton<T> ()
-		{
-			if (!singletons.ContainsKey(typeof(T)))
-				return GetSingleton<T>(FindObjectsOfType<Object>());
-			else
-			{
-				object instance = singletons[typeof(T)];
-				if (instance == null || instance.Equals(default(T)))
-				{
-					T singleton = GetSingleton<T>(FindObjectsOfType<Object>());
-					singletons[typeof(T)] = singleton;
-					return singleton;
-				}
-				else
-					return (T) singletons[typeof(T)];
-			}
-		}
+		// public static T GetSingleton<T> ()
+		// {
+		// 	if (!singletons.ContainsKey(typeof(T)))
+		// 		return GetSingleton<T>(FindObjectsOfType<Object>());
+		// 	else
+		// 	{
+		// 		object instance = singletons[typeof(T)];
+		// 		if (instance == null || instance.Equals(default(T)))
+		// 		{
+		// 			T singleton = GetSingleton<T>(FindObjectsOfType<Object>());
+		// 			singletons[typeof(T)] = singleton;
+		// 			return singleton;
+		// 		}
+		// 		else
+		// 			return (T) singletons[typeof(T)];
+		// 	}
+		// }
 
-		public static T GetSingleton<T> (Object[] objects)
-		{
-			if (typeof(T).IsSubclassOf(typeof(Object)))
-			{
-				foreach (Object obj in objects)
-				{
-					if (obj is T)
-					{
-						singletons.Remove(typeof(T));
-						singletons.Add(typeof(T), obj);
-						break;
-					}
-				}
-			}
-			object instance = default(T);
-			if (singletons.TryGetValue(typeof(T), out instance))
-			{
-			}
-			return (T) instance;
-		}
+		// public static T GetSingleton<T> (Object[] objects)
+		// {
+		// 	if (typeof(T).IsSubclassOf(typeof(Object)))
+		// 	{
+		// 		foreach (Object obj in objects)
+		// 		{
+		// 			if (obj is T)
+		// 			{
+		// 				singletons.Remove(typeof(T));
+		// 				singletons.Add(typeof(T), obj);
+		// 				break;
+		// 			}
+		// 		}
+		// 	}
+		// 	object instance = default(T);
+		// 	if (singletons.TryGetValue(typeof(T), out instance))
+		// 	{
+		// 	}
+		// 	return (T) instance;
+		// }
 
 		// public static T GetSingletonIncludeAssets<T> ()
 		// {

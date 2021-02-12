@@ -8,6 +8,16 @@ using VisionGame;
 [ExecuteInEditMode]
 public class SubdivideMesh : EditorScript
 {
+	public static SubdivideMesh instance;
+	public static SubdivideMesh Instance
+	{
+		get
+		{
+			if (instance == null)
+				instance = FindObjectOfType<SubdivideMesh>();
+			return instance;
+		}
+	}
 	public MeshFilter meshFilter;
     public int subdivideCount;
 	public bool makeAsset;
@@ -45,7 +55,7 @@ public class SubdivideMesh : EditorScript
 	[MenuItem("Tools/Subdivide Mesh")]
 	static void _SubdivideMesh ()
 	{
-		SubdivideMesh _subdivideMesh = GameManager.GetSingleton<SubdivideMesh>();
+		SubdivideMesh _subdivideMesh = SubdivideMesh.Instance;
 		SubdivideMesh subdivideMesh = new GameObject().AddComponent<SubdivideMesh>();
 		for (int i = 0; i < Selection.transforms.Length; i ++)
 		{
