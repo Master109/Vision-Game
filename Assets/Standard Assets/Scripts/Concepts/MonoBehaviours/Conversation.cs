@@ -24,11 +24,11 @@ namespace DialogAndStory
 			{
 				if (trs == null)
 					trs = GetComponent<Transform>();
-				EditorApplication.update += DoEditorUpdate;
+				EditorApplication.update += Do;
 				return;
 			}
 			else
-				EditorApplication.update -= DoEditorUpdate;
+				EditorApplication.update -= Do;
 #endif
 		}
 		
@@ -50,7 +50,7 @@ namespace DialogAndStory
 		public virtual void OnDisable ()
 		{
 #if UNITY_EDITOR
-			EditorApplication.update -= DoEditorUpdate;
+			EditorApplication.update -= Do;
 			if (!Application.isPlaying)
 				return;
 #endif
@@ -64,7 +64,7 @@ namespace DialogAndStory
 		}
 		
 #if UNITY_EDITOR
-		public virtual void DoEditorUpdate ()
+		public virtual void Do ()
 		{
 			if (dialogs.Length == 0)
 				dialogs = GetComponentsInChildren<Dialog>();

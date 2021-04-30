@@ -23,7 +23,7 @@ namespace Extensions
 				if (sphereCollider != null)
 					output = new Bounds(sphereCollider.center, sphereCollider.bounds.size);
 			}
-			return output.SetToPositiveSize();
+			return output.MakePositiveSize();
 		}
 	}
 }

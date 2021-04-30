@@ -508,5 +508,26 @@ namespace Extensions
 		{
 			return v + ((point - v) * 2);
 		}
+
+		public static Vector2 FlipY (this Vector2 v)
+		{
+			v.y *= -1;
+			return v;
+		}
+
+		public static Vector3 MakePositive (this Vector3 v)
+		{
+			v.x = Mathf.Abs(v.x);
+			v.y = Mathf.Abs(v.y);
+			v.z = Mathf.Abs(v.z);
+			return v;
+		}
+
+		public static Vector2 MakePositive (this Vector2 v)
+		{
+			v.x = Mathf.Abs(v.x);
+			v.y = Mathf.Abs(v.y);
+			return v;
+		}
 	}
 }

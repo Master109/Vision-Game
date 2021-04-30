@@ -76,7 +76,7 @@ namespace VisionGame
 				EditorPrefs.SetString("Unique ids", uniqueIdString);
 			}
 		}
-		public bool doEditorUpdates;
+		public bool Dos;
 #endif
 		public static int framesSinceLoadedScene;
 		public const int LAG_FRAMES_AFTER_LOAD_SCENE = 2;

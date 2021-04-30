@@ -20,7 +20,7 @@ public class RotatePolygonCollider2D : EditorScript
 		}
 	}
 
-	public override void DoEditorUpdate ()
+	public override void Do ()
 	{
 		if (!update)
 			return;
@@ -30,5 +30,9 @@ public class RotatePolygonCollider2D : EditorScript
 			points[i] = points[i].Rotate(rotate);
 		polygonCollider.points = points;
 	}
+}
+#else
+public class RotatePolygonCollider2D : EditorScript
+{
 }
 #endif

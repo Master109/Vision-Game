@@ -44,11 +44,11 @@ public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 				collider = GetComponent<Collider>();
 			if (wayPointsParent == null)
 				wayPointsParent = trs;
-			EditorApplication.update += DoEditorUpdate;
+			EditorApplication.update += Do;
 			return;
 		}
 		else
-			EditorApplication.update -= DoEditorUpdate;
+			EditorApplication.update -= Do;
 #endif
 		foreach (Transform waypoint in wayPoints)
 			waypoint.SetParent(null);
@@ -79,10 +79,10 @@ public class ObjectWithWaypoints : MonoBehaviour, IUpdatable, ICopyable
 	{
 		if (Application.isPlaying)
 			return;
-		EditorApplication.update -= DoEditorUpdate;
+		EditorApplication.update -= Do;
 	}
 	
-	public virtual void DoEditorUpdate ()
+	public virtual void Do ()
 	{
 		if (lineRenderer == null)
 			return;

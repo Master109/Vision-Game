@@ -4,12 +4,7 @@ using Extensions;
 
 public class DestroyAllEditorScripts : EditorScript
 {
-	public virtual void Start ()
-	{
-		Do ();
-	}
-
-	public virtual void Do ()
+	public override void Do ()
 	{
 		EditorScript[] editorScripts = FindObjectsOfType<EditorScript>().Remove(this);
 		foreach (EditorScript editorScript in editorScripts)

@@ -17,11 +17,6 @@ namespace Extensions
 			else
 				return Mathf.Round(f / interval) * interval;
 		}
-
-		public static float CeilInterval (float f, float interval)
-		{
-			return f + (f % interval);
-		}
 		
 		public static int Sign (float f)
 		{
@@ -35,43 +30,41 @@ namespace Extensions
 		{
 			return Mathf.Abs(Sign(f1) - Sign(f2)) == 2;
 		}
-		
-		public enum RoundingMethod
-		{
-			HalfOrMoreRoundsUp,
-			HalfOrLessRoundsDown,
-			RoundUpIfNotWhole,
-			RoundDownIfNotWhole
-		}
 
 		public static float GetClosestNumber (float f, params float[] numbers)
 		{
 			float closestNumber = numbers[0];
-			float number;
+			float closestDistance = Mathf.Abs(f - closestNumber);
 			for (int i = 1; i < numbers.Length; i ++)
 			{
-				number = numbers[i];
-				if (Mathf.Abs(f - number) < Mathf.Abs(f - closestNumber))
+				float number = numbers[i];
+				float distance = Mathf.Abs(f - number);
+				if (distance < closestDistance)
+				{
+					closestDistance = distance;
 					closestNumber = number;
+				}
 			}
 			return closestNumber;
 		}
 
 		public static int GetIndexOfClosestNumber (float f, params float[] numbers)
 		{
-			int indexOfClosestNumber = 0;
+			int output = 0;
 			float closestNumber = numbers[0];
-			float number;
+			float closestDistance = Mathf.Abs(f - closestNumber);
 			for (int i = 1; i < numbers.Length; i ++)
 			{
-				number = numbers[i];
-				if (Mathf.Abs(f - number) < Mathf.Abs(f - closestNumber))
+				float number = numbers[i];
+				float distance = Mathf.Abs(f - number);
+				if (distance < closestDistance)
 				{
+					closestDistance = distance;
 					closestNumber = number;
-					indexOfClosestNumber = i;
+					output = i;
 				}
 			}
-			return indexOfClosestNumber;
+			return output;
 		}
 
 		public static float RegularizeAngle (float angle)
@@ -83,13 +76,14 @@ namespace Extensions
 
 		public static float ClampAngle (float ang, float min, float max)
 		{
-			ang = WrapAngle(ang);
-			min = WrapAngle(min);
-			max = WrapAngle(max);
+			ang = RegularizeAngle(ang);
+			min = RegularizeAngle(min);
+			max = RegularizeAngle(max);
 			float minDist = Mathf.Min(Mathf.DeltaAngle(ang, min), Mathf.DeltaAngle(ang, max));
-			if (WrapAngle(ang + Mathf.DeltaAngle(ang, minDist)) == min)
+			float _ang = WrapAngle(ang + Mathf.DeltaAngle(ang, minDist));
+			if (_ang == min)
 				return min;
-			else if (WrapAngle(ang + Mathf.DeltaAngle(ang, minDist)) == max)
+			else if (_ang == max)
 				return max;
 			else
 				return ang;
@@ -102,6 +96,39 @@ namespace Extensions
 			else if (ang > 360)
 				ang = 360 - ang;
 			return ang;
+		}
+
+		public static float Round (float f, RoundingMethod roundingMethod)
+		{
+			if (roundingMethod == RoundingMethod.HalfOrMoreRoundsUp)
+			{
+				if (f % 1 >= 0.5f)
+					return Mathf.Round(f);
+			}
+			else if (roundingMethod == RoundingMethod.HalfOrLessRoundsDown)
+			{
+				if (f % 1 <= 0.5f)
+					return (int) f;
+			}
+			else if (roundingMethod == RoundingMethod.RoundUpIfNotInteger)
+			{
+				if (f % 1 != 0)
+					return Mathf.Round(f);
+			}
+			else// if (roundingMethod == RoundingMethod.RoundDownIfNotInteger)
+			{
+				if (f % 1 != 0)
+					return (int) f;
+			}
+			return f;
+		}
+		
+		public enum RoundingMethod
+		{
+			HalfOrMoreRoundsUp,
+			HalfOrLessRoundsDown,
+			RoundUpIfNotInteger,
+			RoundDownIfNotInteger
 		}
 	}
 }

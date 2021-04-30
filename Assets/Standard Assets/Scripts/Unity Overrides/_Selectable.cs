@@ -58,7 +58,7 @@ public class _Selectable : MonoBehaviour
 				rectTrs = GetComponent<RectTransform>();
 			if (selectable == null)
 				selectable = GetComponent<Selectable>();
-			EditorApplication.update += DoEditorUpdate;
+			EditorApplication.update += Do;
 			return;
 		}
 #endif
@@ -71,7 +71,7 @@ public class _Selectable : MonoBehaviour
 #if UNITY_EDITOR
 		if (!Application.isPlaying)
 		{
-			EditorApplication.update -= DoEditorUpdate;
+			EditorApplication.update -= Do;
 			return;
 		}
 #endif
@@ -79,7 +79,7 @@ public class _Selectable : MonoBehaviour
 	}
 	
 #if UNITY_EDITOR
-	public virtual void DoEditorUpdate ()
+	public virtual void Do ()
 	{
 		if (updateCanvas)
 		{

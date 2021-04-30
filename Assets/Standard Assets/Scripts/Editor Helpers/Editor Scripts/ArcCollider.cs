@@ -32,7 +32,7 @@ public class ArcCollider : EditorScript
 	}
 
 	int index;
-	public override void DoEditorUpdate ()
+	public override void Do ()
 	{
 		index = 0;
 		points = new Vector2[innerPointCount + outerPointCount + 2];

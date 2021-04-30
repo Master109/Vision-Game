@@ -16,7 +16,6 @@ public class CombineSpriteRenderers : EditorScript
 	public string textureAssetPath;
 	public SpriteRenderer[] spriteRenderers = new SpriteRenderer[0];
 	public bool makeAssetPathsUnique;
-	public bool update;
 	Texture2D[] images = new Texture2D[0];
 
 	public virtual void Start ()
@@ -29,15 +28,7 @@ public class CombineSpriteRenderers : EditorScript
 		}
 	}
 
-	public override void DoEditorUpdate ()
-	{
-		if (!update)
-			return;
-		update = false;
-		Do ();
-	}
-
-	public virtual void Do ()
+	public override void Do ()
 	{
 		Texture2D image = images[0];
 		Texture2D texture = new Texture2D(image.width, image.height);
@@ -87,8 +78,7 @@ public class CombineSpriteRenderers : EditorScript
 public class CombineSpriteRenderersEditor : EditorScriptEditor
 {
 }
-#endif
-#if !UNITY_EDITOR
+#else
 public class CombineSpriteRenderers : EditorScript
 {
 }

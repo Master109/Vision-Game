@@ -19,21 +19,17 @@ public class SubdivideMesh : EditorScript
 		}
 	}
 	public MeshFilter meshFilter;
-    public int subdivideCount;
+    public int subdivideCount = 1;
 	public bool makeAsset;
 	public string saveAssetAtPath;
 	public bool autoNameAssetPath;
-	public bool update;
 
-	public override void DoEditorUpdate ()
+	public override void Do ()
 	{
-		if (!update)
-			return;
-		update = false;
-		Do ();
+		Do (meshFilter, subdivideCount, makeAsset, autoNameAssetPath, saveAssetAtPath);
 	}
 
-	public void Do ()
+	public static void Do (MeshFilter meshFilter, int subdivideCount = 1, bool makeAsset = false, bool autoNameAssetPath = false, string saveAssetAtPath = "")
 	{
 		Mesh mesh = Instantiate(meshFilter.sharedMesh);
         for (int i = 0; i < subdivideCount; i ++)
@@ -46,8 +42,10 @@ public class SubdivideMesh : EditorScript
 				string newAssetPath = saveAssetAtPath;
 				while (File.Exists(newAssetPath))
 					newAssetPath = newAssetPath.Replace(".asset", "1.asset");
+				AssetDatabase.CreateAsset(meshFilter.sharedMesh, newAssetPath);
 			}
-			AssetDatabase.CreateAsset(meshFilter.sharedMesh, saveAssetAtPath);
+			else
+				AssetDatabase.CreateAsset(meshFilter.sharedMesh, saveAssetAtPath);
 			AssetDatabase.SaveAssets();
 		}
 	}
@@ -55,27 +53,20 @@ public class SubdivideMesh : EditorScript
 	[MenuItem("Tools/Subdivide Mesh")]
 	static void _SubdivideMesh ()
 	{
-		SubdivideMesh _subdivideMesh = SubdivideMesh.Instance;
-		SubdivideMesh subdivideMesh = new GameObject().AddComponent<SubdivideMesh>();
+		SubdivideMesh subdivideMesh = SubdivideMesh.Instance;
 		for (int i = 0; i < Selection.transforms.Length; i ++)
 		{
 			Transform trs = Selection.transforms[i];
 			MeshFilter meshFilter = trs.GetComponent<MeshFilter>();
 			if (meshFilter != null)
 			{
-				subdivideMesh.meshFilter = meshFilter;
+				if (subdivideMesh == null)
+					Do (meshFilter);
+				else
+					Do (meshFilter, 1, subdivideMesh.makeAsset, subdivideMesh.autoNameAssetPath, subdivideMesh.saveAssetAtPath);
 				break;
 			}
 		}
-		if (subdivideMesh.meshFilter != null)
-		{
-			subdivideMesh.subdivideCount = 1;
-			subdivideMesh.makeAsset = _subdivideMesh.makeAsset;
-			subdivideMesh.saveAssetAtPath = _subdivideMesh.saveAssetAtPath;
-			subdivideMesh.autoNameAssetPath = _subdivideMesh.autoNameAssetPath;
-			subdivideMesh.Do ();
-		}
-		DestroyImmediate(subdivideMesh.gameObject);
 	}
 }
 #endif

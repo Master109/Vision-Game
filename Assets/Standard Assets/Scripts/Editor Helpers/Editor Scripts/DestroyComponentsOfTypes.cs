@@ -2,11 +2,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using Extensions;
 using UnityEditor;
+using Extensions;
 using System;
 
-//[ExecuteInEditMode]
 public class DestroyComponentsOfTypes : EditorScript
 {
 	public Component[] components;
@@ -29,33 +28,26 @@ public class DestroyComponentsOfTypes : EditorScript
 			else
 				break;
 		} while (true);
-		if (components.Length > 0)
+		List<Type> _types = new List<Type>();
+		for (int i = 0; i < components.Length; i ++)
 		{
-			types = new Type[0];
-			foreach (Component component in components)
-				types = types.Add(component.GetType());
+			Component component = components[i];
+			_types.Add(component.GetType());
 		}
-		Component[] _components = GetComponents<Component>();
-		Component _component;
-		foreach (Type type in types)
+		types = _types.ToArray();
+		List<Component> _components = new List<Component>(GetComponents<Component>());
+		for (int i = 0; i < types.Length; i ++)
 		{
-			for (int i = 0; i < _components.Length; i ++)
+			Type type = types[i];
+			for (int i2 = 0; i2 < _components.Count; i2 ++)
 			{
-				_component = _components[i];
+				Component _component = _components[i2];
 				if (_component.GetType() == type)
-				{
 					DestroyImmediate(_component);
-					_components = _components.RemoveAt(i);
-					i --;
-				}
 			}
 		}
+		components = new Component[0];
 	}
-}
-
-[CustomEditor(typeof(DestroyComponentsOfTypes))]
-public class DestroyComponentsOfTypesEditor : EditorScriptEditor
-{
 }
 #else
 public class DestroyComponentsOfTypes : EditorScript

@@ -19,7 +19,7 @@ public class SetLossyScale : EditorScript
 		}
 	}
 
-	public override void DoEditorUpdate ()
+	public override void Do ()
 	{
 		trs.SetWorldScale(scale);
 	}

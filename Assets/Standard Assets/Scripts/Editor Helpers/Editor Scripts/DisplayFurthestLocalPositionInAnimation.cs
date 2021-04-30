@@ -17,7 +17,7 @@ public class DisplayFurthestLocalPositionInAnimation : EditorScript
 	float distanceToLocalPosition;
 	int keyFrameIndex;
 
-	public override void DoEditorUpdate ()
+	public override void Do ()
 	{
 		furthestLocalPosition = animationManager.CurrentAnim.keyFrames[0].localPosition;
 		furthestDistanceToLocalPosition = furthestLocalPosition.magnitude;
@@ -50,8 +50,7 @@ public class DisplayFurthestLocalPositionInAnimation : EditorScript
 public class DisplayFurthestLocalPositionInAnimationEditor : EditorScriptEditor
 {
 }
-#endif
-#if !UNITY_EDITOR
+#else
 public class DisplayFurthestLocalPositionInAnimation : EditorScript
 {
 }

@@ -13,7 +13,7 @@ public class ReplaceTilemapTilesWithPrefabs : EditorScript
 	public GameObject prefab;
 	public bool update;
 
-	public override void DoEditorUpdate ()
+	public override void Do ()
 	{
 		if (!update)
 			return;
@@ -32,8 +32,7 @@ public class ReplaceTilemapTilesWithPrefabs : EditorScript
 public class ReplaceTilemapTilesWithPrefabsEditor : EditorScriptEditor
 {
 }
-#endif
-#if !UNITY_EDITOR
+#else
 public class ReplaceTilemapTilesWithPrefabs : EditorScript
 {
 }

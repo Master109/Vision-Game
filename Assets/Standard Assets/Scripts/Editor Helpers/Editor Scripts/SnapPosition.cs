@@ -21,7 +21,7 @@ public class SnapPosition : EditorScript
 		}
 	}
 
-	public override void DoEditorUpdate ()
+	public override void Do ()
 	{
 		if (useLocalPosition)
 			trs.localPosition = trs.localPosition.Snap(snap) + offset;

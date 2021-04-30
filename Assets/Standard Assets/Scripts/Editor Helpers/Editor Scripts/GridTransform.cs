@@ -22,7 +22,7 @@ public class GridTransform : EditorScript
 		}
 	}
 
-	public override void DoEditorUpdate ()
+	public override void Do ()
 	{
 		trs.SetWorldScale(trs.lossyScale.Snap(Vector3.one));
 		if (trs.lossyScale.x % 2 != 0)

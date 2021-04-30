@@ -22,7 +22,7 @@ public class ScaleTilemapsResolution : EditorScript
 		}
 	}
 
-	public override void DoEditorUpdate ()
+	public override void Do ()
 	{
 		if (!update)
 			return;

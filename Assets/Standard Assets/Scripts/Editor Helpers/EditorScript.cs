@@ -10,145 +10,126 @@ public class EditorScript : MonoBehaviour
 {
 	public static InputEvent inputEvent = new InputEvent();
 	public Hotkey[] hotkeys = new Hotkey[0];
+	public bool doOnce;
+	public bool doRepeatedly;
 
 	public virtual void OnEnable ()
 	{
 		if (Application.isPlaying)
-		{
-			EditorApplication.update -= DoEditorUpdate;
-			return;
-		}
-		else
-			EditorApplication.update += DoEditorUpdate;
+			EditorApplication.update -= Do;
 	}
 
 	public virtual void OnDisable ()
 	{
-		if (Application.isPlaying)
-			return;
-		EditorApplication.update -= DoEditorUpdate;
+		EditorApplication.update -= Do;
 	}
 
-	public virtual void DoEditorUpdate ()
+	public virtual void OnDestroy ()
+	{
+		EditorApplication.update -= Do;
+	}
+
+	public virtual void OnValidate ()
+	{
+		if (doRepeatedly)
+			EditorApplication.update += Do;
+		else
+			EditorApplication.update -= Do;
+		if (!doOnce)
+			return;
+		doOnce = false;
+		Do ();
+	}
+	
+	public virtual void Do ()
 	{
 	}
 
 	public virtual void UpdateHotkeys ()
 	{
-		if (hotkeys.Length > 0)
+		if (Event.current == null)
+			return;
+		bool shouldBreak = false;
+		inputEvent.mousePosition = Event.current.mousePosition.ToVec2Int();
+		inputEvent.type = Event.current.type;
+		for (int i = 0; i < hotkeys.Length; i ++)
 		{
-			for (int i = 0; i < hotkeys.Length; i ++)
+			Hotkey hotkey = hotkeys[i];
+			foreach (Hotkey.Button button in hotkey.buttons)
 			{
-				Hotkey hotkey = hotkeys[i];
-				if (Event.current != null)
+				if (Event.current.keyCode == button.key)
 				{
-					bool shouldBreak = false;
-					inputEvent.mousePosition = Event.current.mousePosition.ToVec2Int();
-					inputEvent.type = Event.current.type;
-					foreach (Hotkey.Button button in hotkey.buttons)
+					if (Event.current.type == EventType.KeyDown)
 					{
-						if (Event.current.keyCode == button.key)
+						inputEvent.keys = inputEvent.keys.Add(Event.current.keyCode);
+						button.isPressing = true;
+						if (hotkey.downType == Hotkey.DownType.All)
 						{
-							if (Event.current.type == EventType.KeyDown)
+							foreach (Hotkey.Button button2 in hotkey.buttons)
 							{
-								inputEvent.keys = inputEvent.keys.Add(Event.current.keyCode);
-								button.isPressing = true;
-								if (hotkey.downType == Hotkey.DownType.All)
+								if (!button2.isPressing)
 								{
-									foreach (Hotkey.Button button2 in hotkey.buttons)
-									{
-										if (!button2.isPressing)
-										{
-											shouldBreak = true;
-											break;
-										}
-									}
-									if (shouldBreak)
-										break;
+									shouldBreak = true;
+									break;
 								}
-								hotkey.downAction.Invoke();
 							}
-							else if (Event.current.type == EventType.KeyUp)
-							{
-								inputEvent.keys = inputEvent.keys.Remove(Event.current.keyCode);
-								button.isPressing = false;
-								if (hotkey.upType == Hotkey.UpType.All)
-								{
-									foreach (Hotkey.Button button2 in hotkey.buttons)
-									{
-										if (button2.isPressing)
-										{
-											shouldBreak = true;
-											break;
-										}
-									}
-									if (shouldBreak)
-										break;
-								}
-								hotkey.upAction.Invoke();
-							}
+							if (shouldBreak)
+								break;
 						}
+						hotkey.downAction.Invoke();
+					}
+					else if (Event.current.type == EventType.KeyUp)
+					{
+						inputEvent.keys = inputEvent.keys.Remove(Event.current.keyCode);
+						button.isPressing = false;
+						if (hotkey.upType == Hotkey.UpType.All)
+						{
+							foreach (Hotkey.Button button2 in hotkey.buttons)
+							{
+								if (button2.isPressing)
+								{
+									shouldBreak = true;
+									break;
+								}
+							}
+							if (shouldBreak)
+								break;
+						}
+						hotkey.upAction.Invoke();
 					}
 				}
-				inputEvent.previousKeys = (KeyCode[]) inputEvent.keys.Clone();
 			}
 		}
-		else if (Event.current != null)
-		{
-			inputEvent.mousePosition = Event.current.mousePosition.ToVec2Int();
-			inputEvent.type = Event.current.type;
-		}
 	}
 
-	public static Vector2 GetMousePosition ()
+	public static Vector2Int GetMousePosition ()
 	{
-		Camera camera = SceneView.lastActiveSceneView.camera;
-		if (camera == null)
-			camera = SceneView.currentDrawingSceneView.camera;
-		return GetMousePosition(camera);
+		return inputEvent.mousePosition;
 	}
 
-	public static Vector2 GetMousePosition (Camera camera)
+	public static Vector3 GetMousePositionInWorld ()
 	{
-		if (camera == null)
-			return VectorExtensions.NULL2;
-		Vector2 output = inputEvent.mousePosition;
-		output.y = camera.ViewportToScreenPoint(Vector2.one).y - camera.ViewportToScreenPoint(Vector2.zero).y - output.y;
-		return output;
-	}
-
-	public static Vector2 GetMousePositionInWorld ()
-	{
-		Camera camera = SceneView.lastActiveSceneView.camera;
-		if (camera == null)
-			camera = SceneView.currentDrawingSceneView.camera;
-		return GetMousePositionInWorld(camera);
-	}
-
-	public static Vector2 GetMousePositionInWorld (Camera camera)
-	{
-		return camera.ScreenToWorldPoint(GetMousePosition(camera));
+		return GetSceneViewCamera().ScreenToWorldPoint(GetMousePosition().ToVec2());
 	}
 
 	public static Ray GetMouseRay ()
 	{
-		Camera camera = null;
-		if (SceneView.lastActiveSceneView != null)
-			camera = SceneView.lastActiveSceneView.camera;
-		if (camera == null && SceneView.currentDrawingSceneView != null)
-			camera = SceneView.currentDrawingSceneView.camera;
-		return GetMouseRay(camera);
+		Camera camera = GetSceneViewCamera();
+		Vector2 screenPoint = GetMousePosition();
+		screenPoint.y = camera.pixelHeight - screenPoint.y;
+		return camera.ScreenPointToRay(screenPoint);
 	}
 
-	public static Ray GetMouseRay (Camera camera)
+	public static Camera GetSceneViewCamera ()
 	{
+		Camera camera = SceneView.lastActiveSceneView.camera;
 		if (camera == null)
-			return new Ray();
-		return camera.ScreenPointToRay(GetMousePosition(camera));
+			camera = SceneView.currentDrawingSceneView.camera;
+		return camera;
 	}
 
 	[Serializable]
-	public struct Hotkey
+	public class Hotkey
 	{
 		public string name;
 		public Button[] buttons;
@@ -160,12 +141,13 @@ public class EditorScript : MonoBehaviour
 		public enum DownType
 		{
 			All,
-			Any
+			// Any
 		}
 
 		public enum UpType
 		{
-			All
+			All,
+			// Any
 		}
 
 		[Serializable]
@@ -181,7 +163,6 @@ public class EditorScript : MonoBehaviour
 		public Vector2Int mousePosition;
 		public EventType type;
 		public KeyCode[] keys = new KeyCode[0];
-		public KeyCode[] previousKeys = new KeyCode[0];
 	}
 }
 
@@ -204,7 +185,13 @@ public class EditorScriptEditor : Editor
 #else
 using UnityEngine;
 
-public class EditorScript : MonoBehaviour
+namespace AmbitiousSnake
 {
+	public class EditorScript : MonoBehaviour
+	{
+		public virtual void Do ()
+		{
+		}
+	}
 }
 #endif

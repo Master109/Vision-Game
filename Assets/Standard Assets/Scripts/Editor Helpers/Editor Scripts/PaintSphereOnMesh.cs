@@ -17,17 +17,8 @@ public class PaintSphereOnMesh : EditorScript
 	public bool makeAsset;
 	public string saveAssetAtPath;
 	public bool autoNameAssetPath;
-	public bool update;
 
-	public override void DoEditorUpdate ()
-	{
-		if (!update)
-			return;
-		update = false;
-		Do ();
-	}
-
-	public void Do ()
+	public override void Do ()
 	{
 		Mesh mesh = Instantiate(meshFilter.sharedMesh);
 		Color[] meshColors = mesh.colors;

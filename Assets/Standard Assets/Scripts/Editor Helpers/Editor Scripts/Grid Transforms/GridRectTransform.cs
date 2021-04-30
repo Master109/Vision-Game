@@ -19,9 +19,9 @@ public class GridRectTransform : GridTransform
 		}
 	}
 
-	public override void DoEditorUpdate ()
+	public override void Do ()
 	{
-        base.DoEditorUpdate ();
+        base.Do ();
         rectTrs.sizeDelta = rectTrs.sizeDelta.Snap(Vector2.one);
         if (rectTrs.sizeDelta.x % 2 == 0)
             offset.x = .5f - smallValue;
